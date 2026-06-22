@@ -345,7 +345,6 @@
             <span class="score-val mono" id="d-score">0</span>
           </div>
           <div class="score-bar"><span id="d-scorebar" style="width:0%"></span></div>
-          <div class="delta" id="d-delta"></div>
           <div class="target-row">
             <span data-i18n="minSeal">Minimum SEAL required</span>
             <select id="d-target" onchange="setTarget(this.value)">
@@ -729,8 +728,6 @@ function computeDetailed(quickScore){
   const v=document.getElementById("d-verdict");
   if(overall>=target){ v.className="verdict pass"; v.textContent=fmt(u.meets,{n:target}); }
   else { v.className="verdict fail"; v.textContent=fmt(u.below,{n:target}); }
-  const dd=score-quickScore;
-  document.getElementById("d-delta").innerHTML=fmt(u.deltaTxt,{q:quickScore,d:(dd>=0?"+":"")+dd});
 
   // per-objective breakdown + binding flags + raise hints
   let tbl="";
