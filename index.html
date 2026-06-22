@@ -140,6 +140,7 @@
   .panel-head{background:var(--deep);color:#fff;padding:18px 20px}
   .panel-head .seal-big{font-family:"IBM Plex Mono",monospace;font-size:40px;font-weight:600;line-height:1;letter-spacing:-.02em}
   .panel-head .seal-name{font-family:"Fraunces",serif;font-size:18px;margin-top:4px}
+  .panel-head .seal-meaning{font-size:12px;color:#c4d2e6;margin-top:9px;line-height:1.45}
   .verdict{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;
     text-transform:uppercase;margin-top:12px;padding:5px 10px;border-radius:20px;display:inline-block}
   .verdict.pass{background:#1f5135;color:#a9e6c2}
@@ -252,6 +253,7 @@
         <div class="panel-head">
           <div class="seal-big mono" id="q-seal">SEAL-0</div>
           <div class="seal-name serif" id="q-sealname"></div>
+          <div class="seal-meaning" id="q-sealdesc"></div>
           <div id="q-verdict"></div>
         </div>
         <div class="panel-body">
@@ -298,6 +300,7 @@
         <div class="panel-head">
           <div class="seal-big mono" id="d-seal">SEAL-0</div>
           <div class="seal-name serif" id="d-sealname"></div>
+          <div class="seal-meaning" id="d-sealdesc"></div>
           <div id="d-verdict"></div>
         </div>
         <div class="panel-body">
@@ -571,6 +574,7 @@ function computeQuick(){
   const overall=Math.min(...lv), target=state.target;
   document.getElementById("q-seal").textContent="SEAL-"+overall;
   document.getElementById("q-sealname").textContent=sealNames()[overall];
+  document.getElementById("q-sealdesc").textContent=sealGeneric()[overall];
   document.getElementById("q-score").textContent=score;
   document.getElementById("q-scorebar").style.width=score+"%";
   const v=document.getElementById("q-verdict");
@@ -671,6 +675,7 @@ function computeDetailed(quickScore){
   const score=Math.round(weighted), target=state.target;
   document.getElementById("d-seal").textContent="SEAL-"+overall;
   document.getElementById("d-sealname").textContent=sealNames()[overall];
+  document.getElementById("d-sealdesc").textContent=sealGeneric()[overall];
   document.getElementById("d-score").textContent=score;
   document.getElementById("d-scorebar").style.width=score+"%";
   const v=document.getElementById("d-verdict");
