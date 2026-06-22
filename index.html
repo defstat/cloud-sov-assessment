@@ -25,13 +25,21 @@
   .serif{font-family:"Fraunces",serif}
 
   /* ---- header ---- */
-  header{background:var(--deep);color:#eaf0f8;padding:38px 0 30px;border-bottom:3px solid var(--gold)}
+  header{position:relative;background:var(--deep);color:#eaf0f8;padding:38px 0 30px;border-bottom:3px solid var(--gold)}
   .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;
     text-transform:uppercase;color:#9fb6d8;margin:0 0 12px}
   h1{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(28px,4.2vw,44px);
     line-height:1.05;margin:0 0 14px;letter-spacing:-.01em}
   .lede{max-width:680px;color:#c4d2e6;font-size:15.5px;margin:0}
   .lede a{color:#eaf0f8}
+
+  /* ---- language toggle ---- */
+  .langtoggle{position:absolute;top:18px;right:24px;display:flex;gap:0;
+    border:1px solid #26477a;border-radius:7px;overflow:hidden}
+  .langtoggle button{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.08em;
+    background:#12305a;border:0;color:#9fb6d8;padding:6px 12px;cursor:pointer;transition:all .14s}
+  .langtoggle button:hover{color:#eaf0f8}
+  .langtoggle button[aria-pressed="true"]{background:#eaf0f8;color:#0b1f3a;font-weight:600}
 
   .meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
   .meta label{display:flex;flex-direction:column;gap:5px;font-size:11.5px;
@@ -126,7 +134,7 @@
   .bar-lbl{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);margin-top:5px}
   .ceiling{position:absolute;left:0;right:0;border-top:2px dashed var(--gold);z-index:3;
     pointer-events:none;transition:bottom .3s ease}
-  .ceiling::after{content:"OVERALL SEAL";position:absolute;right:0;top:-15px;
+  .ceiling::after{content:attr(data-cap);position:absolute;right:0;top:-15px;
     font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.1em;color:var(--gold)}
 
   .recs{padding:4px 20px 20px}
@@ -160,6 +168,7 @@
     header{background:#fff;color:#000;border-bottom:2px solid #000}
     .eyebrow,.lede,.panel-head{color:#000}
     .meta input{border-color:#999;color:#000;background:#fff}
+    .langtoggle{display:none}
     .panel{position:static}
     .actions,.toast,.weight-row input{display:none}
     .obj{break-inside:avoid}
@@ -168,21 +177,25 @@
 </head>
 <body>
 <header>
+  <div class="langtoggle" role="group" aria-label="Language">
+    <button id="lang-en" onclick="setLang('en')" aria-pressed="true">EN</button>
+    <button id="lang-el" onclick="setLang('el')" aria-pressed="false">EL</button>
+  </div>
   <div class="wrap">
-    <p class="eyebrow">Cloud Sovereignty Framework · Self-Assessment</p>
-    <h1 class="serif">Measure a cloud provider's<br>SEAL and Sovereignty Score</h1>
-    <p class="lede">An indicative self-assessment built on the European Commission's published
+    <p class="eyebrow" data-i18n="eyebrow">Cloud Sovereignty Framework · Self-Assessment</p>
+    <h1 class="serif" data-i18n-html="h1">Measure a cloud provider's<br>SEAL and Sovereignty Score</h1>
+    <p class="lede" data-i18n-html="lede">An indicative self-assessment built on the European Commission's published
       <a href="https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en" target="_blank" rel="noopener">Cloud Sovereignty Framework</a>.
       Rate the provider on each of the eight sovereignty objectives; the tool computes the overall
       SEAL (set by the weakest objective) and a weighted score out of 100.</p>
     <div class="meta">
-      <label>Provider assessed
-        <input id="m-provider" type="text" placeholder="e.g. Acme Cloud EU">
+      <label><span data-i18n="mProvider">Provider assessed</span>
+        <input id="m-provider" type="text" data-i18n-ph="phProvider" placeholder="e.g. Acme Cloud EU">
       </label>
-      <label>Assessor
-        <input id="m-assessor" type="text" placeholder="Name / unit">
+      <label><span data-i18n="mAssessor">Assessor</span>
+        <input id="m-assessor" type="text" data-i18n-ph="phAssessor" placeholder="Name / unit">
       </label>
-      <label>Date
+      <label><span data-i18n="mDate">Date</span>
         <input id="m-date" type="date">
       </label>
     </div>
@@ -192,7 +205,7 @@
 <main class="wrap">
   <div class="grid">
     <section>
-      <p class="sectlabel">Eight sovereignty objectives</p>
+      <p class="sectlabel" data-i18n="sectObjectives">Eight sovereignty objectives</p>
       <div id="objs"></div>
     </section>
 
@@ -205,12 +218,12 @@
         </div>
         <div class="panel-body">
           <div class="score-line">
-            <span class="lbl">Weighted Sovereignty Score</span>
+            <span class="lbl" data-i18n="scoreLabel">Weighted Sovereignty Score</span>
             <span class="score-val mono" id="r-score">0</span>
           </div>
           <div class="score-bar"><span id="r-scorebar" style="width:0%"></span></div>
           <div class="target-row">
-            <span>Minimum SEAL required</span>
+            <span data-i18n="minSeal">Minimum SEAL required</span>
             <select id="r-target">
               <option value="0">SEAL-0</option>
               <option value="1">SEAL-1</option>
@@ -221,15 +234,15 @@
           </div>
         </div>
         <div class="ladder">
-          <p class="ladder-cap">The overall SEAL equals the <b>lowest</b> level reached across all
+          <p class="ladder-cap" data-i18n-html="ladderCap">The overall SEAL equals the <b>lowest</b> level reached across all
             objectives — the gold line is your ceiling.</p>
           <div class="bars" id="bars"></div>
         </div>
         <div class="recs" id="recs"></div>
         <div class="actions">
-          <button class="act" onclick="printReport()">Download report (PDF)</button>
-          <button class="act ghost" onclick="copyJSON()">Copy data</button>
-          <button class="act ghost" onclick="resetAll()">Reset</button>
+          <button class="act" data-i18n="btnPdf" onclick="printReport()">Download report (PDF)</button>
+          <button class="act ghost" data-i18n="btnCopy" onclick="copyJSON()">Copy data</button>
+          <button class="act ghost" data-i18n="btnReset" onclick="resetAll()">Reset</button>
         </div>
       </div>
     </aside>
@@ -237,102 +250,23 @@
 </main>
 
 <footer class="wrap">
-  <div class="disc">
-    <b>Disclaimer.</b> This self-assessment is indicative and for informational purposes only.
-    It does not constitute legal advice or a formal compliance determination, and has no binding
-    effect in any procurement procedure. The objective definitions, SEAL levels and the
-    "lowest-level-wins" rule follow the Commission's published Implementation Guidance. The
-    category weights (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%,
-    SOV-8 5%) are the exact values from the Commission's official Sovereignty Assessment Calculator
-    and remain adjustable. Because that calculator scores 43 individual questions while this tool
-    rates each objective at a single SEAL level, the per-objective score is derived from the
-    calculator's actual per-answer values (mean value per SEAL band), not reproduced question by
-    question. The illustrative answer scores in the spreadsheet are noted by the Commission as
-    fictitious.
-  </div>
-  Source: European Commission — Cloud Sovereignty Framework, Implementation guidance (June 2026).
-  Built as an independent assessment aid; not affiliated with or endorsed by the European Commission.
+  <div class="disc" data-i18n-html="disc"></div>
+  <div data-i18n-html="source"></div>
 </footer>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const SEAL_NAMES = ["No Sovereignty","Jurisdictional Sovereignty","Data Sovereignty",
-  "Technological Sovereignty","Full Digital Sovereignty"];
-
-// Generic SEAL meanings (per Implementation Guidance)
-const SEAL_GENERIC = [
-  "Under exclusive control of non-EU parties, governed entirely by non-EU jurisdictions.",
-  "EU law formally applies with limited enforceability; still under non-EU control.",
-  "EU jurisdiction applies; material non-EU dependencies remain (indirect control).",
-  "EU jurisdiction applies; EU actors hold meaningful but not full influence (marginal non-EU control).",
-  "Complete EU control, only EU jurisdiction, no critical non-EU dependencies."
-];
-
-// Objective-specific descriptions for SEAL 2/3/4 (from the Framework Matrix)
-const OBJ = [
-  {code:"SOV-1", name:"Strategic Sovereignty",
-   desc:"Ownership stability, governance influence and alignment with EU strategic priorities — does ultimate decision-making sit in the EU.",
-   d:["","",
-      "Autonomous entity organisationally, but not in technical choices; service continues yet loses updates and security patches if access to the underlying tech breaks.",
-      "Access to the provider roadmap; complete guarantee of operations continuity.",
-      "Decision-making centres exclusively in the EU; European customers prioritised in roadmap arbitrations."]},
-  {code:"SOV-2", name:"Legal & Jurisdictional Sovereignty",
-   desc:"Exposure to foreign law with extraterritorial reach (e.g. US CLOUD Act) and enforceability of rights under EU jurisdiction.",
-   d:["","",
-      "Isolation via separate legal entities; limited exposure to export-control-type measures.",
-      "Complete insulation guaranteeing inapplicability of non-EU legislation; no Member-State exposure to export controls.",
-      "Operations designed and carried out exclusively in the EU; international institutions protected against export-control measures."]},
-  {code:"SOV-3", name:"Data & AI Sovereignty",
-   desc:"Control over cryptographic access, data localisation and deletion, and autonomy over AI models and pipelines.",
-   d:["","",
-      "Full data control incl. encryption key control, data localisation and deletion guarantee; logs available.",
-      "EU-designed AI; logs recorded in real time within the EU.",
-      "Immutable logs; audits carried out by European teams."]},
-  {code:"SOV-4", name:"Operational Sovereignty",
-   desc:"Ability of EU actors to run, support and evolve the technology without non-EU vendor involvement; EU talent and documentation.",
-   d:["","",
-      "Operations run and documented locally; non-EU expertise may still be needed; open, documented alternatives exist.",
-      "Expertise available in Europe incl. subcontractors; processes designed and documented locally.",
-      "Complete European autonomy incl. security clearances and integration of subcontractors' key skills."]},
-  {code:"SOV-5", name:"Supply Chain Sovereignty",
-   desc:"Geographic origin, transparency and auditability of the hardware/firmware/software supply chain.",
-   d:["","",
-      "Majority of supply chains documented; deployments local (procedures may be external); critical suppliers and subcontractors auditable.",
-      "Majority of services designed in the EU, deployed and orchestrated locally; no subcontractors in critical services.",
-      "EU-certified component origin; EU design, build and compliance check; no non-EU supplier dependence; full auditability."]},
-  {code:"SOV-6", name:"Technology Sovereignty",
-   desc:"Openness, open standards, open-source access and independence of the technological stack, incl. HPC.",
-   d:["","",
-      "Services partially interoperable; HPC hosted on-premises.",
-      "European/public standards for core services; open-source majority with predominantly European contributors; architecture auditable.",
-      "Full compliance: EU open AI, public standards, open source throughout."]},
-  {code:"SOV-7", name:"Security & Compliance Sovereignty",
-   desc:"EU-controlled security operations, certifications (ISO, ENISA), GDPR/NIS2/DORA adherence and independent audit rights.",
-   d:["","",
-      "EAL2-level security; local operations; transparent, immediate reporting; audits allowed.",
-      "EAL3-level security.",
-      "EAL4–5, ENISA scheme integration, immutable logs."]},
-  {code:"SOV-8", name:"Environmental Sustainability",
-   desc:"Energy efficiency, circularity, transparent emissions disclosure and low-carbon energy sourcing.",
-   d:["","",
-      "Documented and transparent sustainability approach.",
-      "Measured improvement targets with disclosed indicators.",
-      "EU-certified lifecycle; EU-audited sustainability reporting."]}
-];
-
+/* ====================== Language-independent scoring ====================== */
 // Real category weights from the Commission's Sovereignty Assessment Calculator
 // (Annex spreadsheet, col D of each objective header; confirmed against Implementation
-// guidance p.7). Order matches OBJ[] / SOV-1…SOV-8. Sum = 100.
+// guidance p.7). Order matches OBJ / SOV-1…SOV-8. Sum = 100.
 const REAL_WEIGHTS = [20, 10, 10, 15, 10, 15, 15, 5];
 
 // Per-objective SEAL→score curve (0–100), derived from the calculator's actual
-// per-answer Values. The calculator scores 43 questions (each answer carries a Value
-// on an even 0→max scale, normalised so each objective's max ≈ 1000) and tags each
-// answer with a SEAL independently. Since this tool collapses each objective to a
-// single SEAL, each cell is the mean of that objective's answer Values (normalised
-// 0–100) grouped by the SEAL each answer is tagged with, made monotonic. This replaces
-// the old flat level/4*100 with the calculator's real value scale.
+// per-answer Values. Each cell is the mean of that objective's answer Values (normalised
+// 0–100) grouped by the SEAL each answer is tagged with, made monotonic. Replaces the
+// old flat level/4*100 with the calculator's real value scale.
 //          SEAL: 0   1   2   3    4
 const SCORE = [
   [0, 17, 40, 67, 67],  // SOV-1 Strategic
@@ -345,31 +279,280 @@ const SCORE = [
   [0, 12, 50, 62, 68]   // SOV-8 Environmental
 ];
 
-const STORE_KEY = "cloud-sov-assessment-v2";
+const SOV_CODES = ["SOV-1","SOV-2","SOV-3","SOV-4","SOV-5","SOV-6","SOV-7","SOV-8"];
+
+/* ====================== Translations ====================== */
+const SEAL_NAMES = {
+  en:["No Sovereignty","Jurisdictional Sovereignty","Data Sovereignty",
+      "Technological Sovereignty","Full Digital Sovereignty"],
+  el:["Καμία Κυριαρχία","Δικαιοδοτική Κυριαρχία","Κυριαρχία Δεδομένων",
+      "Τεχνολογική Κυριαρχία","Πλήρης Ψηφιακή Κυριαρχία"]
+};
+// short labels for the segmented control
+const SEAL_SHORT = {
+  en:["None","Jurisdictional","Data","Technological","Full"],
+  el:["Καμία","Δικαιοδοτική","Δεδομένων","Τεχνολογική","Πλήρης"]
+};
+// Generic SEAL meanings (per Implementation Guidance)
+const SEAL_GENERIC = {
+  en:[
+    "Under exclusive control of non-EU parties, governed entirely by non-EU jurisdictions.",
+    "EU law formally applies with limited enforceability; still under non-EU control.",
+    "EU jurisdiction applies; material non-EU dependencies remain (indirect control).",
+    "EU jurisdiction applies; EU actors hold meaningful but not full influence (marginal non-EU control).",
+    "Complete EU control, only EU jurisdiction, no critical non-EU dependencies."
+  ],
+  el:[
+    "Υπό αποκλειστικό έλεγχο μη-ΕΕ μερών, διέπεται εξ ολοκλήρου από μη-ΕΕ δικαιοδοσίες.",
+    "Το δίκαιο της ΕΕ εφαρμόζεται τυπικά με περιορισμένη εκτελεστότητα· παραμένει υπό μη-ΕΕ έλεγχο.",
+    "Εφαρμόζεται ΕΕ δικαιοδοσία· παραμένουν ουσιώδεις μη-ΕΕ εξαρτήσεις (έμμεσος έλεγχος).",
+    "Εφαρμόζεται ΕΕ δικαιοδοσία· οι ΕΕ φορείς έχουν ουσιαστική αλλά όχι πλήρη επιρροή (οριακός μη-ΕΕ έλεγχος).",
+    "Πλήρης ΕΕ έλεγχος, μόνο ΕΕ δικαιοδοσία, καμία κρίσιμη μη-ΕΕ εξάρτηση."
+  ]
+};
+
+// Objective definitions per language. d[2]/d[3]/d[4] are objective-specific SEAL texts
+// (from the Framework Matrix); d[0]/d[1] fall back to the generic SEAL meaning.
+const OBJ = {
+  en:[
+   {name:"Strategic Sovereignty",
+    desc:"Ownership stability, governance influence and alignment with EU strategic priorities — does ultimate decision-making sit in the EU.",
+    d:["","",
+       "Autonomous entity organisationally, but not in technical choices; service continues yet loses updates and security patches if access to the underlying tech breaks.",
+       "Access to the provider roadmap; complete guarantee of operations continuity.",
+       "Decision-making centres exclusively in the EU; European customers prioritised in roadmap arbitrations."]},
+   {name:"Legal & Jurisdictional Sovereignty",
+    desc:"Exposure to foreign law with extraterritorial reach (e.g. US CLOUD Act) and enforceability of rights under EU jurisdiction.",
+    d:["","",
+       "Isolation via separate legal entities; limited exposure to export-control-type measures.",
+       "Complete insulation guaranteeing inapplicability of non-EU legislation; no Member-State exposure to export controls.",
+       "Operations designed and carried out exclusively in the EU; international institutions protected against export-control measures."]},
+   {name:"Data & AI Sovereignty",
+    desc:"Control over cryptographic access, data localisation and deletion, and autonomy over AI models and pipelines.",
+    d:["","",
+       "Full data control incl. encryption key control, data localisation and deletion guarantee; logs available.",
+       "EU-designed AI; logs recorded in real time within the EU.",
+       "Immutable logs; audits carried out by European teams."]},
+   {name:"Operational Sovereignty",
+    desc:"Ability of EU actors to run, support and evolve the technology without non-EU vendor involvement; EU talent and documentation.",
+    d:["","",
+       "Operations run and documented locally; non-EU expertise may still be needed; open, documented alternatives exist.",
+       "Expertise available in Europe incl. subcontractors; processes designed and documented locally.",
+       "Complete European autonomy incl. security clearances and integration of subcontractors' key skills."]},
+   {name:"Supply Chain Sovereignty",
+    desc:"Geographic origin, transparency and auditability of the hardware/firmware/software supply chain.",
+    d:["","",
+       "Majority of supply chains documented; deployments local (procedures may be external); critical suppliers and subcontractors auditable.",
+       "Majority of services designed in the EU, deployed and orchestrated locally; no subcontractors in critical services.",
+       "EU-certified component origin; EU design, build and compliance check; no non-EU supplier dependence; full auditability."]},
+   {name:"Technology Sovereignty",
+    desc:"Openness, open standards, open-source access and independence of the technological stack, incl. HPC.",
+    d:["","",
+       "Services partially interoperable; HPC hosted on-premises.",
+       "European/public standards for core services; open-source majority with predominantly European contributors; architecture auditable.",
+       "Full compliance: EU open AI, public standards, open source throughout."]},
+   {name:"Security & Compliance Sovereignty",
+    desc:"EU-controlled security operations, certifications (ISO, ENISA), GDPR/NIS2/DORA adherence and independent audit rights.",
+    d:["","",
+       "EAL2-level security; local operations; transparent, immediate reporting; audits allowed.",
+       "EAL3-level security.",
+       "EAL4–5, ENISA scheme integration, immutable logs."]},
+   {name:"Environmental Sustainability",
+    desc:"Energy efficiency, circularity, transparent emissions disclosure and low-carbon energy sourcing.",
+    d:["","",
+       "Documented and transparent sustainability approach.",
+       "Measured improvement targets with disclosed indicators.",
+       "EU-certified lifecycle; EU-audited sustainability reporting."]}
+  ],
+  el:[
+   {name:"Στρατηγική Κυριαρχία",
+    desc:"Σταθερότητα ιδιοκτησίας, επιρροή στη διακυβέρνηση και ευθυγράμμιση με τις στρατηγικές προτεραιότητες της ΕΕ — βρίσκεται η τελική λήψη αποφάσεων στην ΕΕ;",
+    d:["","",
+       "Οργανωτικά αυτόνομη οντότητα, αλλά όχι στις τεχνικές επιλογές· η υπηρεσία συνεχίζεται αλλά χάνει ενημερώσεις και διορθώσεις ασφαλείας αν διακοπεί η πρόσβαση στην υποκείμενη τεχνολογία.",
+       "Πρόσβαση στο roadmap του παρόχου· πλήρης εγγύηση συνέχειας λειτουργιών.",
+       "Κέντρα λήψης αποφάσεων αποκλειστικά στην ΕΕ· οι Ευρωπαίοι πελάτες έχουν προτεραιότητα στις αποφάσεις roadmap."]},
+   {name:"Νομική & Δικαιοδοτική Κυριαρχία",
+    desc:"Έκθεση σε ξένο δίκαιο με εξωεδαφική εμβέλεια (π.χ. US CLOUD Act) και εκτελεστότητα δικαιωμάτων υπό ΕΕ δικαιοδοσία.",
+    d:["","",
+       "Απομόνωση μέσω ξεχωριστών νομικών οντοτήτων· περιορισμένη έκθεση σε μέτρα τύπου ελέγχου εξαγωγών.",
+       "Πλήρης θωράκιση που εγγυάται τη μη εφαρμογή μη-ΕΕ νομοθεσίας· καμία έκθεση Κρατών-Μελών σε ελέγχους εξαγωγών.",
+       "Λειτουργίες σχεδιασμένες και εκτελούμενες αποκλειστικά στην ΕΕ· διεθνείς οργανισμοί προστατευμένοι από μέτρα ελέγχου εξαγωγών."]},
+   {name:"Κυριαρχία Δεδομένων & ΤΝ",
+    desc:"Έλεγχος επί της κρυπτογραφικής πρόσβασης, εντοπιότητα και διαγραφή δεδομένων, και αυτονομία επί μοντέλων και pipelines ΤΝ.",
+    d:["","",
+       "Πλήρης έλεγχος δεδομένων, συμπ. ελέγχου κλειδιών κρυπτογράφησης, εντοπιότητας και εγγύησης διαγραφής· διαθέσιμα αρχεία καταγραφής.",
+       "ΤΝ σχεδιασμένη στην ΕΕ· αρχεία καταγραφής σε πραγματικό χρόνο εντός ΕΕ.",
+       "Αμετάβλητα αρχεία καταγραφής· έλεγχοι από ευρωπαϊκές ομάδες."]},
+   {name:"Λειτουργική Κυριαρχία",
+    desc:"Ικανότητα των ΕΕ φορέων να λειτουργούν, υποστηρίζουν και εξελίσσουν την τεχνολογία χωρίς εμπλοκή μη-ΕΕ προμηθευτή· ΕΕ ταλέντο και τεκμηρίωση.",
+    d:["","",
+       "Λειτουργίες εκτελούνται και τεκμηριώνονται τοπικά· ενδέχεται να χρειάζεται μη-ΕΕ τεχνογνωσία· υπάρχουν ανοιχτές, τεκμηριωμένες εναλλακτικές.",
+       "Τεχνογνωσία διαθέσιμη στην Ευρώπη, συμπ. υπεργολάβων· διαδικασίες σχεδιασμένες και τεκμηριωμένες τοπικά.",
+       "Πλήρης ευρωπαϊκή αυτονομία, συμπ. διαπιστεύσεων ασφαλείας και ενσωμάτωσης βασικών δεξιοτήτων υπεργολάβων."]},
+   {name:"Κυριαρχία Εφοδιαστικής Αλυσίδας",
+    desc:"Γεωγραφική προέλευση, διαφάνεια και δυνατότητα ελέγχου της εφοδιαστικής αλυσίδας υλικού/firmware/λογισμικού.",
+    d:["","",
+       "Πλειονότητα εφοδιαστικών αλυσίδων τεκμηριωμένη· αναπτύξεις τοπικές (οι διαδικασίες ενδέχεται εξωτερικές)· κρίσιμοι προμηθευτές και υπεργολάβοι ελέγξιμοι.",
+       "Πλειονότητα υπηρεσιών σχεδιασμένη στην ΕΕ, αναπτυσσόμενη και ενορχηστρωμένη τοπικά· κανένας υπεργολάβος σε κρίσιμες υπηρεσίες.",
+       "Πιστοποιημένη από ΕΕ προέλευση εξαρτημάτων· ΕΕ σχεδιασμός, κατασκευή και έλεγχος συμμόρφωσης· καμία εξάρτηση από μη-ΕΕ προμηθευτή· πλήρης δυνατότητα ελέγχου."]},
+   {name:"Τεχνολογική Κυριαρχία",
+    desc:"Ανοιχτότητα, ανοιχτά πρότυπα, πρόσβαση ανοιχτού κώδικα και ανεξαρτησία της τεχνολογικής στοίβας, συμπ. HPC.",
+    d:["","",
+       "Υπηρεσίες μερικώς διαλειτουργικές· HPC φιλοξενούμενο on-premises.",
+       "Ευρωπαϊκά/δημόσια πρότυπα για βασικές υπηρεσίες· πλειονότητα ανοιχτού κώδικα με κατά κύριο λόγο Ευρωπαίους συνεισφέροντες· ελέγξιμη αρχιτεκτονική.",
+       "Πλήρης συμμόρφωση: ΕΕ ανοιχτή ΤΝ, δημόσια πρότυπα, ανοιχτός κώδικας παντού."]},
+   {name:"Κυριαρχία Ασφάλειας & Συμμόρφωσης",
+    desc:"Λειτουργίες ασφαλείας υπό ΕΕ έλεγχο, πιστοποιήσεις (ISO, ENISA), συμμόρφωση με GDPR/NIS2/DORA και δικαιώματα ανεξάρτητου ελέγχου.",
+    d:["","",
+       "Ασφάλεια επιπέδου EAL2· τοπικές λειτουργίες· διαφανής, άμεση αναφορά· επιτρέπονται έλεγχοι.",
+       "Ασφάλεια επιπέδου EAL3.",
+       "EAL4–5, ένταξη σε σχήμα ENISA, αμετάβλητα αρχεία καταγραφής."]},
+   {name:"Περιβαλλοντική Βιωσιμότητα",
+    desc:"Ενεργειακή απόδοση, κυκλικότητα, διαφανής δημοσιοποίηση εκπομπών και προμήθεια ενέργειας χαμηλών εκπομπών άνθρακα.",
+    d:["","",
+       "Τεκμηριωμένη και διαφανής προσέγγιση βιωσιμότητας.",
+       "Μετρήσιμοι στόχοι βελτίωσης με δημοσιοποιημένους δείκτες.",
+       "Πιστοποιημένος από ΕΕ κύκλος ζωής· αναφορά βιωσιμότητας ελεγμένη από ΕΕ."]}
+  ]
+};
+
+const FW_LINK = "https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en";
+
+// UI chrome strings. Tokens in {curly} are filled at render time.
+const UI = {
+  en:{
+    title:"Cloud Sovereignty Self-Assessment — SEAL & Sovereignty Score",
+    eyebrow:"Cloud Sovereignty Framework · Self-Assessment",
+    h1:"Measure a cloud provider's<br>SEAL and Sovereignty Score",
+    lede:`An indicative self-assessment built on the European Commission's published `+
+      `<a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a>. `+
+      `Rate the provider on each of the eight sovereignty objectives; the tool computes the overall `+
+      `SEAL (set by the weakest objective) and a weighted score out of 100.`,
+    mProvider:"Provider assessed", phProvider:"e.g. Acme Cloud EU",
+    mAssessor:"Assessor", phAssessor:"Name / unit",
+    mDate:"Date",
+    sectObjectives:"Eight sovereignty objectives",
+    scoreLabel:"Weighted Sovereignty Score",
+    minSeal:"Minimum SEAL required",
+    ladderCap:`The overall SEAL equals the <b>lowest</b> level reached across all objectives — the gold line is your ceiling.`,
+    overallCap:"OVERALL SEAL",
+    btnPdf:"Download report (PDF)", btnCopy:"Copy data", btnReset:"Reset",
+    weightInScore:"Weight in score",
+    flagBinding:"Binding", flagBelow:"Below target",
+    meets:"Meets minimum SEAL-{n}", below:"Below minimum SEAL-{n}",
+    priorityGaps:"Priority gaps", toRaise:"To raise the overall level",
+    allMeet:"All objectives meet the SEAL-{n} minimum.",
+    gapLine:"at SEAL-{cur}, needs SEAL-{tgt}.",
+    bindLine:"is binding at SEAL-{ov}. For SEAL-{nx}:",
+    sealDetail:"SEAL-{l} · {name}.",
+    tReset:"Assessment reset", tCopied:"Assessment data copied", tCopyFail:"Copy failed — select manually",
+    disc:`<b>Disclaimer.</b> This self-assessment is indicative and for informational purposes only. `+
+      `It does not constitute legal advice or a formal compliance determination, and has no binding `+
+      `effect in any procurement procedure. The objective definitions, SEAL levels and the `+
+      `"lowest-level-wins" rule follow the Commission's published Implementation Guidance. The `+
+      `category weights (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, `+
+      `SOV-8 5%) are the exact values from the Commission's official Sovereignty Assessment Calculator `+
+      `and remain adjustable. Because that calculator scores 43 individual questions while this tool `+
+      `rates each objective at a single SEAL level, the per-objective score is derived from the `+
+      `calculator's actual per-answer values (mean value per SEAL band), not reproduced question by `+
+      `question. The illustrative answer scores in the spreadsheet are noted by the Commission as fictitious.`,
+    source:`Source: European Commission — Cloud Sovereignty Framework, Implementation guidance (June 2026). `+
+      `Built as an independent assessment aid; not affiliated with or endorsed by the European Commission.`
+  },
+  el:{
+    title:"Αυτοαξιολόγηση Κυριαρχίας Cloud — SEAL & Σκορ Κυριαρχίας",
+    eyebrow:"Πλαίσιο Κυριαρχίας Cloud · Αυτοαξιολόγηση",
+    h1:"Μετρήστε το SEAL και το Σκορ<br>Κυριαρχίας ενός παρόχου cloud",
+    lede:`Μια ενδεικτική αυτοαξιολόγηση βασισμένη στο δημοσιευμένο `+
+      `<a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a> της Ευρωπαϊκής Επιτροπής. `+
+      `Βαθμολογήστε τον πάροχο σε καθέναν από τους οκτώ στόχους κυριαρχίας· το εργαλείο υπολογίζει το συνολικό `+
+      `SEAL (που ορίζεται από τον ασθενέστερο στόχο) και ένα σταθμισμένο σκορ στα 100.`,
+    mProvider:"Αξιολογούμενος πάροχος", phProvider:"π.χ. Acme Cloud EU",
+    mAssessor:"Αξιολογητής", phAssessor:"Όνομα / μονάδα",
+    mDate:"Ημερομηνία",
+    sectObjectives:"Οκτώ στόχοι κυριαρχίας",
+    scoreLabel:"Σταθμισμένο Σκορ Κυριαρχίας",
+    minSeal:"Ελάχιστο απαιτούμενο SEAL",
+    ladderCap:`Το συνολικό SEAL ισούται με το <b>χαμηλότερο</b> επίπεδο σε όλους τους στόχους — η χρυσή γραμμή είναι το ανώτατο όριό σας.`,
+    overallCap:"ΣΥΝΟΛΙΚΟ SEAL",
+    btnPdf:"Λήψη αναφοράς (PDF)", btnCopy:"Αντιγραφή δεδομένων", btnReset:"Επαναφορά",
+    weightInScore:"Βάρος στο σκορ",
+    flagBinding:"Δεσμευτικό", flagBelow:"Κάτω στόχου",
+    meets:"Πληροί το ελάχιστο SEAL-{n}", below:"Κάτω από το ελάχιστο SEAL-{n}",
+    priorityGaps:"Κενά προτεραιότητας", toRaise:"Για να ανεβάσετε το συνολικό επίπεδο",
+    allMeet:"Όλοι οι στόχοι πληρούν το ελάχιστο SEAL-{n}.",
+    gapLine:"στο SEAL-{cur}, χρειάζεται SEAL-{tgt}.",
+    bindLine:"είναι δεσμευτικό στο SEAL-{ov}. Για SEAL-{nx}:",
+    sealDetail:"SEAL-{l} · {name}.",
+    tReset:"Η αξιολόγηση επαναφέρθηκε", tCopied:"Τα δεδομένα αντιγράφηκαν", tCopyFail:"Η αντιγραφή απέτυχε — επιλέξτε χειροκίνητα",
+    disc:`<b>Αποποίηση ευθύνης.</b> Η παρούσα αυτοαξιολόγηση είναι ενδεικτική και αποκλειστικά για ενημερωτικούς σκοπούς. `+
+      `Δεν συνιστά νομική συμβουλή ή επίσημη διαπίστωση συμμόρφωσης και δεν έχει δεσμευτική ισχύ σε καμία διαδικασία προμήθειας. `+
+      `Οι ορισμοί των στόχων, τα επίπεδα SEAL και ο κανόνας «υπερισχύει το χαμηλότερο επίπεδο» ακολουθούν το δημοσιευμένο `+
+      `Implementation Guidance της Επιτροπής. Τα βάρη των κατηγοριών (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, `+
+      `SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) είναι οι ακριβείς τιμές από τον επίσημο Sovereignty Assessment Calculator `+
+      `της Επιτροπής και παραμένουν προσαρμόσιμα. Επειδή ο calculator βαθμολογεί 43 επιμέρους ερωτήσεις ενώ το παρόν `+
+      `εργαλείο αξιολογεί κάθε στόχο σε ένα μόνο επίπεδο SEAL, το σκορ ανά στόχο προκύπτει από τις πραγματικές τιμές ανά `+
+      `απάντηση του calculator (μέση τιμή ανά ζώνη SEAL), και δεν αναπαράγεται ερώτηση προς ερώτηση. Τα ενδεικτικά σκορ `+
+      `απαντήσεων στο υπολογιστικό φύλλο επισημαίνονται από την Επιτροπή ως πλασματικά.`,
+    source:`Πηγή: Ευρωπαϊκή Επιτροπή — Cloud Sovereignty Framework, Implementation guidance (Ιούνιος 2026). `+
+      `Δημιουργήθηκε ως ανεξάρτητο βοήθημα αξιολόγησης· χωρίς σχέση ή έγκριση από την Ευρωπαϊκή Επιτροπή.`
+  }
+};
+
+/* ====================== State ====================== */
+const STORE_KEY = "cloud-sov-assessment-v3";
 let state = {levels:Array(8).fill(0), weights:REAL_WEIGHTS.slice(),
-  target:2, provider:"", assessor:"", date:""};
+  target:2, provider:"", assessor:"", date:"", lang:"en"};
 
 function save(){ try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){} }
 function load(){
   try{const s=localStorage.getItem(STORE_KEY);if(s)state=Object.assign(state,JSON.parse(s));}catch(e){}
+  if(state.lang!=="en"&&state.lang!=="el") state.lang="en";
 }
 
+/* helpers to read current-language data */
+function T(){ return UI[state.lang]; }
+function objs(){ return OBJ[state.lang]; }
+function sealNames(){ return SEAL_NAMES[state.lang]; }
+function sealShort(){ return SEAL_SHORT[state.lang]; }
+function sealGeneric(){ return SEAL_GENERIC[state.lang]; }
+function fmt(s,o){ return s.replace(/\{(\w+)\}/g,(m,k)=>o[k]); }
+
+/* ====================== Static i18n ====================== */
+function applyI18n(){
+  const u=T();
+  document.title=u.title;
+  document.documentElement.lang=state.lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ el.textContent=u[el.dataset.i18n]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{ el.innerHTML=u[el.dataset.i18nHtml]; });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{ el.placeholder=u[el.dataset.i18nPh]; });
+  document.getElementById("lang-en").setAttribute("aria-pressed", state.lang==="en");
+  document.getElementById("lang-el").setAttribute("aria-pressed", state.lang==="el");
+}
+
+function setLang(l){
+  if(l!==state.lang){ state.lang=l; save(); }
+  applyI18n(); buildObjs(); compute();
+}
+
+/* ====================== Build objective cards ====================== */
 function buildObjs(){
   const host=document.getElementById("objs");
+  const O=objs(), short=sealShort();
   host.innerHTML="";
-  OBJ.forEach((o,i)=>{
+  O.forEach((o,i)=>{
     const card=document.createElement("div");
     card.className="obj"; card.id="obj-"+i;
     let btns="";
     for(let l=0;l<5;l++){
       btns+=`<button class="seal-btn sel-${l}" data-i="${i}" data-l="${l}"
         aria-pressed="${state.levels[i]===l}" onclick="setLevel(${i},${l})">
-        <span class="lv">${l}</span><span class="nm">${SEAL_NAMES[l].split(" ")[0]}</span></button>`;
+        <span class="lv">${l}</span><span class="nm">${short[l]}</span></button>`;
     }
     card.innerHTML=`
       <div class="obj-top">
         <div>
-          <span class="obj-code mono">${o.code}</span>
+          <span class="obj-code mono">${SOV_CODES[i]}</span>
           <div class="obj-name serif">${o.name}</div>
         </div>
         <span class="obj-flag" id="flag-${i}"></span>
@@ -378,7 +561,7 @@ function buildObjs(){
       <div class="seal-row">${btns}</div>
       <div class="seal-detail" id="detail-${i}"></div>
       <div class="weight-row">
-        <span>Weight in score</span>
+        <span>${T().weightInScore}</span>
         <input type="number" min="0" max="100" step="0.5" id="w-${i}"
           value="${state.weights[i]}" oninput="setWeight(${i},this.value)">
         <span class="pct" id="wpct-${i}"></span>
@@ -390,10 +573,10 @@ function buildObjs(){
 
 function renderDetail(i){
   const l=state.levels[i];
-  const spec=OBJ[i].d[l];
-  const txt=spec?spec:SEAL_GENERIC[l];
-  document.getElementById("detail-"+i).innerHTML=
-    `<b>SEAL-${l} · ${SEAL_NAMES[l]}.</b> ${txt}`;
+  const spec=objs()[i].d[l];
+  const txt=spec?spec:sealGeneric()[l];
+  const head=fmt(T().sealDetail,{l:l,name:sealNames()[l]});
+  document.getElementById("detail-"+i).innerHTML=`<b>${head}</b> ${txt}`;
 }
 
 function setLevel(i,l){
@@ -405,8 +588,9 @@ function setLevel(i,l){
 function setWeight(i,v){ state.weights[i]=parseFloat(v)||0; compute(); save(); }
 function setTarget(v){ state.target=parseInt(v); compute(); save(); }
 
+/* ====================== Compute ====================== */
 function compute(){
-  const lv=state.levels, w=state.weights;
+  const lv=state.levels, w=state.weights, u=T();
   const wsum=w.reduce((a,b)=>a+b,0)||1;
   // weighted score: objective score = calculator-derived SCORE[objective][SEAL]
   let score=0;
@@ -416,13 +600,13 @@ function compute(){
   const target=state.target;
 
   document.getElementById("r-seal").textContent="SEAL-"+overall;
-  document.getElementById("r-sealname").textContent=SEAL_NAMES[overall];
+  document.getElementById("r-sealname").textContent=sealNames()[overall];
   document.getElementById("r-score").textContent=score;
   document.getElementById("r-scorebar").style.width=score+"%";
 
   const v=document.getElementById("r-verdict");
-  if(overall>=target){ v.className="verdict pass"; v.textContent="Meets minimum SEAL-"+target; }
-  else { v.className="verdict fail"; v.textContent="Below minimum SEAL-"+target; }
+  if(overall>=target){ v.className="verdict pass"; v.textContent=fmt(u.meets,{n:target}); }
+  else { v.className="verdict fail"; v.textContent=fmt(u.below,{n:target}); }
 
   // weight % readout + flags
   lv.forEach((l,i)=>{
@@ -431,9 +615,9 @@ function compute(){
     const flag=document.getElementById("flag-"+i);
     card.classList.remove("binding","below"); flag.className="obj-flag"; flag.textContent="";
     if(l<target){ card.classList.add("below");
-      flag.classList.add("flag-below"); flag.textContent="Below target"; }
+      flag.classList.add("flag-below"); flag.textContent=u.flagBelow; }
     else if(l===overall){ card.classList.add("binding");
-      flag.classList.add("flag-binding"); flag.textContent="Binding"; }
+      flag.classList.add("flag-binding"); flag.textContent=u.flagBinding; }
   });
 
   buildBars(overall);
@@ -452,32 +636,35 @@ function buildBars(overall){
     host.appendChild(col);
   });
   const ceil=document.createElement("div"); ceil.className="ceiling";
+  ceil.setAttribute("data-cap", T().overallCap);
   const ch=overall===0?3:(overall/4*100);
-  ceil.style.bottom="calc(18px + "+ch+"% * (150 - 18) / 150)";
   ceil.style.bottom=(18 + ch/100*(150-18))+"px";
   host.appendChild(ceil);
 }
 
 function buildRecs(overall,target){
   const host=document.getElementById("recs");
+  const O=objs(), u=T();
   const below=[]; state.levels.forEach((l,i)=>{ if(l<target) below.push(i); });
   const binding=[]; state.levels.forEach((l,i)=>{ if(l===overall) binding.push(i); });
-  let html="<h4>Priority gaps</h4>";
+  let html="<h4>"+u.priorityGaps+"</h4>";
   if(below.length){
     html+="<ul>";
     below.forEach(i=>{
-      const need=OBJ[i].d[target]||SEAL_GENERIC[target];
-      html+=`<li><b>${OBJ[i].code} ${OBJ[i].name}</b> — at SEAL-${state.levels[i]}, needs SEAL-${target}. ${need}</li>`;
+      const need=O[i].d[target]||sealGeneric()[target];
+      const line=fmt(u.gapLine,{cur:state.levels[i],tgt:target});
+      html+=`<li><b>${SOV_CODES[i]} ${O[i].name}</b> — ${line} ${need}</li>`;
     });
     html+="</ul>";
   } else {
-    html+=`<p class="clear">All objectives meet the SEAL-${target} minimum.</p>`;
+    html+=`<p class="clear">${fmt(u.allMeet,{n:target})}</p>`;
     if(binding.length && overall<4){
-      html+="<h4>To raise the overall level</h4><ul>";
+      html+="<h4>"+u.toRaise+"</h4><ul>";
       binding.forEach(i=>{
         const nxt=Math.min(overall+1,4);
-        const need=OBJ[i].d[nxt]||SEAL_GENERIC[nxt];
-        html+=`<li><b>${OBJ[i].code} ${OBJ[i].name}</b> is binding at SEAL-${overall}. For SEAL-${nxt}: ${need}</li>`;
+        const need=O[i].d[nxt]||sealGeneric()[nxt];
+        const line=fmt(u.bindLine,{ov:overall,nx:nxt});
+        html+=`<li><b>${SOV_CODES[i]} ${O[i].name}</b> ${line} ${need}</li>`;
       });
       html+="</ul>";
     }
@@ -485,7 +672,7 @@ function buildRecs(overall,target){
   host.innerHTML=html;
 }
 
-/* ---- meta + persistence ---- */
+/* ====================== Meta + persistence ====================== */
 function bindMeta(){
   ["provider","assessor","date"].forEach(k=>{
     const el=document.getElementById("m-"+k);
@@ -500,16 +687,17 @@ function bindMeta(){
 
 function resetAll(){
   state={levels:Array(8).fill(0),weights:REAL_WEIGHTS.slice(),target:2,
-    provider:"",assessor:"",date:new Date().toISOString().slice(0,10)};
-  save(); buildObjs(); bindMeta(); compute(); toast("Assessment reset");
+    provider:"",assessor:"",date:new Date().toISOString().slice(0,10),lang:state.lang};
+  save(); applyI18n(); buildObjs(); bindMeta(); compute(); toast(T().tReset);
 }
 
 function copyJSON(){
+  const O=objs();
   const out={...state, overallSEAL:Math.min(...state.levels),
-    objectives:OBJ.map((o,i)=>({code:o.code,name:o.name,seal:state.levels[i],weight:state.weights[i]}))};
+    objectives:O.map((o,i)=>({code:SOV_CODES[i],name:o.name,seal:state.levels[i],weight:state.weights[i]}))};
   const txt=JSON.stringify(out,null,2);
-  navigator.clipboard.writeText(txt).then(()=>toast("Assessment data copied"),
-    ()=>toast("Copy failed — select manually"));
+  navigator.clipboard.writeText(txt).then(()=>toast(T().tCopied),
+    ()=>toast(T().tCopyFail));
 }
 function printReport(){ window.print(); }
 
@@ -519,7 +707,7 @@ function toast(msg){
 }
 
 /* init */
-load(); buildObjs(); bindMeta(); compute();
+load(); applyI18n(); buildObjs(); bindMeta(); compute();
 </script>
 </body>
 </html>

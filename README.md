@@ -7,6 +7,9 @@ overall **SEAL** level (0–4, set by the weakest objective), and a weighted
 
 Everything runs in the browser. No server, no build step, no dependencies.
 
+Available in **English and Greek** — use the EN/EL toggle at the top right; the choice
+is remembered between visits.
+
 ## Put it online (GitHub Pages)
 
 1. Create a new repository on GitHub, e.g. `cloud-sovereignty-assessment`.
