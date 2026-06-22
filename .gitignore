@@ -2,5 +2,10 @@
 Implementation-guidance.pdf
 Sovereignty-calculator.xlsx
 
-# Local scratch
+# Local scratch / build artifacts (index.html is the shipped single file)
 _check.js
+_template.html
+_detailed.json
+_detailed_el.json
+_*.js
+_*.json

@@ -24,7 +24,6 @@
   .mono{font-family:"IBM Plex Mono",monospace}
   .serif{font-family:"Fraunces",serif}
 
-  /* ---- header ---- */
   header{position:relative;background:var(--deep);color:#eaf0f8;padding:38px 0 30px;border-bottom:3px solid var(--gold)}
   .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;
     text-transform:uppercase;color:#9fb6d8;margin:0 0 12px}
@@ -33,9 +32,7 @@
   .lede{max-width:680px;color:#c4d2e6;font-size:15.5px;margin:0}
   .lede a{color:#eaf0f8}
 
-  /* ---- language toggle ---- */
-  .langtoggle{position:absolute;top:18px;right:24px;display:flex;gap:0;
-    border:1px solid #26477a;border-radius:7px;overflow:hidden}
+  .langtoggle{position:absolute;top:18px;right:24px;display:flex;border:1px solid #26477a;border-radius:7px;overflow:hidden}
   .langtoggle button{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.08em;
     background:#12305a;border:0;color:#9fb6d8;padding:6px 12px;cursor:pointer;transition:all .14s}
   .langtoggle button:hover{color:#eaf0f8}
@@ -48,7 +45,14 @@
     border:1px solid #26477a;color:#fff;padding:8px 11px;border-radius:7px;min-width:190px}
   .meta input::placeholder{color:#7f97bc}
 
-  /* ---- layout ---- */
+  /* ---- tabs ---- */
+  .tabbar{display:flex;gap:4px;margin-top:26px}
+  .tabbar button{font-family:"Inter",sans-serif;font-size:13.5px;font-weight:500;
+    background:transparent;border:0;color:#9fb6d8;padding:10px 18px;cursor:pointer;
+    border-bottom:2px solid transparent;transition:all .14s}
+  .tabbar button:hover{color:#eaf0f8}
+  .tabbar button[aria-selected="true"]{color:#fff;border-bottom-color:var(--gold)}
+
   main{padding:30px 0 80px}
   .grid{display:grid;grid-template-columns:1fr 360px;gap:26px;align-items:start}
   @media(max-width:920px){.grid{grid-template-columns:1fr}}
@@ -58,7 +62,6 @@
     align-items:center;gap:10px}
   .sectlabel::after{content:"";flex:1;height:1px;background:var(--line)}
 
-  /* ---- objective cards ---- */
   .obj{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     padding:18px 20px;margin-bottom:14px;transition:border-color .2s}
   .obj.binding{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
@@ -73,7 +76,6 @@
   .flag-binding{background:#f6ecd4;color:#8a6712}
   .flag-below{background:#f7dcd6;color:#8a261a}
 
-  /* seal segmented control */
   .seal-row{display:flex;gap:6px}
   .seal-btn{flex:1;border:1px solid var(--line);background:#f6f8fb;border-radius:7px;
     padding:9px 4px 8px;cursor:pointer;text-align:center;transition:all .14s;font-family:inherit}
@@ -93,18 +95,50 @@
     border-left:3px solid var(--blue);padding:8px 12px;border-radius:0 6px 6px 0;min-height:0}
   .seal-detail b{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--blue)}
 
-  .weight-row{display:flex;align-items:center;gap:9px;margin-top:13px;
-    font-size:12px;color:var(--muted)}
+  .weight-row{display:flex;align-items:center;gap:9px;margin-top:13px;font-size:12px;color:var(--muted)}
   .weight-row input{width:62px;font-family:"IBM Plex Mono",monospace;text-align:right;
     padding:5px 8px;border:1px solid var(--line);border-radius:6px;font-size:12.5px}
   .weight-row .pct{font-family:"IBM Plex Mono",monospace;color:var(--ink)}
 
-  /* ---- result panel ---- */
-  .panel{position:sticky;top:18px;background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--r);overflow:hidden}
+  /* ---- detailed accordion ---- */
+  .det-intro{background:#eef2f8;border:1px solid var(--line);border-left:3px solid var(--blue);
+    border-radius:0 8px 8px 0;padding:12px 16px;font-size:13px;color:var(--ink);margin-bottom:16px;line-height:1.5}
+  .det-tools{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .det-tools button{font-family:"Inter",sans-serif;font-size:12px;background:#fff;border:1px solid var(--line);
+    border-radius:7px;padding:7px 12px;cursor:pointer;color:var(--deep)}
+  .det-tools button:hover{border-color:var(--blue)}
+  details.objd{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+  details.objd[open]{border-color:#c4cedd}
+  details.objd.binding{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+  details.objd summary{list-style:none;cursor:pointer;padding:15px 18px;display:flex;align-items:center;
+    justify-content:space-between;gap:12px;user-select:none}
+  details.objd summary::-webkit-details-marker{display:none}
+  .sum-l{display:flex;flex-direction:column;gap:2px}
+  .sum-l .c{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--blue);font-weight:600}
+  .sum-l .n{font-family:"Fraunces",serif;font-size:16px}
+  .sum-r{display:flex;align-items:center;gap:8px;white-space:nowrap}
+  .badge{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:3px 8px;border-radius:20px;background:#eef2f8;color:var(--deep)}
+  .badge.seal{color:#fff}
+  .b-s0{background:var(--s0);color:#1c2430} .b-s1{background:var(--s1);color:#10243f}
+  .b-s2{background:var(--s2)} .b-s3{background:var(--s3)} .b-s4{background:var(--s4)}
+  .qwrap{padding:0 18px 10px}
+  .q{border-top:1px solid var(--line);padding:14px 0}
+  .q.bind{background:#fbf4e3;margin:0 -18px;padding:14px 18px}
+  .q-title{font-size:13.5px;font-weight:500;margin:0 0 4px}
+  .q-cap{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--gold);letter-spacing:.05em;
+    text-transform:uppercase;margin:0 0 9px;display:none}
+  .q.bind .q-cap{display:block}
+  .opt{display:flex;align-items:flex-start;gap:9px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:13px}
+  .opt:hover{background:#f4f7fb}
+  .opt input{margin-top:3px;flex-shrink:0}
+  .opt .otxt{flex:1}
+  .opt .otag{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);white-space:nowrap;margin-top:2px}
+  .opt.sel{background:#eef2f8}
+  .raise{font-size:12px;color:#8a6712;margin-top:8px;padding-left:8px}
+
+  .panel{position:sticky;top:18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
   .panel-head{background:var(--deep);color:#fff;padding:18px 20px}
-  .panel-head .seal-big{font-family:"IBM Plex Mono",monospace;font-size:40px;font-weight:600;
-    line-height:1;letter-spacing:-.02em}
+  .panel-head .seal-big{font-family:"IBM Plex Mono",monospace;font-size:40px;font-weight:600;line-height:1;letter-spacing:-.02em}
   .panel-head .seal-name{font-family:"Fraunces",serif;font-size:18px;margin-top:4px}
   .verdict{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;
     text-transform:uppercase;margin-top:12px;padding:5px 10px;border-radius:20px;display:inline-block}
@@ -115,63 +149,69 @@
   .score-line{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
   .score-line .lbl{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
   .score-val{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600}
-  .score-bar{height:8px;background:#e3e8ef;border-radius:6px;overflow:hidden;margin:4px 0 18px}
+  .score-bar{height:8px;background:#e3e8ef;border-radius:6px;overflow:hidden;margin:4px 0 10px}
   .score-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--deep))}
+  .delta{font-size:11.5px;color:var(--muted);margin-bottom:8px}
+  .delta b{font-family:"IBM Plex Mono",monospace;color:var(--ink)}
 
   .target-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
     padding:12px 0;border-top:1px solid var(--line);font-size:13px}
-  .target-row select{font-family:"IBM Plex Mono",monospace;padding:6px 9px;border:1px solid var(--line);
-    border-radius:6px;font-size:13px;background:#fff}
+  .target-row select{font-family:"IBM Plex Mono",monospace;padding:6px 9px;border:1px solid var(--line);border-radius:6px;font-size:13px;background:#fff}
 
   .ladder{padding:16px 20px 6px;border-top:1px solid var(--line)}
   .ladder-cap{font-size:11.5px;color:var(--muted);margin:0 0 12px;line-height:1.4}
   .ladder-cap b{color:var(--gold)}
-  .bars{display:flex;gap:6px;align-items:flex-end;height:150px;position:relative;
-    padding-top:4px}
-  .bar-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;
-    align-items:center;height:100%;cursor:default}
+  .bars{display:flex;gap:6px;align-items:flex-end;height:150px;position:relative;padding-top:4px}
+  .bar-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;cursor:default}
   .bar{width:100%;border-radius:4px 4px 0 0;transition:height .3s ease;min-height:3px}
   .bar-lbl{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);margin-top:5px}
-  .ceiling{position:absolute;left:0;right:0;border-top:2px dashed var(--gold);z-index:3;
-    pointer-events:none;transition:bottom .3s ease}
+  .ceiling{position:absolute;left:0;right:0;border-top:2px dashed var(--gold);z-index:3;pointer-events:none;transition:bottom .3s ease}
   .ceiling::after{content:attr(data-cap);position:absolute;right:0;top:-15px;
     font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.1em;color:var(--gold)}
 
+  .obreak{padding:14px 20px;border-top:1px solid var(--line)}
+  .obreak h4{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  .obreak table{width:100%;border-collapse:collapse;font-size:12px}
+  .obreak td{padding:4px 0;vertical-align:middle}
+  .obreak td.c{font-family:"IBM Plex Mono",monospace;color:var(--blue);font-weight:600;white-space:nowrap}
+  .obreak td.sc{font-family:"IBM Plex Mono",monospace;text-align:right;color:var(--ink)}
+  .obreak td.sl{text-align:right;width:54px}
+  .obreak tr.bind td{color:#8a6712}
+  .mini-seal{font-family:"IBM Plex Mono",monospace;font-size:10.5px;padding:2px 6px;border-radius:12px;color:#fff}
+
   .recs{padding:4px 20px 20px}
-  .recs h4{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
-  .recs li{font-size:13px;margin-bottom:7px;color:var(--ink);list-style:none;
-    padding-left:16px;position:relative}
+  .recs h4{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+  .recs li{font-size:13px;margin-bottom:7px;color:var(--ink);list-style:none;padding-left:16px;position:relative}
   .recs li::before{content:"›";position:absolute;left:2px;color:var(--gold);font-weight:600}
   .recs ul{margin:0;padding:0}
   .recs .clear{color:var(--ok);font-size:13px}
 
   .actions{display:flex;gap:9px;padding:16px 20px;border-top:1px solid var(--line);flex-wrap:wrap}
   button.act{flex:1;min-width:120px;font-family:"Inter",sans-serif;font-size:13px;font-weight:500;
-    padding:10px;border-radius:7px;cursor:pointer;border:1px solid var(--deep);
-    background:var(--deep);color:#fff;transition:opacity .15s}
+    padding:10px;border-radius:7px;cursor:pointer;border:1px solid var(--deep);background:var(--deep);color:#fff;transition:opacity .15s}
   button.act.ghost{background:#fff;color:var(--deep)}
   button.act:hover{opacity:.88}
 
   footer{border-top:1px solid var(--line);padding:24px 0 50px;color:var(--muted);font-size:12px}
-  footer .disc{background:#f4f6f9;border:1px solid var(--line);border-radius:8px;padding:14px 16px;
-    margin-bottom:16px;line-height:1.55}
+  footer .disc{background:#f4f6f9;border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:16px;line-height:1.55}
   footer a{color:var(--blue)}
 
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);
-    background:var(--deep);color:#fff;padding:11px 20px;border-radius:8px;font-size:13px;
-    opacity:0;transition:all .3s;z-index:50}
+    background:var(--deep);color:#fff;padding:11px 20px;border-radius:8px;font-size:13px;opacity:0;transition:all .3s;z-index:50}
   .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+  [hidden]{display:none !important}
 
   @media print{
     body{background:#fff}
     header{background:#fff;color:#000;border-bottom:2px solid #000}
     .eyebrow,.lede,.panel-head{color:#000}
     .meta input{border-color:#999;color:#000;background:#fff}
-    .langtoggle{display:none}
+    .langtoggle,.tabbar,.det-tools{display:none}
     .panel{position:static}
     .actions,.toast,.weight-row input{display:none}
-    .obj{break-inside:avoid}
+    .obj,.objd,.q{break-inside:avoid}
+    details.objd[open] .qwrap{display:block}
   }
 </style>
 </head>
@@ -184,61 +224,102 @@
   <div class="wrap">
     <p class="eyebrow" data-i18n="eyebrow">Cloud Sovereignty Framework · Self-Assessment</p>
     <h1 class="serif" data-i18n-html="h1">Measure a cloud provider's<br>SEAL and Sovereignty Score</h1>
-    <p class="lede" data-i18n-html="lede">An indicative self-assessment built on the European Commission's published
-      <a href="https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en" target="_blank" rel="noopener">Cloud Sovereignty Framework</a>.
-      Rate the provider on each of the eight sovereignty objectives; the tool computes the overall
-      SEAL (set by the weakest objective) and a weighted score out of 100.</p>
+    <p class="lede" data-i18n-html="lede"></p>
     <div class="meta">
       <label><span data-i18n="mProvider">Provider assessed</span>
-        <input id="m-provider" type="text" data-i18n-ph="phProvider" placeholder="e.g. Acme Cloud EU">
-      </label>
+        <input id="m-provider" type="text" data-i18n-ph="phProvider" placeholder=""></label>
       <label><span data-i18n="mAssessor">Assessor</span>
-        <input id="m-assessor" type="text" data-i18n-ph="phAssessor" placeholder="Name / unit">
-      </label>
+        <input id="m-assessor" type="text" data-i18n-ph="phAssessor" placeholder=""></label>
       <label><span data-i18n="mDate">Date</span>
-        <input id="m-date" type="date">
-      </label>
+        <input id="m-date" type="date"></label>
+    </div>
+    <div class="tabbar" role="tablist">
+      <button id="tab-btn-quick" role="tab" aria-selected="true" onclick="setTab('quick')" data-i18n="tabQuick">Quick assessment</button>
+      <button id="tab-btn-detailed" role="tab" aria-selected="false" onclick="setTab('detailed')" data-i18n="tabDetailed">Detailed calculation</button>
     </div>
   </div>
 </header>
 
 <main class="wrap">
-  <div class="grid">
+  <!-- ============ QUICK TAB ============ -->
+  <div id="tab-quick" class="grid" role="tabpanel">
     <section>
       <p class="sectlabel" data-i18n="sectObjectives">Eight sovereignty objectives</p>
       <div id="objs"></div>
     </section>
-
     <aside>
       <div class="panel">
         <div class="panel-head">
-          <div class="seal-big mono" id="r-seal">SEAL-0</div>
-          <div class="seal-name serif" id="r-sealname">No Sovereignty</div>
-          <div id="r-verdict"></div>
+          <div class="seal-big mono" id="q-seal">SEAL-0</div>
+          <div class="seal-name serif" id="q-sealname"></div>
+          <div id="q-verdict"></div>
         </div>
         <div class="panel-body">
           <div class="score-line">
             <span class="lbl" data-i18n="scoreLabel">Weighted Sovereignty Score</span>
-            <span class="score-val mono" id="r-score">0</span>
+            <span class="score-val mono" id="q-score">0</span>
           </div>
-          <div class="score-bar"><span id="r-scorebar" style="width:0%"></span></div>
+          <div class="score-bar"><span id="q-scorebar" style="width:0%"></span></div>
           <div class="target-row">
             <span data-i18n="minSeal">Minimum SEAL required</span>
-            <select id="r-target">
-              <option value="0">SEAL-0</option>
-              <option value="1">SEAL-1</option>
-              <option value="2" selected>SEAL-2</option>
-              <option value="3">SEAL-3</option>
-              <option value="4">SEAL-4</option>
+            <select id="q-target" onchange="setTarget(this.value)">
+              <option value="0">SEAL-0</option><option value="1">SEAL-1</option>
+              <option value="2" selected>SEAL-2</option><option value="3">SEAL-3</option><option value="4">SEAL-4</option>
             </select>
           </div>
         </div>
         <div class="ladder">
-          <p class="ladder-cap" data-i18n-html="ladderCap">The overall SEAL equals the <b>lowest</b> level reached across all
-            objectives — the gold line is your ceiling.</p>
-          <div class="bars" id="bars"></div>
+          <p class="ladder-cap" data-i18n-html="ladderCap"></p>
+          <div class="bars" id="q-bars"></div>
         </div>
-        <div class="recs" id="recs"></div>
+        <div class="recs" id="q-recs"></div>
+        <div class="actions">
+          <button class="act" data-i18n="btnPdf" onclick="printReport()">Download report (PDF)</button>
+          <button class="act ghost" data-i18n="btnCopy" onclick="copyJSON()">Copy data</button>
+          <button class="act ghost" data-i18n="btnReset" onclick="resetAll()">Reset</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ============ DETAILED TAB ============ -->
+  <div id="tab-detailed" class="grid" role="tabpanel" hidden>
+    <section>
+      <p class="det-intro" data-i18n-html="detIntro"></p>
+      <div class="det-tools">
+        <button onclick="loadExample()" data-i18n="loadExample">Load guidance example</button>
+        <button onclick="expandAll(true)" data-i18n="expandAll">Expand all</button>
+        <button onclick="expandAll(false)" data-i18n="collapseAll">Collapse all</button>
+      </div>
+      <div id="detacc"></div>
+    </section>
+    <aside>
+      <div class="panel">
+        <div class="panel-head">
+          <div class="seal-big mono" id="d-seal">SEAL-0</div>
+          <div class="seal-name serif" id="d-sealname"></div>
+          <div id="d-verdict"></div>
+        </div>
+        <div class="panel-body">
+          <div class="score-line">
+            <span class="lbl" data-i18n="sovScore">Sovereignty Score</span>
+            <span class="score-val mono" id="d-score">0</span>
+          </div>
+          <div class="score-bar"><span id="d-scorebar" style="width:0%"></span></div>
+          <div class="delta" id="d-delta"></div>
+          <div class="target-row">
+            <span data-i18n="minSeal">Minimum SEAL required</span>
+            <select id="d-target" onchange="setTarget(this.value)">
+              <option value="0">SEAL-0</option><option value="1">SEAL-1</option>
+              <option value="2" selected>SEAL-2</option><option value="3">SEAL-3</option><option value="4">SEAL-4</option>
+            </select>
+          </div>
+        </div>
+        <div class="obreak">
+          <h4 data-i18n="breakdown">Per-objective breakdown</h4>
+          <table id="d-break"></table>
+        </div>
+        <div class="recs" id="d-recs"></div>
         <div class="actions">
           <button class="act" data-i18n="btnPdf" onclick="printReport()">Download report (PDF)</button>
           <button class="act ghost" data-i18n="btnCopy" onclick="copyJSON()">Copy data</button>
@@ -257,43 +338,26 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/* ====================== Detailed calculator data (bilingual, from xlsx) ====================== */
+const DETAIL = [{"code":"SOV-1","t":{"en":"Strategic Sovereignty","el":"Στρατηγική Κυριαρχία"},"q":[{"n":1,"t":{"en":"EU/EEA legal entity control - ensuring that ultimate decision-making authority resides within EU jurisdiction.","el":"Έλεγχος από νομική οντότητα ΕΕ/EEA - διασφάλιση ότι η τελική εξουσία λήψης αποφάσεων παραμένει εντός της δικαιοδοσίας της ΕΕ."},"a":[{"t":{"en":"1. Entirely outside the EU","el":"1. Εξ ολοκλήρου εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. Mostly outside the EU","el":"2. Κυρίως εκτός ΕΕ"},"value":41.67,"seal":1,"example":false},{"t":{"en":"3. Mostly within the EU","el":"3. Κυρίως εντός ΕΕ"},"value":83.34,"seal":3,"example":false},{"t":{"en":"4. Entirely within the EU","el":"4. Εξ ολοκλήρου εντός ΕΕ"},"value":125.01,"seal":4,"example":true}]},{"n":2,"t":{"en":"Change of Control Risk - evaluating the likelihood of takeover or transfer to non-sovereign owners","el":"Κίνδυνος αλλαγής ελέγχου - αξιολόγηση της πιθανότητας εξαγοράς ή μεταβίβασης σε μη κυρίαρχους ιδιοκτήτες"},"a":[{"t":{"en":"1. Very likely","el":"1. Πολύ πιθανή"},"value":0.0,"seal":4,"example":false},{"t":{"en":"2. Likely takeover by or transfer to a non-EU sovereign entity","el":"2. Πιθανή εξαγορά από ή μεταβίβαση σε κυρίαρχη οντότητα εκτός ΕΕ"},"value":31.25,"seal":4,"example":false},{"t":{"en":"3. Somewhat likely takeover by or transfer to a non-EU sovereign entity","el":"3. Κάπως πιθανή εξαγορά από ή μεταβίβαση σε κυρίαρχη οντότητα εκτός ΕΕ"},"value":62.5,"seal":4,"example":true},{"t":{"en":"4. Unlikely takeover by or transfer to a non-EU sovereign entity","el":"4. Απίθανη εξαγορά από ή μεταβίβαση σε κυρίαρχη οντότητα εκτός ΕΕ"},"value":93.75,"seal":4,"example":false},{"t":{"en":"5. Very unlikely","el":"5. Πολύ απίθανη"},"value":125.0,"seal":4,"example":false}]},{"n":3,"t":{"en":"Control Over Roadmap - measuring the capacity of EU stakeholders to shape the provider’s technological and service evolution.","el":"Έλεγχος επί του roadmap - μέτρηση της ικανότητας των ενδιαφερόμενων μερών της ΕΕ να διαμορφώσουν την τεχνολογική και υπηρεσιακή εξέλιξη του παρόχου."},"a":[{"t":{"en":"1. No influence possible","el":"1. Καμία δυνατότητα επιρροής"},"value":0.0,"seal":2,"example":false},{"t":{"en":"2. Through \"voice of the customer\" public channels (e.g. feedback portals, online communities)","el":"2. Μέσω δημόσιων διαύλων \"φωνής του πελάτη\" (π.χ. πύλες ανατροφοδότησης, διαδικτυακές κοινότητες)"},"value":41.67,"seal":2,"example":true},{"t":{"en":"3. Governance bodies exist with EU actors participation","el":"3. Υπάρχουν όργανα διακυβέρνησης με συμμετοχή φορέων της ΕΕ"},"value":83.34,"seal":3,"example":false},{"t":{"en":"4. Full influence of EU actors","el":"4. Πλήρης επιρροή των φορέων της ΕΕ"},"value":125.01,"seal":4,"example":false}]},{"n":4,"t":{"en":"Financial independence from non-EU capital - degree to which the provider relies on EU-based financing rather than external capital.","el":"Χρηματοοικονομική ανεξαρτησία από κεφάλαια εκτός ΕΕ - βαθμός στον οποίο ο πάροχος βασίζεται σε χρηματοδότηση εδρεύουσα στην ΕΕ αντί για εξωτερικά κεφάλαια."},"a":[{"t":{"en":"1. Almost entirely relying on non-EU funding","el":"1. Σχεδόν εξ ολοκλήρου εξάρτηση από χρηματοδότηση εκτός ΕΕ"},"value":0.0,"seal":4,"example":false},{"t":{"en":"2. Mostly relying on non-EU funding","el":"2. Κυρίως εξάρτηση από χρηματοδότηση εκτός ΕΕ"},"value":31.25,"seal":4,"example":false},{"t":{"en":"3. Balanced mix of EU and non-EU funding","el":"3. Ισορροπημένο μείγμα χρηματοδότησης εντός και εκτός ΕΕ"},"value":62.5,"seal":4,"example":false},{"t":{"en":"4. Majority of funding is EU-based","el":"4. Η πλειονότητα της χρηματοδότησης εδρεύει στην ΕΕ"},"value":93.75,"seal":4,"example":true},{"t":{"en":"5. Entirely EU-based funding","el":"5. Χρηματοδότηση εξ ολοκλήρου εδρεύουσα στην ΕΕ"},"value":125.0,"seal":4,"example":false}]},{"n":5,"t":{"en":"EU economic contribution - extent of investment, jobs, and value creation within EU/EEA.","el":"Οικονομική συνεισφορά στην ΕΕ - έκταση των επενδύσεων, θέσεων εργασίας και δημιουργίας αξίας εντός ΕΕ/EEA."},"a":[{"t":{"en":"1. Minimal","el":"1. Ελάχιστη"},"value":0.0,"seal":4,"example":false},{"t":{"en":"2. Some","el":"2. Κάποια"},"value":31.25,"seal":4,"example":false},{"t":{"en":"3. Balanced EU/non-EU","el":"3. Ισορροπημένη εντός/εκτός ΕΕ"},"value":62.5,"seal":4,"example":true},{"t":{"en":"4. Majority in the EU","el":"4. Πλειονότητα εντός ΕΕ"},"value":93.75,"seal":4,"example":false},{"t":{"en":"5. Fully in the EU","el":"5. Εξ ολοκλήρου εντός ΕΕ"},"value":125.0,"seal":4,"example":false}]},{"n":6,"t":{"en":"Participation in EU strategic programs - involvement in initiatives such as IPCEI-CIS, Horizon Europe, or Gaia-X.","el":"Συμμετοχή σε στρατηγικά προγράμματα της ΕΕ - συμμετοχή σε πρωτοβουλίες όπως IPCEI-CIS, Horizon Europe ή Gaia-X."},"a":[{"t":{"en":"No clear participation","el":"Καμία σαφής συμμετοχή"},"value":0.0,"seal":4,"example":false},{"t":{"en":"Active participant in strategic projects","el":"Ενεργός συμμετέχων σε στρατηγικά έργα"},"value":62.5,"seal":4,"example":false},{"t":{"en":"Strategic projects depend on contractor's involvement","el":"Τα στρατηγικά έργα εξαρτώνται από τη συμμετοχή του αναδόχου"},"value":125.0,"seal":4,"example":false}]},{"n":7,"t":{"en":"Alignment with EU industrial strategies - consistency with digital, green, and industrial sovereignty objectives defined at EU level.","el":"Ευθυγράμμιση με τις βιομηχανικές στρατηγικές της ΕΕ - συνέπεια με τους στόχους ψηφιακής, πράσινης και βιομηχανικής κυριαρχίας που ορίζονται σε επίπεδο ΕΕ."},"a":[{"t":{"en":"No evidence exist","el":"Δεν υπάρχουν ενδείξεις"},"value":0.0,"seal":4,"example":false},{"t":{"en":"Existing Action plan (how to measure ambition? Through means linked to the goals? Relative to the size of the company?)","el":"Υφιστάμενο σχέδιο δράσης (πώς μετράται η φιλοδοξία; Μέσω μέσων συνδεδεμένων με τους στόχους; Σε σχέση με το μέγεθος της εταιρείας;)"},"value":41.67,"seal":4,"example":false},{"t":{"en":"Already measured achievement and existing dedicated governance","el":"Ήδη μετρημένο επίτευγμα και υφιστάμενη ειδική διακυβέρνηση"},"value":83.0,"seal":4,"example":true},{"t":{"en":"Bold ambition and dedicated means","el":"Τολμηρή φιλοδοξία και ειδικά μέσα"},"value":125.01,"seal":4,"example":false}]},{"n":8,"t":{"en":"Resilience to Cut-off - ability to sustain secure operations even if vendor support is withdrawn or disrupted.","el":"Ανθεκτικότητα σε διακοπή - ικανότητα διατήρησης ασφαλούς λειτουργίας ακόμη και αν η υποστήριξη του προμηθευτή αποσυρθεί ή διαταραχθεί."},"a":[{"t":{"en":"1. Immediate shutdown of the service is expected","el":"1. Αναμένεται άμεση διακοπή της υπηρεσίας"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Service would likely stop but with a delay to provide time for customer reaction","el":"2. Η υπηρεσία πιθανότατα θα σταματούσε αλλά με καθυστέρηση ώστε να δοθεί χρόνος αντίδρασης στον πελάτη"},"value":31.25,"seal":0,"example":false},{"t":{"en":"3. Can continue temporarily based on contractual agreement with EC","el":"3. Μπορεί να συνεχιστεί προσωρινά βάσει συμβατικής συμφωνίας με την EC"},"value":62.5,"seal":2,"example":true},{"t":{"en":"4. Ability to source alternative suppliers or internalise key functions","el":"4. Δυνατότητα εξεύρεσης εναλλακτικών προμηθευτών ή εσωτερίκευσης κρίσιμων λειτουργιών"},"value":93.75,"seal":2,"example":false},{"t":{"en":"5. Full autonomy and continuity","el":"5. Πλήρης αυτονομία και συνέχεια"},"value":125.0,"seal":4,"example":false}]}]},{"code":"SOV-2","t":{"en":"Legal & Jurisdictional Sovereignty","el":"Νομική & Δικαιοδοτική Κυριαρχία"},"q":[{"n":1,"t":{"en":"Primary Legal Jurisdiction - the national legal system governing the provider’s operations and contracts.","el":"Πρωτεύουσα νομική δικαιοδοσία - το εθνικό νομικό σύστημα που διέπει τις λειτουργίες και τις συμβάσεις του παρόχου."},"a":[{"t":{"en":"1. Non-EU only","el":"1. Μόνο εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. Mixed EU/non-EU","el":"2. Μεικτή εντός/εκτός ΕΕ"},"value":84.0,"seal":1,"example":false},{"t":{"en":"3. Exclusively EU law","el":"3. Αποκλειστικά δίκαιο της ΕΕ"},"value":167.0,"seal":4,"example":true}]},{"n":2,"t":{"en":"Extraterritorial Laws - degree of exposure to non-EU laws with cross-border reach (all).","el":"Εξωεδαφικοί νόμοι - βαθμός έκθεσης σε νόμους εκτός ΕΕ με διασυνοριακή εμβέλεια (όλα)."},"a":[{"t":{"en":"Fully exposed to non-EU laws","el":"Πλήρης έκθεση σε νόμους εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"Mitigation clauses, exposure remains","el":"Ρήτρες μετριασμού, η έκθεση παραμένει"},"value":41.75,"seal":1,"example":false},{"t":{"en":"EU subsidiary with contractual protections","el":"Θυγατρική στην ΕΕ με συμβατικές προστασίες"},"value":83.5,"seal":1,"example":true},{"t":{"en":"Legal structures shielding from foreign law","el":"Νομικές δομές που θωρακίζουν από αλλοδαπό δίκαιο"},"value":125.25,"seal":2,"example":false},{"t":{"en":"Verified legal immunity, non-EU laws unenforceable","el":"Επαληθευμένη νομική ασυλία, οι νόμοι εκτός ΕΕ μη εκτελεστοί"},"value":167.0,"seal":4,"example":false}]},{"n":3,"t":{"en":"Data Access Pathways - existence of legal, contractual, or technical channels through which non-EU authorities could compel access to data or systems.","el":"Οδοί πρόσβασης σε δεδομένα - ύπαρξη νομικών, συμβατικών ή τεχνικών διαύλων μέσω των οποίων αρχές εκτός ΕΕ θα μπορούσαν να επιβάλουν πρόσβαση σε δεδομένα ή συστήματα."},"a":[{"t":{"en":"1. Non-EU authorities can compel access to data or systems without customers being notified","el":"1. Αρχές εκτός ΕΕ μπορούν να επιβάλουν πρόσβαση σε δεδομένα ή συστήματα χωρίς ενημέρωση των πελατών"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. Non-EU authorities can compel access to data or systems without customers being notified, in specific cases","el":"2. Αρχές εκτός ΕΕ μπορούν να επιβάλουν πρόσβαση σε δεδομένα ή συστήματα χωρίς ενημέρωση των πελατών, σε συγκεκριμένες περιπτώσεις"},"value":41.75,"seal":1,"example":false},{"t":{"en":"3. Non-EU authorities can compel access to data or systems with customers being notified in all cases","el":"3. Αρχές εκτός ΕΕ μπορούν να επιβάλουν πρόσβαση σε δεδομένα ή συστήματα με ενημέρωση των πελατών σε όλες τις περιπτώσεις"},"value":83.5,"seal":1,"example":false},{"t":{"en":"4. Non-EU authorities requests to access data or systems are disputed by the provider and eventually in some cases are accepted with customers being notified","el":"4. Τα αιτήματα αρχών εκτός ΕΕ για πρόσβαση σε δεδομένα ή συστήματα αμφισβητούνται από τον πάροχο και τελικά σε ορισμένες περιπτώσεις γίνονται δεκτά με ενημέρωση των πελατών"},"value":125.25,"seal":1,"example":false},{"t":{"en":"5. Non-EU authorities requests to access data or systems are always rejected by the provider","el":"5. Τα αιτήματα αρχών εκτός ΕΕ για πρόσβαση σε δεδομένα ή συστήματα απορρίπτονται πάντα από τον πάροχο"},"value":167.0,"seal":4,"example":true}]},{"n":4,"t":{"en":"Export Control Restrictions - applicability of international regimes such as ITAR or EAR, which may restrict usage or transfer.","el":"Περιορισμοί ελέγχου εξαγωγών - δυνατότητα εφαρμογής διεθνών καθεστώτων όπως ITAR ή EAR, που ενδέχεται να περιορίσουν τη χρήση ή τη μεταβίβαση."},"a":[{"t":{"en":"Restrictions exists towards a EU MS","el":"Υπάρχουν περιορισμοί έναντι ενός Κράτους-Μέλους ΕΕ"},"value":0.0,"seal":0,"example":false},{"t":{"en":"Restrictions exists towards EU citizens or international organisations","el":"Υπάρχουν περιορισμοί έναντι πολιτών της ΕΕ ή διεθνών οργανισμών"},"value":41.75,"seal":1,"example":false},{"t":{"en":"Share of revenues >50% in the EU","el":"Μερίδιο εσόδων >50% στην ΕΕ"},"value":83.5,"seal":2,"example":false},{"t":{"en":"Part of the offer cannot be exposed to restrictions towards EU MSs","el":"Μέρος της προσφοράς δεν μπορεί να εκτεθεί σε περιορισμούς έναντι Κρατών-Μελών ΕΕ"},"value":125.25,"seal":3,"example":true},{"t":{"en":"Part of the offer cannot be exposed to restrictions towards EU MSs or international organisations","el":"Μέρος της προσφοράς δεν μπορεί να εκτεθεί σε περιορισμούς έναντι Κρατών-Μελών ΕΕ ή διεθνών οργανισμών"},"value":167.0,"seal":4,"example":false}]},{"n":5,"t":{"en":"Origin of IP - location of intellectual property creation, registration, and development (all).","el":"Προέλευση της IP - τόπος δημιουργίας, καταχώρισης και ανάπτυξης της διανοητικής ιδιοκτησίας (όλα)."},"a":[{"t":{"en":"1. Entirely outside the EU","el":"1. Εξ ολοκλήρου εκτός ΕΕ"},"value":0.0,"seal":4,"example":false},{"t":{"en":"2. Mostly outside the EU","el":"2. Κυρίως εκτός ΕΕ"},"value":41.75,"seal":4,"example":false},{"t":{"en":"3. Mixed within/outside the EU","el":"3. Μεικτή εντός/εκτός ΕΕ"},"value":83.5,"seal":4,"example":true},{"t":{"en":"4. Mostly within the EU","el":"4. Κυρίως εντός ΕΕ"},"value":125.25,"seal":4,"example":false},{"t":{"en":"5. Fully within the EU","el":"5. Εξ ολοκλήρου εντός ΕΕ"},"value":167.0,"seal":4,"example":false}]},{"n":6,"t":{"en":"IP Holder Jurisdiction - legal jurisdiction where IP rights are owned and enforced.","el":"Δικαιοδοσία κατόχου IP - νομική δικαιοδοσία όπου τα δικαιώματα IP κατέχονται και επιβάλλονται."},"a":[{"t":{"en":"non-EU law, one single country","el":"δίκαιο εκτός ΕΕ, μία μόνο χώρα"},"value":0.0,"seal":3,"example":false},{"t":{"en":"non-EU law, mixed non-EU countries","el":"δίκαιο εκτός ΕΕ, μεικτές χώρες εκτός ΕΕ"},"value":41.75,"seal":3,"example":false},{"t":{"en":"Mixed law, some EU","el":"Μεικτό δίκαιο, ορισμένα εντός ΕΕ"},"value":83.5,"seal":3,"example":true},{"t":{"en":"EU law with exceptions","el":"Δίκαιο της ΕΕ με εξαιρέσεις"},"value":125.25,"seal":4,"example":false},{"t":{"en":"fully under EU law","el":"πλήρως υπό το δίκαιο της ΕΕ"},"value":167.0,"seal":4,"example":false}]}]},{"code":"SOV-3","t":{"en":"Data & AI Sovereignty","el":"Κυριαρχία Δεδομένων & AI"},"q":[{"n":1,"t":{"en":"Customer control over encryption keys","el":"Έλεγχος του πελάτη επί των κλειδιών κρυπτογράφησης"},"a":[{"t":{"en":"1. Provider only","el":"1. Μόνο ο πάροχος"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Primarily the provider but not exclusively","el":"2. Κυρίως ο πάροχος αλλά όχι αποκλειστικά"},"value":50.0,"seal":1,"example":false},{"t":{"en":"3. Shared - provider has override keys","el":"3. Κοινός - ο πάροχος διαθέτει κλειδιά παράκαμψης"},"value":100.0,"seal":2,"example":true},{"t":{"en":"4. Customer primary control but provider can read the data or some of the data","el":"4. Πρωτεύων έλεγχος του πελάτη αλλά ο πάροχος μπορεί να διαβάσει τα δεδομένα ή μέρος των δεδομένων"},"value":150.0,"seal":3,"example":false},{"t":{"en":"5. Customer exclusive control - provider can not read the data","el":"5. Αποκλειστικός έλεγχος του πελάτη - ο πάροχος δεν μπορεί να διαβάσει τα δεδομένα"},"value":200.0,"seal":4,"example":false}]},{"n":2,"t":{"en":"Transparent data flows & access logs - visibility into when, where, and by whom data is accessed, including auditability of AI model usage.","el":"Διαφανείς ροές δεδομένων & αρχεία καταγραφής πρόσβασης - ορατότητα ως προς το πότε, πού και από ποιον γίνεται πρόσβαση στα δεδομένα, συμπεριλαμβανομένης της δυνατότητας ελέγχου της χρήσης μοντέλων AI."},"a":[{"t":{"en":"1. No data usage logs","el":"1. Καμία καταγραφή χρήσης δεδομένων"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Basic logs incomplete (missing date; missing user; missing type of access; missing means of access etc.)","el":"2. Βασικά αρχεία καταγραφής ελλιπή (λείπει ημερομηνία· λείπει χρήστης· λείπει τύπος πρόσβασης· λείπει μέσο πρόσβασης κ.λπ.)"},"value":50.0,"seal":1,"example":false},{"t":{"en":"3. Logs exist but not real-time or controlled by vendor (vendor is replaced by CUSTOMER in the survey)","el":"3. Υπάρχουν αρχεία καταγραφής αλλά όχι σε πραγματικό χρόνο ή ελεγχόμενα από τον προμηθευτή (ο προμηθευτής αντικαθίσταται από τον ΠΕΛΑΤΗ στην έρευνα)"},"value":100.0,"seal":2,"example":false},{"t":{"en":"4. Full customer controlled visibility of log access but not in real time","el":"4. Πλήρης ορατότητα της πρόσβασης στα αρχεία καταγραφής ελεγχόμενη από τον πελάτη αλλά όχι σε πραγματικό χρόνο"},"value":150.0,"seal":3,"example":true},{"t":{"en":"5. Real-time customer oversight and independent auditability","el":"5. Εποπτεία από τον πελάτη σε πραγματικό χρόνο και ανεξάρτητη δυνατότητα ελέγχου"},"value":200.0,"seal":4,"example":false}]},{"n":3,"t":{"en":"Secure deletion & proof of erasure od data - mechanisms guaranteeing irreversible removal of data, with verifiable evidence.","el":"Ασφαλής διαγραφή & απόδειξη διαγραφής od data - μηχανισμοί που εγγυώνται την μη αναστρέψιμη αφαίρεση δεδομένων, με επαληθεύσιμα τεκμήρια."},"a":[{"t":{"en":"1. No, irreversible deletion is neither guaranteed nor verifiable","el":"1. Όχι, η μη αναστρέψιμη διαγραφή ούτε εγγυάται ούτε είναι επαληθεύσιμη"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Manual confirmation only","el":"2. Μόνο χειροκίνητη επιβεβαίωση"},"value":50.0,"seal":1,"example":false},{"t":{"en":"3. Internal validation based on policies - no proof of validation left","el":"3. Εσωτερική επικύρωση βάσει πολιτικών - δεν παραμένει απόδειξη επικύρωσης"},"value":100.0,"seal":1,"example":false},{"t":{"en":"4. Deletion is technically verified with access logs","el":"4. Η διαγραφή επαληθεύεται τεχνικά με αρχεία καταγραφής πρόσβασης"},"value":150.0,"seal":3,"example":true},{"t":{"en":"5. Yes, irreversible deletion is systematically enforced and independently verified","el":"5. Ναι, η μη αναστρέψιμη διαγραφή επιβάλλεται συστηματικά και επαληθεύεται ανεξάρτητα"},"value":200.0,"seal":4,"example":false}]},{"n":4,"t":{"en":"Data location strictly in EU/EEA – strict confinement of storage and processing to European jurisdictions, with no fallback to third countries.","el":"Τοποθεσία δεδομένων αυστηρά εντός ΕΕ/EEA – αυστηρός περιορισμός της αποθήκευσης και επεξεργασίας σε ευρωπαϊκές δικαιοδοσίες, χωρίς εναλλακτική προσφυγή σε τρίτες χώρες."},"a":[{"t":{"en":"1. Data location largely unknown and includes third countries without controls","el":"1. Η τοποθεσία των δεδομένων είναι σε μεγάλο βαθμό άγνωστη και περιλαμβάνει τρίτες χώρες χωρίς ελέγχους"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Data partly in the EU, significant reliance on third countries and limited control","el":"2. Δεδομένα εν μέρει εντός ΕΕ, σημαντική εξάρτηση από τρίτες χώρες και περιορισμένος έλεγχος"},"value":50.0,"seal":0,"example":false},{"t":{"en":"3. Data mainly in the EU, some third-country use with standard safeguards","el":"3. Δεδομένα κυρίως εντός ΕΕ, κάποια χρήση τρίτων χωρών με τυπικές διασφαλίσεις"},"value":100.0,"seal":1,"example":false},{"t":{"en":"4. Data in the EU by default, tightly controlled exceptions","el":"4. Δεδομένα εντός ΕΕ εξ ορισμού, αυστηρά ελεγχόμενες εξαιρέσεις"},"value":150.0,"seal":1,"example":false},{"t":{"en":"5. All data exclusively in the EU with no third-country fallback","el":"5. Όλα τα δεδομένα αποκλειστικά εντός ΕΕ χωρίς εναλλακτική προσφυγή σε τρίτη χώρα"},"value":200.0,"seal":4,"example":true}]},{"n":5,"t":{"en":"AI services - extent to which AI models and data pipelines are developed, trained, hosted, and governed under EU control, minimizing dependence on non-EU technology stacks.","el":"Υπηρεσίες AI - βαθμός στον οποίο τα μοντέλα AI και τα pipelines δεδομένων αναπτύσσονται, εκπαιδεύονται, φιλοξενούνται και διέπονται υπό έλεγχο της ΕΕ, ελαχιστοποιώντας την εξάρτηση από στοίβες τεχνολογίας εκτός ΕΕ."},"a":[{"t":{"en":"Non-EU or undetermined: Black-box AI, restricted chips","el":"Εκτός ΕΕ ή απροσδιόριστο: AI μαύρο κουτί, περιορισμένα chips"},"value":0.0,"seal":2,"example":false},{"t":{"en":"Mostly non-EU dependencies: Licensed AI, chip dependency","el":"Κυρίως εξαρτήσεις εκτός ΕΕ: Αδειοδοτημένο AI, εξάρτηση από chips"},"value":50.0,"seal":2,"example":false},{"t":{"en":"Mixed Control with alternatives: Auditable or open source AI, foreign chips","el":"Μεικτός έλεγχος με εναλλακτικές: Ελέγξιμο ή ανοιχτού κώδικα AI, ξένα chips"},"value":100.0,"seal":2,"example":true},{"t":{"en":"EU-led AI, foreign accelerators","el":"AI υπό ηγεσία ΕΕ, ξένοι επιταχυντές"},"value":150.0,"seal":3,"example":false},{"t":{"en":"EU-origin models and chips - no dependencies from outside EU","el":"Μοντέλα και chips προέλευσης ΕΕ - καμία εξάρτηση από εκτός ΕΕ"},"value":200.0,"seal":4,"example":false}]}]},{"code":"SOV-4","t":{"en":"Operational Sovereignty","el":"Λειτουργική Κυριαρχία"},"q":[{"n":1,"t":{"en":"Portability & Interoperability - ease of migrating workloads or integrating with alternative EU-controlled solutions without vendor lock-in.","el":"Φορητότητα & Διαλειτουργικότητα - ευκολία μετανάστευσης φόρτων εργασίας ή ενσωμάτωσης με εναλλακτικές λύσεις ελεγχόμενες από την ΕΕ χωρίς εγκλωβισμό σε προμηθευτή."},"a":[{"t":{"en":"1. No guarantees are provided for data or workload portability","el":"1. Δεν παρέχονται εγγυήσεις για τη φορητότητα δεδομένων ή φόρτων εργασίας"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. Data export and workload portability is provided on a \"best-effort\" basis","el":"2. Η εξαγωγή δεδομένων και η φορητότητα φόρτων εργασίας παρέχονται σε βάση \"βέλτιστης προσπάθειας\""},"value":41.75,"seal":1,"example":false},{"t":{"en":"3. Standard documented methods for data export are available","el":"3. Διατίθενται τυποποιημένες τεκμηριωμένες μέθοδοι για την εξαγωγή δεδομένων"},"value":83.5,"seal":4,"example":true},{"t":{"en":"4. Formal migration services are available to assist with moving data and workloads","el":"4. Διατίθενται επίσημες υπηρεσίες μετανάστευσης για υποβοήθηση της μεταφοράς δεδομένων και φόρτων εργασίας"},"value":125.25,"seal":4,"example":false},{"t":{"en":"5. Solution already deployed on sovereign infrastructure","el":"5. Η λύση είναι ήδη αναπτυγμένη σε κυρίαρχη υποδομή"},"value":167.0,"seal":4,"example":false}]},{"n":2,"t":{"en":"Ability to Operate Without Foreign Dependencies - capacity for EU operators to manage, maintain, and support the technology without requiring non-EU vendor involvement","el":"Ικανότητα λειτουργίας χωρίς ξένες εξαρτήσεις - δυνατότητα των φορέων εκμετάλλευσης της ΕΕ να διαχειρίζονται, συντηρούν και υποστηρίζουν την τεχνολογία χωρίς να απαιτείται εμπλοκή προμηθευτή εκτός ΕΕ"},"a":[{"t":{"en":"1. Critical operational services are delivered by non-EU teams","el":"1. Οι κρίσιμες λειτουργικές υπηρεσίες παρέχονται από ομάδες εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. Operational services are partially sourced from within the EU","el":"2. Οι λειτουργικές υπηρεσίες παρέχονται εν μέρει από εντός ΕΕ"},"value":41.75,"seal":1,"example":false},{"t":{"en":"3. Operational responsibilities are balanced between EU and non-EU teams","el":"3. Οι λειτουργικές ευθύνες είναι ισορροπημένες μεταξύ ομάδων εντός και εκτός ΕΕ"},"value":83.5,"seal":3,"example":false},{"t":{"en":"4. Operational services are predominantly delivered by EU-based teams","el":"4. Οι λειτουργικές υπηρεσίες παρέχονται κατά κύριο λόγο από ομάδες εδρεύουσες στην ΕΕ"},"value":125.25,"seal":3,"example":true},{"t":{"en":"5. The entire technology stack is managed and supported by a fully EU-based team","el":"5. Ολόκληρη η στοίβα τεχνολογίας διαχειρίζεται και υποστηρίζεται από πλήρως εδρεύουσα στην ΕΕ ομάδα"},"value":167.0,"seal":4,"example":false}]},{"n":3,"t":{"en":"Skill Availability- existence of an EU-based talent pool with the expertise to operate and sustain the service.","el":"Διαθεσιμότητα δεξιοτήτων - ύπαρξη δεξαμενής ταλέντων εδρεύουσας στην ΕΕ με την τεχνογνωσία για τη λειτουργία και τη διατήρηση της υπηρεσίας."},"a":[{"t":{"en":"Global team, mainly non-EU","el":"Παγκόσμια ομάδα, κυρίως εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"Mixed, majority outside EU","el":"Μεικτή, πλειονότητα εκτός ΕΕ"},"value":41.75,"seal":1,"example":false},{"t":{"en":"Majority EU, escalation abroad","el":"Πλειονότητα εντός ΕΕ, κλιμάκωση στο εξωτερικό"},"value":83.5,"seal":3,"example":false},{"t":{"en":"All EU staff","el":"Όλο το προσωπικό εντός ΕΕ"},"value":125.25,"seal":3,"example":true},{"t":{"en":"100% EU staff + clearance","el":"100% προσωπικό εντός ΕΕ + διαπίστευση ασφαλείας"},"value":167.0,"seal":4,"example":false}]},{"n":4,"t":{"en":"Support Channels - assurance that operational support is delivered from within the EU and subject exclusively to EU/EEA legal frameworks","el":"Δίαυλοι υποστήριξης - διασφάλιση ότι η λειτουργική υποστήριξη παρέχεται από εντός της ΕΕ και υπόκειται αποκλειστικά στα νομικά πλαίσια ΕΕ/EEA"},"a":[{"t":{"en":"1. The support team is global with the majority of staff located outside the EU","el":"1. Η ομάδα υποστήριξης είναι παγκόσμια με την πλειονότητα του προσωπικού να βρίσκεται εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. The team is mixed but the majority of support staff reside outside the EU","el":"2. Η ομάδα είναι μεικτή αλλά η πλειονότητα του προσωπικού υποστήριξης διαμένει εκτός ΕΕ"},"value":41.75,"seal":2,"example":false},{"t":{"en":"3. The majority of support staff are in the EU but escalations are handled by non-EU teams","el":"3. Η πλειονότητα του προσωπικού υποστήριξης βρίσκεται εντός ΕΕ αλλά οι κλιμακώσεις διαχειρίζονται από ομάδες εκτός ΕΕ"},"value":83.5,"seal":3,"example":false},{"t":{"en":"4. All support staff are located within the EU","el":"4. Όλο το προσωπικό υποστήριξης βρίσκεται εντός ΕΕ"},"value":125.25,"seal":3,"example":false},{"t":{"en":"5. All support staff are located within the EU and hold relevant security clearances","el":"5. Όλο το προσωπικό υποστήριξης βρίσκεται εντός ΕΕ και διαθέτει σχετικές διαπιστεύσεις ασφαλείας"},"value":167.0,"seal":4,"example":true}]},{"n":5,"t":{"en":"Documentation & Knowledge Transfer - availability of full technical documentation, source code, and operational know-how enabling long-term autonomy.","el":"Τεκμηρίωση & Μεταφορά γνώσης - διαθεσιμότητα πλήρους τεχνικής τεκμηρίωσης, πηγαίου κώδικα και λειτουργικής τεχνογνωσίας που επιτρέπουν μακροπρόθεσμη αυτονομία."},"a":[{"t":{"en":"1. Global/non-EU exposure - Documentation/knowledge is stored or managed outside EU and may be subject to non-EU jurisdiction or access","el":"1. Παγκόσμια/εκτός ΕΕ έκθεση - Η τεκμηρίωση/γνώση αποθηκεύεται ή διαχειρίζεται εκτός ΕΕ και ενδέχεται να υπόκειται σε δικαιοδοσία ή πρόσβαση εκτός ΕΕ"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. EU optional, not enforced - EU storage is available as an option, but it is not enforced","el":"2. ΕΕ προαιρετική, μη επιβαλλόμενη - Η αποθήκευση στην ΕΕ διατίθεται ως επιλογή, αλλά δεν επιβάλλεται"},"value":41.75,"seal":2,"example":false},{"t":{"en":"3. EU primary with non-EU fallback - Stored/managed in the EU by default, but some storage/replication/access outside the EU may occur (e.g., disaster recovery/support)","el":"3. ΕΕ πρωτεύουσα με εναλλακτική εκτός ΕΕ - Αποθηκεύεται/διαχειρίζεται στην ΕΕ εξ ορισμού, αλλά ενδέχεται να συμβεί κάποια αποθήκευση/αναπαραγωγή/πρόσβαση εκτός ΕΕ (π.χ. αποκατάσταση από καταστροφή/υποστήριξη)"},"value":83.5,"seal":4,"example":false},{"t":{"en":"4. EU-only primary repositories - All primary documentation and knowledge repositories are stored in the EU (no routine non-EU storage/processing)","el":"4. Πρωτεύοντα αποθετήρια μόνο εντός ΕΕ - Όλη η πρωτεύουσα τεκμηρίωση και τα αποθετήρια γνώσης αποθηκεύονται στην ΕΕ (καμία τακτική αποθήκευση/επεξεργασία εκτός ΕΕ)"},"value":125.25,"seal":4,"example":true},{"t":{"en":"5. EU-only end-to-end - Content, metadata, and backups/replicas are stored in the EU and privileged administration/support access is restricted to EU-based staff under EU jurisdiction","el":"5. Μόνο εντός ΕΕ από άκρο σε άκρο - Το περιεχόμενο, τα μεταδεδομένα και τα αντίγραφα ασφαλείας/αναπαραγωγές αποθηκεύονται στην ΕΕ και η προνομιακή πρόσβαση διαχείρισης/υποστήριξης περιορίζεται σε προσωπικό εδρεύον στην ΕΕ υπό δικαιοδοσία ΕΕ"},"value":167.0,"seal":4,"example":false}]},{"n":6,"t":{"en":"Subcontractor & Suppliers jurisdiction - location and legal control of critical suppliers or subcontractors involved in service delivery.","el":"Δικαιοδοσία υπεργολάβων & προμηθευτών - τοποθεσία και νομικός έλεγχος των κρίσιμων προμηθευτών ή υπεργολάβων που εμπλέκονται στην παροχή της υπηρεσίας."},"a":[{"t":{"en":"1. Immediate shutdown of the service is expected","el":"1. Αναμένεται άμεση διακοπή της υπηρεσίας"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Service would likely stop but with a delay to provide time for customer reaction","el":"2. Η υπηρεσία πιθανότατα θα σταματούσε αλλά με καθυστέρηση ώστε να δοθεί χρόνος αντίδρασης στον πελάτη"},"value":41.75,"seal":2,"example":false},{"t":{"en":"3. Can continue temporarily based on contractual agreement with EC","el":"3. Μπορεί να συνεχιστεί προσωρινά βάσει συμβατικής συμφωνίας με την EC"},"value":83.5,"seal":3,"example":true},{"t":{"en":"4. Ability to source alternative suppliers or internalise key functions","el":"4. Δυνατότητα εξεύρεσης εναλλακτικών προμηθευτών ή εσωτερίκευσης κρίσιμων λειτουργιών"},"value":125.25,"seal":3,"example":false},{"t":{"en":"5. Full autonomy and continuity","el":"5. Πλήρης αυτονομία και συνέχεια"},"value":167.0,"seal":4,"example":false}]}]},{"code":"SOV-5","t":{"en":"Supply Chain Sovereignty","el":"Κυριαρχία Εφοδιαστικής Αλυσίδας"},"q":[{"n":1,"t":{"en":"Origin of Components - geographic source of key physical parts","el":"Προέλευση εξαρτημάτων - γεωγραφική πηγή των βασικών φυσικών μερών"},"a":[{"t":{"en":"No disclosure","el":"Καμία γνωστοποίηση"},"value":0.0,"seal":1,"example":false},{"t":{"en":"Partial disclosure","el":"Μερική γνωστοποίηση"},"value":35.75,"seal":1,"example":false},{"t":{"en":"Transparent with exceptions","el":"Διαφανής με εξαιρέσεις"},"value":71.5,"seal":3,"example":true},{"t":{"en":"Full transparency","el":"Πλήρης διαφάνεια"},"value":107.25,"seal":3,"example":false},{"t":{"en":"EU-certified provenance","el":"Πιστοποιημένη από την ΕΕ προέλευση"},"value":143.0,"seal":4,"example":false}]},{"n":2,"t":{"en":"Origin of Components: Manufacturing Location - countries where hardware is manufactured or assembled","el":"Προέλευση εξαρτημάτων: Τοποθεσία κατασκευής - χώρες όπου το υλικό κατασκευάζεται ή συναρμολογείται"},"a":[{"t":{"en":"Fully foreign, black box","el":"Πλήρως ξένο, μαύρο κουτί"},"value":0.0,"seal":1,"example":false},{"t":{"en":"Foreign origin, partial disclosure","el":"Ξένη προέλευση, μερική γνωστοποίηση"},"value":35.75,"seal":1,"example":false},{"t":{"en":"Mixed sourcing, EU audit rights","el":"Μεικτή προμήθεια, δικαιώματα ελέγχου ΕΕ"},"value":71.5,"seal":3,"example":true},{"t":{"en":"Build by EU Teams, on the basis of a foreign code","el":"Κατασκευή από ομάδες ΕΕ, βάσει ξένου κώδικα"},"value":107.25,"seal":3,"example":false},{"t":{"en":"Exclusive designed and build by EU Teams","el":"Αποκλειστικός σχεδιασμός και κατασκευή από ομάδες ΕΕ"},"value":143.0,"seal":4,"example":false}]},{"n":3,"t":{"en":"Origin of Components - jurisdiction and provenance of embedded code controlling hardware, firmwares","el":"Προέλευση εξαρτημάτων - δικαιοδοσία και προέλευση του ενσωματωμένου κώδικα που ελέγχει το υλικό, firmwares"},"a":[{"t":{"en":"No disclosure","el":"Καμία γνωστοποίηση"},"value":0.0,"seal":4,"example":false},{"t":{"en":"Partial disclosure","el":"Μερική γνωστοποίηση"},"value":35.75,"seal":4,"example":false},{"t":{"en":"Transparent with exceptions","el":"Διαφανής με εξαιρέσεις"},"value":71.5,"seal":4,"example":true},{"t":{"en":"Full transparency","el":"Πλήρης διαφάνεια"},"value":107.25,"seal":4,"example":false},{"t":{"en":"EU-certified provenance","el":"Πιστοποιημένη από την ΕΕ προέλευση"},"value":143.0,"seal":4,"example":false}]},{"n":4,"t":{"en":"Origin of Software (all)  - where and by whom software is architected and programmed","el":"Προέλευση λογισμικού (όλα)  - πού και από ποιον σχεδιάζεται και προγραμματίζεται το λογισμικό"},"a":[{"t":{"en":"1. Software is of fully foreign origin with no transparency ('black box')","el":"1. Το λογισμικό είναι πλήρως ξένης προέλευσης χωρίς διαφάνεια ('μαύρο κουτί')"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Software is of foreign origin with partial disclosure on its development","el":"2. Το λογισμικό είναι ξένης προέλευσης με μερική γνωστοποίηση σχετικά με την ανάπτυξή του"},"value":35.75,"seal":2,"example":false},{"t":{"en":"3. Core and essential parts of the software are designed and maintained by EU teams","el":"3. Τα βασικά και ουσιώδη μέρη του λογισμικού σχεδιάζονται και συντηρούνται από ομάδες ΕΕ"},"value":71.5,"seal":3,"example":true},{"t":{"en":"4. A large majority of the software is designed and maintained by EU teams","el":"4. Η μεγάλη πλειονότητα του λογισμικού σχεδιάζεται και συντηρείται από ομάδες ΕΕ"},"value":107.25,"seal":3,"example":false},{"t":{"en":"5. The software is exclusively designed and maintained by EU teams","el":"5. Το λογισμικό σχεδιάζεται και συντηρείται αποκλειστικά από ομάδες ΕΕ"},"value":143.0,"seal":4,"example":false}]},{"n":5,"t":{"en":"Origin of Software (all) - location and jurisdiction governing software packaging, distribution, and updates.","el":"Προέλευση λογισμικού (όλα) - τοποθεσία και δικαιοδοσία που διέπει τη συσκευασία, διανομή και ενημερώσεις του λογισμικού."},"a":[{"t":{"en":"1. Non-EU control & execution - Build/release/deployment is executed and governed by non-EU teams, with pipeline control and approvals under non-EU jurisdiction","el":"1. Έλεγχος & εκτέλεση εκτός ΕΕ - Η κατασκευή/έκδοση/ανάπτυξη εκτελείται και διέπεται από ομάδες εκτός ΕΕ, με τον έλεγχο του pipeline και τις εγκρίσεις υπό δικαιοδοσία εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. EU control, non-EU execution - Execution is performed by non-EU teams, but pipeline administration and final release approvals are under EU jurisdiction","el":"2. Έλεγχος ΕΕ, εκτέλεση εκτός ΕΕ - Η εκτέλεση πραγματοποιείται από ομάδες εκτός ΕΕ, αλλά η διαχείριση του pipeline και οι τελικές εγκρίσεις έκδοσης είναι υπό δικαιοδοσία ΕΕ"},"value":35.75,"seal":1,"example":false},{"t":{"en":"3. Non-EU control, EU execution - Execution is performed by EU teams, but pipeline administration and/or final release approvals (incl. signing) are under non-EU jurisdiction","el":"3. Έλεγχος εκτός ΕΕ, εκτέλεση ΕΕ - Η εκτέλεση πραγματοποιείται από ομάδες ΕΕ, αλλά η διαχείριση του pipeline ή/και οι τελικές εγκρίσεις έκδοσης (συμπεριλαμβανομένης της υπογραφής) είναι υπό δικαιοδοσία εκτός ΕΕ"},"value":71.5,"seal":3,"example":true},{"t":{"en":"4. EU control & execution - Build/release/deployment is executed by EU teams and governed from within the EU (pipeline administration, signing, approvals)","el":"4. Έλεγχος & εκτέλεση ΕΕ - Η κατασκευή/έκδοση/ανάπτυξη εκτελείται από ομάδες ΕΕ και διέπεται από εντός της ΕΕ (διαχείριση pipeline, υπογραφή, εγκρίσεις)"},"value":107.25,"seal":3,"example":false},{"t":{"en":"5. EU control and EU policy gates - As (4), plus EU-based compliance/security gates enforced in the pipeline (e.g., signing under your control, vulnerability checks, segregation of duties, auditable approvals)","el":"5. Έλεγχος ΕΕ και πύλες πολιτικής ΕΕ - Όπως το (4), συν πύλες συμμόρφωσης/ασφάλειας εδρεύουσες στην ΕΕ που επιβάλλονται στο pipeline (π.χ. υπογραφή υπό τον έλεγχό σας, έλεγχοι ευπαθειών, διαχωρισμός καθηκόντων, ελέγξιμες εγκρίσεις)"},"value":143.0,"seal":4,"example":false}]},{"n":6,"t":{"en":"Single Point of Dependency - degree of reliance on non-EU vendors, facilities, or proprietary technologies","el":"Μοναδικό σημείο εξάρτησης - βαθμός εξάρτησης από προμηθευτές, εγκαταστάσεις ή ιδιόκτητες τεχνολογίες εκτός ΕΕ"},"a":[{"t":{"en":"Only non-EU vendors or facilities involved","el":"Εμπλέκονται μόνο προμηθευτές ή εγκαταστάσεις εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"Mostly non-EU vendors or facilities involved in critical services, non documented","el":"Κυρίως προμηθευτές ή εγκαταστάσεις εκτός ΕΕ εμπλέκονται σε κρίσιμες υπηρεσίες, χωρίς τεκμηρίωση"},"value":35.75,"seal":1,"example":false},{"t":{"en":"Few non-EU vendors or facilities involved in critical services, non documented, or non-EU vendors/facilities transparently documented","el":"Λίγοι προμηθευτές ή εγκαταστάσεις εκτός ΕΕ εμπλέκονται σε κρίσιμες υπηρεσίες, χωρίς τεκμηρίωση, ή προμηθευτές/εγκαταστάσεις εκτός ΕΕ τεκμηριωμένα με διαφάνεια"},"value":71.5,"seal":2,"example":false},{"t":{"en":"Few non-EU vendors or facilities involved in non-critical services, documented","el":"Λίγοι προμηθευτές ή εγκαταστάσεις εκτός ΕΕ εμπλέκονται σε μη κρίσιμες υπηρεσίες, τεκμηριωμένα"},"value":107.25,"seal":3,"example":true},{"t":{"en":"No depedency on non-EU vendor or facility","el":"Καμία εξάρτηση από προμηθευτή ή εγκατάσταση εκτός ΕΕ"},"value":143.0,"seal":4,"example":false}]},{"n":7,"t":{"en":"Supply Chain Transparency - visibility into the entire supplier and sub-supplier chain, including audit rights.","el":"Διαφάνεια εφοδιαστικής αλυσίδας - ορατότητα ολόκληρης της αλυσίδας προμηθευτών και υποπρομηθευτών, συμπεριλαμβανομένων των δικαιωμάτων ελέγχου."},"a":[{"t":{"en":"No suppliers can be audited","el":"Κανένας προμηθευτής δεν μπορεί να ελεγχθεί"},"value":0.0,"seal":1,"example":false},{"t":{"en":"Some suppliers and subcontractors can be audited","el":"Ορισμένοι προμηθευτές και υπεργολάβοι μπορούν να ελεγχθούν"},"value":35.75,"seal":1,"example":false},{"t":{"en":"Critical suppliers and subcontractors can be audited","el":"Οι κρίσιμοι προμηθευτές και υπεργολάβοι μπορούν να ελεγχθούν"},"value":71.5,"seal":2,"example":false},{"t":{"en":"Most suppliers and subcontractors can be audited","el":"Οι περισσότεροι προμηθευτές και υπεργολάβοι μπορούν να ελεγχθούν"},"value":107.25,"seal":3,"example":true},{"t":{"en":"All suppliers and subcontractors can be audited","el":"Όλοι οι προμηθευτές και υπεργολάβοι μπορούν να ελεγχθούν"},"value":143.0,"seal":4,"example":false}]}]},{"code":"SOV-6","t":{"en":"Technology Sovereignty","el":"Τεχνολογική Κυριαρχία"},"q":[{"n":1,"t":{"en":"Interoperability & Open interfaces - ability to integrate with other technologies through well-documented and non-proprietary APIs or protocols.","el":"Διαλειτουργικότητα & Ανοιχτές διεπαφές - δυνατότητα ενσωμάτωσης με άλλες τεχνολογίες μέσω καλά τεκμηριωμένων και μη ιδιόκτητων APIs ή πρωτοκόλλων."},"a":[{"t":{"en":"1. Closed proprietary interfaces - Integrations rely on closed or proprietary interfaces and formats controlled by the vendor","el":"1. Κλειστές ιδιόκτητες διεπαφές - Οι ενσωματώσεις βασίζονται σε κλειστές ή ιδιόκτητες διεπαφές και μορφότυπους ελεγχόμενους από τον προμηθευτή"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Restricted proprietary APIs - Some vendor APIs exist, but they are limited/restricted (access, scope, licensing) and interoperability remains vendor-controlled","el":"2. Περιορισμένα ιδιόκτητα APIs - Υπάρχουν ορισμένα APIs του προμηθευτή, αλλά είναι περιορισμένα/περιορισμένης πρόσβασης (πρόσβαση, εμβέλεια, αδειοδότηση) και η διαλειτουργικότητα παραμένει ελεγχόμενη από τον προμηθευτή"},"value":50.0,"seal":1,"example":false},{"t":{"en":"3. Mixed (partial openness) - Key interfaces are documented and partly standards-based, but important functions or data formats remain proprietary/vendor-specific","el":"3. Μεικτή (μερική ανοιχτότητα) - Οι βασικές διεπαφές είναι τεκμηριωμένες και εν μέρει βασισμένες σε πρότυπα, αλλά σημαντικές λειτουργίες ή μορφότυποι δεδομένων παραμένουν ιδιόκτητοι/ειδικοί του προμηθευτή"},"value":100.0,"seal":2,"example":true},{"t":{"en":"4. Standards-based and broadly compatible - Interfaces and data formats predominantly follow recognised open standards (e.g., ETSI/CEN/CENELEC, ISO/IEC, IETF/W3C) with stable versioning and full documentation","el":"4. Βασισμένη σε πρότυπα και ευρέως συμβατή - Οι διεπαφές και οι μορφότυποι δεδομένων ακολουθούν κατά κύριο λόγο αναγνωρισμένα ανοιχτά πρότυπα (π.χ. ETSI/CEN/CENELEC, ISO/IEC, IETF/W3C) με σταθερή έκδοση και πλήρη τεκμηρίωση"},"value":150.0,"seal":3,"example":false},{"t":{"en":"5. Open-by-default with portability - All critical functions are accessible via open, well-documented, non-proprietary APIs and standard formats, with published specifications and minimal vendor-specific dependencies enabling easy third-party integration","el":"5. Ανοιχτό εξ ορισμού με φορητότητα - Όλες οι κρίσιμες λειτουργίες είναι προσβάσιμες μέσω ανοιχτών, καλά τεκμηριωμένων, μη ιδιόκτητων APIs και τυποποιημένων μορφότυπων, με δημοσιευμένες προδιαγραφές και ελάχιστες εξαρτήσεις ειδικές του προμηθευτή που επιτρέπουν εύκολη ενσωμάτωση τρίτων"},"value":200.0,"seal":4,"example":false}]},{"n":2,"t":{"en":"Open Standards Compliance - extent to which the solution adheres to publicly governed and widely adopted standards, reducing dependency on single vendors","el":"Συμμόρφωση με ανοιχτά πρότυπα - βαθμός στον οποίο η λύση τηρεί δημόσια διεπόμενα και ευρέως υιοθετημένα πρότυπα, μειώνοντας την εξάρτηση από μεμονωμένους προμηθευτές"},"a":[{"t":{"en":"1. No open standards - Core services (e.g., identity and access management, data formats, messaging, security, logging, integration protocols) rely mainly on proprietary technologies","el":"1. Κανένα ανοιχτό πρότυπο - Οι βασικές υπηρεσίες (π.χ. διαχείριση ταυτότητας και πρόσβασης, μορφότυποι δεδομένων, μηνύματα, ασφάλεια, καταγραφή, πρωτόκολλα ενσωμάτωσης) βασίζονται κυρίως σε ιδιόκτητες τεχνολογίες"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Ad hoc use - Open standards are used inconsistently on a case-by-case basis, without documented rationale or governance","el":"2. Ad hoc χρήση - Τα ανοιχτά πρότυπα χρησιμοποιούνται ασυνεπώς κατά περίπτωση, χωρίς τεκμηριωμένη αιτιολόγηση ή διακυβέρνηση"},"value":50.0,"seal":0,"example":false},{"t":{"en":"3. Partial core adoption - Open standards are used and documented for some core services, while other core services remain proprietary/vendor-specific","el":"3. Μερική υιοθέτηση στον πυρήνα - Τα ανοιχτά πρότυπα χρησιμοποιούνται και τεκμηριώνονται για ορισμένες βασικές υπηρεσίες, ενώ άλλες βασικές υπηρεσίες παραμένουν ιδιόκτητες/ειδικές του προμηθευτή"},"value":100.0,"seal":2,"example":true},{"t":{"en":"4. Policy for most core services - A formal policy mandates and documents open standards for most core services, with managed exceptions","el":"4. Πολιτική για τις περισσότερες βασικές υπηρεσίες - Επίσημη πολιτική επιβάλλει και τεκμηριώνει ανοιχτά πρότυπα για τις περισσότερες βασικές υπηρεσίες, με διαχειριζόμενες εξαιρέσεις"},"value":150.0,"seal":3,"example":false},{"t":{"en":"5. Policy for all core services - A formal policy mandates and documents open standards for all core services","el":"5. Πολιτική για όλες τις βασικές υπηρεσίες - Επίσημη πολιτική επιβάλλει και τεκμηριώνει ανοιχτά πρότυπα για όλες τις βασικές υπηρεσίες"},"value":200.0,"seal":4,"example":false}]},{"n":3,"t":{"en":"Open Source Availability - whether software is accessible under open licenses, with rights to audit, modify, and redistribute, ensuring transparency and adaptability","el":"Διαθεσιμότητα ανοιχτού κώδικα - κατά πόσο το λογισμικό είναι προσβάσιμο υπό ανοιχτές άδειες, με δικαιώματα ελέγχου, τροποποίησης και αναδιανομής, διασφαλίζοντας διαφάνεια και προσαρμοστικότητα"},"a":[{"t":{"en":"1. The software is fully closed-source with no rights to audit or modify and its governance is vendor-controlled","el":"1. Το λογισμικό είναι πλήρως κλειστού κώδικα χωρίς δικαιώματα ελέγχου ή τροποποίησης και η διακυβέρνησή του είναι ελεγχόμενη από τον προμηθευτή"},"value":0.0,"seal":2,"example":false},{"t":{"en":"2. Source code is available for review but modification and handover rights are under very strict conditions","el":"2. Ο πηγαίος κώδικας είναι διαθέσιμος για επιθεώρηση αλλά τα δικαιώματα τροποποίησης και παράδοσης υπόκεινται σε πολύ αυστηρές προϋποθέσεις"},"value":50.0,"seal":2,"example":false},{"t":{"en":"3. The software is open source , permitting modification and redistribution, but governance is centralised (e.g., single-company or non-open foundation), limiting strategic autonomy or smooth handover","el":"3. Το λογισμικό είναι ανοιχτού κώδικα, επιτρέποντας τροποποίηση και αναδιανομή, αλλά η διακυβέρνηση είναι συγκεντρωτική (π.χ. μία εταιρεία ή μη ανοιχτό ίδρυμα), περιορίζοντας τη στρατηγική αυτονομία ή την ομαλή παράδοση"},"value":100.0,"seal":3,"example":true},{"t":{"en":"4. The software is open source with significant EU contributions but governance is restricted and handover is possible","el":"4. Το λογισμικό είναι ανοιχτού κώδικα με σημαντικές συνεισφορές από την ΕΕ αλλά η διακυβέρνηση είναι περιορισμένη και η παράδοση είναι δυνατή"},"value":150.0,"seal":4,"example":false},{"t":{"en":"5. Fully open-source software is governed by an independent or EU-based entity, granting full rights to audit, modify, redistribute, and seamlessly transfer stewardship","el":"5. Πλήρως ανοιχτού κώδικα λογισμικό που διέπεται από ανεξάρτητη ή εδρεύουσα στην ΕΕ οντότητα, παρέχοντας πλήρη δικαιώματα ελέγχου, τροποποίησης, αναδιανομής και απρόσκοπτης μεταβίβασης της διαχείρισης"},"value":200.0,"seal":4,"example":false}]},{"n":4,"t":{"en":"Service Architecture Transparency - visibility into the design and functioning of the service, including architectural documentation, data flows, and dependencies","el":"Διαφάνεια αρχιτεκτονικής υπηρεσίας - ορατότητα του σχεδιασμού και της λειτουργίας της υπηρεσίας, συμπεριλαμβανομένης της αρχιτεκτονικής τεκμηρίωσης, των ροών δεδομένων και των εξαρτήσεων"},"a":[{"t":{"en":"No insight provided","el":"Δεν παρέχεται καμία εικόνα"},"value":0.0,"seal":2,"example":false},{"t":{"en":"Insight accessible during audits","el":"Η εικόνα είναι προσβάσιμη κατά τη διάρκεια ελέγχων"},"value":50.0,"seal":2,"example":false},{"t":{"en":"Some public insight exists (all)","el":"Υπάρχει κάποια δημόσια εικόνα (όλα)"},"value":100.0,"seal":3,"example":false},{"t":{"en":"Large corpus of public insight exists (all)","el":"Υπάρχει μεγάλο σώμα δημόσιας εικόνας (όλα)"},"value":150.0,"seal":3,"example":true},{"t":{"en":"Customers can contribute to adapt and enhance the service","el":"Οι πελάτες μπορούν να συνεισφέρουν για την προσαρμογή και βελτίωση της υπηρεσίας"},"value":200.0,"seal":4,"example":false}]},{"n":5,"t":{"en":"HPC Soveriegnty - degree of European independence in high-performance computing capabilities, including processors, accelerators, and software ecosystems.","el":"HPC Soveriegnty - βαθμός ευρωπαϊκής ανεξαρτησίας στις δυνατότητες υπολογιστικής υψηλών επιδόσεων, συμπεριλαμβανομένων επεξεργαστών, επιταχυντών και οικοσυστημάτων λογισμικού."},"a":[{"t":{"en":"Imported black-box HPC computers","el":"Εισαγόμενοι υπολογιστές HPC μαύρου κουτιού"},"value":0.0,"seal":0,"example":false},{"t":{"en":"EU-hosted, foreign stack","el":"Φιλοξενία στην ΕΕ, ξένη στοίβα"},"value":50.0,"seal":3,"example":true},{"t":{"en":"Co-designed or integrated in EU","el":"Συν-σχεδιασμένο ή ενσωματωμένο στην ΕΕ"},"value":100.0,"seal":3,"example":false},{"t":{"en":"EU processor IP, non-EU fabs","el":"IP επεξεργαστή ΕΕ, μονάδες κατασκευής εκτός ΕΕ"},"value":150.0,"seal":3,"example":false},{"t":{"en":"EU design + EU fab + EU ops","el":"Σχεδιασμός ΕΕ + κατασκευή ΕΕ + λειτουργία ΕΕ"},"value":200.0,"seal":4,"example":false}]}]},{"code":"SOV-7","t":{"en":"Security & Compliance Sovereignty","el":"Κυριαρχία Ασφάλειας & Συμμόρφωσης"},"q":[{"n":1,"t":{"en":"Security Certification - attainment of EU and internationally recognized certifications (all)","el":"Πιστοποίηση ασφάλειας - απόκτηση πιστοποιήσεων αναγνωρισμένων από την ΕΕ και διεθνώς (όλα)"},"a":[{"t":{"en":"ELA0","el":"ELA0"},"value":0.0,"seal":1,"example":false},{"t":{"en":"ELA1","el":"ELA1"},"value":35.75,"seal":1,"example":false},{"t":{"en":"EAL2","el":"EAL2"},"value":71.5,"seal":2,"example":false},{"t":{"en":"ELA3","el":"ELA3"},"value":107.25,"seal":3,"example":false},{"t":{"en":"EAL4-5","el":"EAL4-5"},"value":143.0,"seal":4,"example":true}]},{"n":2,"t":{"en":"EU Regulatory compliance - demonstrable adherence to GDPR, NIS2, DORA, and other EU frameworks","el":"Κανονιστική συμμόρφωση ΕΕ - αποδεδειγμένη τήρηση των GDPR, NIS2, DORA και άλλων πλαισίων της ΕΕ"},"a":[{"t":{"en":"1. No evident adherence to any EU Regulations","el":"1. Καμία εμφανής τήρηση οποιωνδήποτε κανονισμών της ΕΕ"},"value":0.0,"seal":4,"example":false},{"t":{"en":"2. Limited compliance to some well-known EU Regulations (basic practices exist but informal, incomplete, or non-systematic)","el":"2. Περιορισμένη συμμόρφωση με ορισμένους γνωστούς κανονισμούς της ΕΕ (υπάρχουν βασικές πρακτικές αλλά άτυπες, ελλιπείς ή μη συστηματικές)"},"value":35.75,"seal":4,"example":false},{"t":{"en":"3. Moderate compliance to some well-know EU Regulations (controls exist but gaps remain; compliance not fully demonstrated)","el":"3. Μέτρια συμμόρφωση με ορισμένους γνωστούς κανονισμούς της ΕΕ (υπάρχουν έλεγχοι αλλά παραμένουν κενά· η συμμόρφωση δεν αποδεικνύεται πλήρως)"},"value":71.5,"seal":4,"example":false},{"t":{"en":"4. Partial compliance to most of the well-known EU Regulations (requirements implemented and operational with minor exceptions)","el":"4. Μερική συμμόρφωση με τους περισσότερους από τους γνωστούς κανονισμούς της ΕΕ (οι απαιτήσεις υλοποιημένες και λειτουργικές με ήσσονες εξαιρέσεις)"},"value":107.25,"seal":4,"example":false},{"t":{"en":"5. Fully compliant to all well-know EU regulations (verified compliance, independently audited)","el":"5. Πλήρης συμμόρφωση με όλους τους γνωστούς κανονισμούς της ΕΕ (επαληθευμένη συμμόρφωση, ανεξάρτητα ελεγμένη)"},"value":143.0,"seal":4,"example":true}]},{"n":3,"t":{"en":"EU-based SOC & incident handling - security operations centers and response teams operating exclusively under EU jurisdiction.","el":"SOC & διαχείριση συμβάντων εδρεύοντα στην ΕΕ - κέντρα επιχειρήσεων ασφάλειας και ομάδες αντιμετώπισης που λειτουργούν αποκλειστικά υπό δικαιοδοσία ΕΕ."},"a":[{"t":{"en":"1. The SOC and incident response teams are located outside the EU","el":"1. Το SOC και οι ομάδες αντιμετώπισης συμβάντων βρίσκονται εκτός ΕΕ"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. A hybrid model is used with SOC functions split between EU and non-EU locations","el":"2. Χρησιμοποιείται υβριδικό μοντέλο με τις λειτουργίες SOC κατανεμημένες μεταξύ τοποθεσιών εντός και εκτός ΕΕ"},"value":35.75,"seal":1,"example":false},{"t":{"en":"3. The primary SOC is in the EU but incidents may be escalated to non-EU teams","el":"3. Το πρωτεύον SOC βρίσκεται εντός ΕΕ αλλά τα συμβάντα ενδέχεται να κλιμακώνονται σε ομάδες εκτός ΕΕ"},"value":71.5,"seal":1,"example":false},{"t":{"en":"4. The entire incident lifecycle is handled by teams operating exclusively within the EU. Threat intelligence and incident data obtained mostly via EU sources","el":"4. Ολόκληρος ο κύκλος ζωής του συμβάντος διαχειρίζεται από ομάδες που λειτουργούν αποκλειστικά εντός ΕΕ. Η πληροφορία απειλών και τα δεδομένα συμβάντων αποκτώνται κυρίως μέσω πηγών ΕΕ"},"value":107.25,"seal":3,"example":false},{"t":{"en":"5. The full incident lifecycle is handled by EU-based teams with active participation in ENISA's information sharing frameworks. Threat intelligence and incident data are gathered worldwide","el":"5. Ο πλήρης κύκλος ζωής του συμβάντος διαχειρίζεται από ομάδες εδρεύουσες στην ΕΕ με ενεργή συμμετοχή στα πλαίσια ανταλλαγής πληροφοριών της ENISA. Η πληροφορία απειλών και τα δεδομένα συμβάντων συλλέγονται παγκοσμίως"},"value":143.0,"seal":4,"example":true}]},{"n":4,"t":{"en":"Control over security monitoring/logging - customer or EU authority ability to oversee logs, alerts, and monitoring functions directly.","el":"Έλεγχος επί της παρακολούθησης/καταγραφής ασφάλειας - δυνατότητα του πελάτη ή αρχής της ΕΕ να εποπτεύει άμεσα τα αρχεία καταγραφής, τις ειδοποιήσεις και τις λειτουργίες παρακολούθησης."},"a":[{"t":{"en":"1. The provider retains full control over all security logs and monitoring","el":"1. Ο πάροχος διατηρεί πλήρη έλεγχο επί όλων των αρχείων καταγραφής ασφάλειας και της παρακολούθησης"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Customers receive periodic reports based on security logs","el":"2. Οι πελάτες λαμβάνουν περιοδικές αναφορές βάσει των αρχείων καταγραφής ασφάλειας"},"value":35.75,"seal":1,"example":false},{"t":{"en":"3. Customers have access to a basic portal for monitoring","el":"3. Οι πελάτες έχουν πρόσβαση σε μια βασική πύλη για παρακολούθηση"},"value":71.5,"seal":1,"example":false},{"t":{"en":"4. Customers have full direct access to their security monitoring and logs which are stored in the EU","el":"4. Οι πελάτες έχουν πλήρη άμεση πρόσβαση στην παρακολούθηση ασφάλειας και τα αρχεία καταγραφής τους τα οποία αποθηκεύονται στην ΕΕ"},"value":107.25,"seal":3,"example":false},{"t":{"en":"5. Customers have full access to immutable tamper-proof logs stored exclusively within the EU","el":"5. Οι πελάτες έχουν πλήρη πρόσβαση σε αμετάβλητα, μη παραποιήσιμα αρχεία καταγραφής αποθηκευμένα αποκλειστικά εντός ΕΕ"},"value":143.0,"seal":4,"example":true}]},{"n":5,"t":{"en":"Disclosure of incidents - transparent, timely, and EU-compliant reporting of breaches or vulnerabilities","el":"Γνωστοποίηση συμβάντων - διαφανής, έγκαιρη και συμμορφούμενη με την ΕΕ αναφορά παραβιάσεων ή ευπαθειών"},"a":[{"t":{"en":"1. No compliance - ad-hoc or absent breach reporting workflow, with no possibility to collaborate with EU CSIRTs or to support EU-led investigations","el":"1. Καμία συμμόρφωση - αυτοσχέδια ή ανύπαρκτη ροή αναφοράς παραβιάσεων, χωρίς δυνατότητα συνεργασίας με EU CSIRTs ή υποστήριξης ερευνών υπό την καθοδήγηση της ΕΕ"},"value":0.0,"seal":0,"example":false},{"t":{"en":"2. Limited compliance - reporting is reactive with limited transparency and unguaranteed timelines;  CSIRT cooperation possible on best-effort basis","el":"2. Περιορισμένη συμμόρφωση - η αναφορά είναι αντιδραστική με περιορισμένη διαφάνεια και χωρίς εγγυημένα χρονοδιαγράμματα·  η συνεργασία με CSIRT είναι δυνατή σε βάση βέλτιστης προσπάθειας"},"value":35.75,"seal":1,"example":false},{"t":{"en":"3. Moderate compliance - GDPR/NIS2-aligned reporting procedures in place with vulnerabilities and breaches communicated within mandated timelines; CSIRT cooperation available but not real-time","el":"3. Μέτρια συμμόρφωση - υπάρχουν διαδικασίες αναφοράς ευθυγραμμισμένες με GDPR/NIS2 με τις ευπάθειες και παραβιάσεις να γνωστοποιούνται εντός των υποχρεωτικών χρονοδιαγραμμάτων· η συνεργασία με CSIRT είναι διαθέσιμη αλλά όχι σε πραγματικό χρόνο"},"value":71.5,"seal":2,"example":false},{"t":{"en":"4. Partial compliance - there is a monitored reporting flow with internal SLAs equal or below regulatory maximums; contractually prepared to support EU-directed investigations; data sharing with EU CSIRTs available but not in real-time","el":"4. Μερική συμμόρφωση - υπάρχει παρακολουθούμενη ροή αναφοράς με εσωτερικά SLAs ίσα ή μικρότερα από τα κανονιστικά μέγιστα· συμβατικά προετοιμασμένη για την υποστήριξη ερευνών υπό την καθοδήγηση της ΕΕ· η ανταλλαγή δεδομένων με EU CSIRTs είναι διαθέσιμη αλλά όχι σε πραγματικό χρόνο"},"value":107.25,"seal":3,"example":false},{"t":{"en":"5. Full compliance - full EU-compliant breach disclosure with real-time data sharing to EU CSIRTs with audit-backed processes, proactive vulnerability disclosure and threat intel sharing; proven readiness for investigations","el":"5. Πλήρης συμμόρφωση - πλήρης συμμορφούμενη με την ΕΕ γνωστοποίηση παραβιάσεων με ανταλλαγή δεδομένων σε πραγματικό χρόνο προς EU CSIRTs με διαδικασίες υποστηριζόμενες από ελέγχους, προληπτική γνωστοποίηση ευπαθειών και ανταλλαγή πληροφοριών απειλών· αποδεδειγμένη ετοιμότητα για έρευνες"},"value":143.0,"seal":4,"example":true}]},{"n":6,"t":{"en":"Maintenance Autonomy - ability to develop, test, and apply security patches independently of non-EU vendors","el":"Αυτονομία συντήρησης - δυνατότητα ανάπτυξης, δοκιμής και εφαρμογής διορθώσεων ασφαλείας ανεξάρτητα από προμηθευτές εκτός ΕΕ"},"a":[{"t":{"en":"1. No autonomy in the deployment of security patches","el":"1. Καμία αυτονομία στην ανάπτυξη διορθώσεων ασφαλείας"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. Limited Autonomy - security patches are deployed according to vendor schedules; basic testing is possible","el":"2. Περιορισμένη αυτονομία - οι διορθώσεις ασφαλείας αναπτύσσονται σύμφωνα με τα χρονοδιαγράμματα του προμηθευτή· είναι δυνατή βασική δοκιμή"},"value":35.75,"seal":1,"example":false},{"t":{"en":"3. Moderate Autonomy - security patches are deployed with sufficient notice to the customer and testing is possible, except for zero-day patching","el":"3. Μέτρια αυτονομία - οι διορθώσεις ασφαλείας αναπτύσσονται με επαρκή ειδοποίηση προς τον πελάτη και η δοκιμή είναι δυνατή, εκτός από τη διόρθωση zero-day"},"value":71.5,"seal":4,"example":false},{"t":{"en":"4. High Autonomy - security patches can be deployed independently by the customer, without customers' checks","el":"4. Υψηλή αυτονομία - οι διορθώσεις ασφαλείας μπορούν να αναπτυχθούν ανεξάρτητα από τον πελάτη, χωρίς ελέγχους των πελατών"},"value":107.25,"seal":4,"example":false},{"t":{"en":"5. Full Autonomy - security patches can be deployed independently by the customer, with customers' checks","el":"5. Πλήρης αυτονομία - οι διορθώσεις ασφαλείας μπορούν να αναπτυχθούν ανεξάρτητα από τον πελάτη, με ελέγχους των πελατών"},"value":143.0,"seal":4,"example":true}]},{"n":7,"t":{"en":"Auditability - capacity for EU entities to perform independent security and compliance audits with full access.","el":"Δυνατότητα ελέγχου - ικανότητα οντοτήτων της ΕΕ να διενεργούν ανεξάρτητους ελέγχους ασφάλειας και συμμόρφωσης με πλήρη πρόσβαση."},"a":[{"t":{"en":"1. No access to entities other than the vendor","el":"1. Καμία πρόσβαση σε οντότητες πέραν του προμηθευτή"},"value":0.0,"seal":1,"example":false},{"t":{"en":"2. Limited access to independent entities to the data provided by the vendor","el":"2. Περιορισμένη πρόσβαση ανεξάρτητων οντοτήτων στα δεδομένα που παρέχονται από τον προμηθευτή"},"value":35.75,"seal":1,"example":false},{"t":{"en":"3. Partial control by independent entities on the data provided by the vendor","el":"3. Μερικός έλεγχος από ανεξάρτητες οντότητες επί των δεδομένων που παρέχονται από τον προμηθευτή"},"value":71.5,"seal":1,"example":false},{"t":{"en":"4. High control by independent entities to request data from the vendor","el":"4. Υψηλός έλεγχος από ανεξάρτητες οντότητες για το αίτημα δεδομένων από τον προμηθευτή"},"value":107.25,"seal":1,"example":false},{"t":{"en":"5. Full control by any idependent entity to perform security and compliance audits","el":"5. Πλήρης έλεγχος από οποιαδήποτε idependent οντότητα για τη διενέργεια ελέγχων ασφάλειας και συμμόρφωσης"},"value":143.0,"seal":4,"example":true}]}]},{"code":"SOV-8","t":{"en":"Environmental Sustainability","el":"Περιβαλλοντική Βιωσιμότητα"},"q":[{"n":1,"t":{"en":"Energy efficiency - adoption of energy-efficient infrastructure (all) and measurable improvement targets.","el":"Ενεργειακή απόδοση - υιοθέτηση ενεργειακά αποδοτικής υποδομής (όλα) και μετρήσιμων στόχων βελτίωσης."},"a":[{"t":{"en":"PUE > 0","el":"PUE > 0"},"value":0.0,"seal":1,"example":false},{"t":{"en":"PUE < 3","el":"PUE < 3"},"value":62.5,"seal":1,"example":false},{"t":{"en":"PUE < 1.5 + roadmap","el":"PUE < 1.5 + roadmap"},"value":125.0,"seal":4,"example":false},{"t":{"en":"PUE < 1.3","el":"PUE < 1.3"},"value":187.5,"seal":4,"example":true},{"t":{"en":"PUE < 1.2 EU verified","el":"PUE < 1.2 επαληθευμένο από ΕΕ"},"value":250.0,"seal":4,"example":false}]},{"n":2,"t":{"en":"Hardware reuse & recycling - circular economy practices ensuring reuse, refurbishment, and responsible end-of-life treatment of hardware.","el":"Επαναχρησιμοποίηση & ανακύκλωση υλικού - πρακτικές κυκλικής οικονομίας που διασφαλίζουν την επαναχρησιμοποίηση, ανακαίνιση και υπεύθυνη διαχείριση του υλικού στο τέλος του κύκλου ζωής του."},"a":[{"t":{"en":"No policy","el":"Καμία πολιτική"},"value":0.0,"seal":0,"example":false},{"t":{"en":"Circular economy EU-aligned","el":"Κυκλική οικονομία ευθυγραμμισμένη με ΕΕ"},"value":62.5,"seal":0,"example":false},{"t":{"en":"Documented program","el":"Τεκμηριωμένο πρόγραμμα"},"value":125.0,"seal":3,"example":false},{"t":{"en":"Circular economy EU-aligned","el":"Κυκλική οικονομία ευθυγραμμισμένη με ΕΕ"},"value":187.5,"seal":4,"example":false},{"t":{"en":"EU-certified lifecycle","el":"Πιστοποιημένος από την ΕΕ κύκλος ζωής"},"value":250.0,"seal":4,"example":true}]},{"n":3,"t":{"en":"Environmental impact reporting - transparent measurement and disclosure of carbon emissions, water usage, and other sustainability indicators.","el":"Αναφορά περιβαλλοντικών επιπτώσεων - διαφανής μέτρηση και γνωστοποίηση εκπομπών άνθρακα, χρήσης νερού και άλλων δεικτών βιωσιμότητας."},"a":[{"t":{"en":"No reporting","el":"Καμία αναφορά"},"value":0.0,"seal":1,"example":false},{"t":{"en":"Detailed EU methodology","el":"Λεπτομερής μεθοδολογία ΕΕ"},"value":62.5,"seal":1,"example":false},{"t":{"en":"Annual report","el":"Ετήσια αναφορά"},"value":125.0,"seal":2,"example":false},{"t":{"en":"Detailed EU methodology","el":"Λεπτομερής μεθοδολογία ΕΕ"},"value":187.5,"seal":3,"example":false},{"t":{"en":"EU-audited reporting","el":"Ελεγμένη από την ΕΕ αναφορά"},"value":250.0,"seal":4,"example":true}]},{"n":4,"t":{"en":"Energy supplies - sourcing of renewable or low-carbon energy to power infrastructure and operations","el":"Ενεργειακός εφοδιασμός - προμήθεια ανανεώσιμης ή χαμηλών εκπομπών άνθρακα ενέργειας για την τροφοδοσία της υποδομής και των λειτουργιών"},"a":[{"t":{"en":"Non traceable","el":"Μη ιχνηλάσιμη"},"value":0.0,"seal":4,"example":false},{"t":{"en":"Only EU energy supplies","el":"Μόνο ενεργειακός εφοδιασμός ΕΕ"},"value":62.5,"seal":4,"example":false},{"t":{"en":"Mix of EU and non-EU supplies","el":"Μείγμα εφοδιασμού εντός και εκτός ΕΕ"},"value":125.0,"seal":4,"example":false},{"t":{"en":"Only EU energy supplies","el":"Μόνο ενεργειακός εφοδιασμός ΕΕ"},"value":187.5,"seal":4,"example":true},{"t":{"en":"Only green EU energy supplies","el":"Μόνο πράσινος ενεργειακός εφοδιασμός ΕΕ"},"value":250.0,"seal":4,"example":false}]}]}];
+
 /* ====================== Language-independent scoring ====================== */
-// Real category weights from the Commission's Sovereignty Assessment Calculator
-// (Annex spreadsheet, col D of each objective header; confirmed against Implementation
-// guidance p.7). Order matches OBJ / SOV-1…SOV-8. Sum = 100.
-const REAL_WEIGHTS = [20, 10, 10, 15, 10, 15, 15, 5];
-
-// Per-objective SEAL→score curve (0–100), derived from the calculator's actual
-// per-answer Values. Each cell is the mean of that objective's answer Values (normalised
-// 0–100) grouped by the SEAL each answer is tagged with, made monotonic. Replaces the
-// old flat level/4*100 with the calculator's real value scale.
-//          SEAL: 0   1   2   3    4
+const REAL_WEIGHTS = [20, 10, 10, 15, 10, 15, 15, 5];   // official, sum 100
 const SCORE = [
-  [0, 17, 40, 67, 67],  // SOV-1 Strategic
-  [0, 30, 62, 62, 75],  // SOV-2 Legal & Jurisdictional
-  [0, 42, 42, 75, 100], // SOV-3 Data & AI
-  [0, 11, 25, 62, 85],  // SOV-4 Operational
-  [0, 12, 42, 65, 77],  // SOV-5 Supply Chain
-  [0, 25, 25, 59, 96],  // SOV-6 Technology
-  [0, 27, 50, 75, 75],  // SOV-7 Security & Compliance
-  [0, 12, 50, 62, 68]   // SOV-8 Environmental
+  [0,17,40,67,67],[0,30,62,62,75],[0,42,42,75,100],[0,11,25,62,85],
+  [0,12,42,65,77],[0,25,25,59,96],[0,27,50,75,75],[0,12,50,62,68]
 ];
-
 const SOV_CODES = ["SOV-1","SOV-2","SOV-3","SOV-4","SOV-5","SOV-6","SOV-7","SOV-8"];
 
 /* ====================== Translations ====================== */
 const SEAL_NAMES = {
-  en:["No Sovereignty","Jurisdictional Sovereignty","Data Sovereignty",
-      "Technological Sovereignty","Full Digital Sovereignty"],
-  el:["Καμία Κυριαρχία","Δικαιοδοτική Κυριαρχία","Κυριαρχία Δεδομένων",
-      "Τεχνολογική Κυριαρχία","Πλήρης Ψηφιακή Κυριαρχία"]
+  en:["No Sovereignty","Jurisdictional Sovereignty","Data Sovereignty","Technological Sovereignty","Full Digital Sovereignty"],
+  el:["Καμία Κυριαρχία","Δικαιοδοτική Κυριαρχία","Κυριαρχία Δεδομένων","Τεχνολογική Κυριαρχία","Πλήρης Ψηφιακή Κυριαρχία"]
 };
-// short labels for the segmented control
 const SEAL_SHORT = {
   en:["None","Jurisdictional","Data","Technological","Full"],
   el:["Καμία","Δικαιοδοτική","Δεδομένων","Τεχνολογική","Πλήρης"]
 };
-// Generic SEAL meanings (per Implementation Guidance)
 const SEAL_GENERIC = {
   en:[
     "Under exclusive control of non-EU parties, governed entirely by non-EU jurisdictions.",
@@ -310,129 +374,58 @@ const SEAL_GENERIC = {
     "Πλήρης ΕΕ έλεγχος, μόνο ΕΕ δικαιοδοσία, καμία κρίσιμη μη-ΕΕ εξάρτηση."
   ]
 };
-
-// Objective definitions per language. d[2]/d[3]/d[4] are objective-specific SEAL texts
-// (from the Framework Matrix); d[0]/d[1] fall back to the generic SEAL meaning.
 const OBJ = {
   en:[
-   {name:"Strategic Sovereignty",
-    desc:"Ownership stability, governance influence and alignment with EU strategic priorities — does ultimate decision-making sit in the EU.",
-    d:["","",
-       "Autonomous entity organisationally, but not in technical choices; service continues yet loses updates and security patches if access to the underlying tech breaks.",
-       "Access to the provider roadmap; complete guarantee of operations continuity.",
-       "Decision-making centres exclusively in the EU; European customers prioritised in roadmap arbitrations."]},
-   {name:"Legal & Jurisdictional Sovereignty",
-    desc:"Exposure to foreign law with extraterritorial reach (e.g. US CLOUD Act) and enforceability of rights under EU jurisdiction.",
-    d:["","",
-       "Isolation via separate legal entities; limited exposure to export-control-type measures.",
-       "Complete insulation guaranteeing inapplicability of non-EU legislation; no Member-State exposure to export controls.",
-       "Operations designed and carried out exclusively in the EU; international institutions protected against export-control measures."]},
-   {name:"Data & AI Sovereignty",
-    desc:"Control over cryptographic access, data localisation and deletion, and autonomy over AI models and pipelines.",
-    d:["","",
-       "Full data control incl. encryption key control, data localisation and deletion guarantee; logs available.",
-       "EU-designed AI; logs recorded in real time within the EU.",
-       "Immutable logs; audits carried out by European teams."]},
-   {name:"Operational Sovereignty",
-    desc:"Ability of EU actors to run, support and evolve the technology without non-EU vendor involvement; EU talent and documentation.",
-    d:["","",
-       "Operations run and documented locally; non-EU expertise may still be needed; open, documented alternatives exist.",
-       "Expertise available in Europe incl. subcontractors; processes designed and documented locally.",
-       "Complete European autonomy incl. security clearances and integration of subcontractors' key skills."]},
-   {name:"Supply Chain Sovereignty",
-    desc:"Geographic origin, transparency and auditability of the hardware/firmware/software supply chain.",
-    d:["","",
-       "Majority of supply chains documented; deployments local (procedures may be external); critical suppliers and subcontractors auditable.",
-       "Majority of services designed in the EU, deployed and orchestrated locally; no subcontractors in critical services.",
-       "EU-certified component origin; EU design, build and compliance check; no non-EU supplier dependence; full auditability."]},
-   {name:"Technology Sovereignty",
-    desc:"Openness, open standards, open-source access and independence of the technological stack, incl. HPC.",
-    d:["","",
-       "Services partially interoperable; HPC hosted on-premises.",
-       "European/public standards for core services; open-source majority with predominantly European contributors; architecture auditable.",
-       "Full compliance: EU open AI, public standards, open source throughout."]},
-   {name:"Security & Compliance Sovereignty",
-    desc:"EU-controlled security operations, certifications (ISO, ENISA), GDPR/NIS2/DORA adherence and independent audit rights.",
-    d:["","",
-       "EAL2-level security; local operations; transparent, immediate reporting; audits allowed.",
-       "EAL3-level security.",
-       "EAL4–5, ENISA scheme integration, immutable logs."]},
-   {name:"Environmental Sustainability",
-    desc:"Energy efficiency, circularity, transparent emissions disclosure and low-carbon energy sourcing.",
-    d:["","",
-       "Documented and transparent sustainability approach.",
-       "Measured improvement targets with disclosed indicators.",
-       "EU-certified lifecycle; EU-audited sustainability reporting."]}
+   {name:"Strategic Sovereignty",desc:"Ownership stability, governance influence and alignment with EU strategic priorities — does ultimate decision-making sit in the EU.",
+    d:["","","Autonomous entity organisationally, but not in technical choices; service continues yet loses updates and security patches if access to the underlying tech breaks.","Access to the provider roadmap; complete guarantee of operations continuity.","Decision-making centres exclusively in the EU; European customers prioritised in roadmap arbitrations."]},
+   {name:"Legal & Jurisdictional Sovereignty",desc:"Exposure to foreign law with extraterritorial reach (e.g. US CLOUD Act) and enforceability of rights under EU jurisdiction.",
+    d:["","","Isolation via separate legal entities; limited exposure to export-control-type measures.","Complete insulation guaranteeing inapplicability of non-EU legislation; no Member-State exposure to export controls.","Operations designed and carried out exclusively in the EU; international institutions protected against export-control measures."]},
+   {name:"Data & AI Sovereignty",desc:"Control over cryptographic access, data localisation and deletion, and autonomy over AI models and pipelines.",
+    d:["","","Full data control incl. encryption key control, data localisation and deletion guarantee; logs available.","EU-designed AI; logs recorded in real time within the EU.","Immutable logs; audits carried out by European teams."]},
+   {name:"Operational Sovereignty",desc:"Ability of EU actors to run, support and evolve the technology without non-EU vendor involvement; EU talent and documentation.",
+    d:["","","Operations run and documented locally; non-EU expertise may still be needed; open, documented alternatives exist.","Expertise available in Europe incl. subcontractors; processes designed and documented locally.","Complete European autonomy incl. security clearances and integration of subcontractors' key skills."]},
+   {name:"Supply Chain Sovereignty",desc:"Geographic origin, transparency and auditability of the hardware/firmware/software supply chain.",
+    d:["","","Majority of supply chains documented; deployments local (procedures may be external); critical suppliers and subcontractors auditable.","Majority of services designed in the EU, deployed and orchestrated locally; no subcontractors in critical services.","EU-certified component origin; EU design, build and compliance check; no non-EU supplier dependence; full auditability."]},
+   {name:"Technology Sovereignty",desc:"Openness, open standards, open-source access and independence of the technological stack, incl. HPC.",
+    d:["","","Services partially interoperable; HPC hosted on-premises.","European/public standards for core services; open-source majority with predominantly European contributors; architecture auditable.","Full compliance: EU open AI, public standards, open source throughout."]},
+   {name:"Security & Compliance Sovereignty",desc:"EU-controlled security operations, certifications (ISO, ENISA), GDPR/NIS2/DORA adherence and independent audit rights.",
+    d:["","","EAL2-level security; local operations; transparent, immediate reporting; audits allowed.","EAL3-level security.","EAL4–5, ENISA scheme integration, immutable logs."]},
+   {name:"Environmental Sustainability",desc:"Energy efficiency, circularity, transparent emissions disclosure and low-carbon energy sourcing.",
+    d:["","","Documented and transparent sustainability approach.","Measured improvement targets with disclosed indicators.","EU-certified lifecycle; EU-audited sustainability reporting."]}
   ],
   el:[
-   {name:"Στρατηγική Κυριαρχία",
-    desc:"Σταθερότητα ιδιοκτησίας, επιρροή στη διακυβέρνηση και ευθυγράμμιση με τις στρατηγικές προτεραιότητες της ΕΕ — βρίσκεται η τελική λήψη αποφάσεων στην ΕΕ;",
-    d:["","",
-       "Οργανωτικά αυτόνομη οντότητα, αλλά όχι στις τεχνικές επιλογές· η υπηρεσία συνεχίζεται αλλά χάνει ενημερώσεις και διορθώσεις ασφαλείας αν διακοπεί η πρόσβαση στην υποκείμενη τεχνολογία.",
-       "Πρόσβαση στο roadmap του παρόχου· πλήρης εγγύηση συνέχειας λειτουργιών.",
-       "Κέντρα λήψης αποφάσεων αποκλειστικά στην ΕΕ· οι Ευρωπαίοι πελάτες έχουν προτεραιότητα στις αποφάσεις roadmap."]},
-   {name:"Νομική & Δικαιοδοτική Κυριαρχία",
-    desc:"Έκθεση σε ξένο δίκαιο με εξωεδαφική εμβέλεια (π.χ. US CLOUD Act) και εκτελεστότητα δικαιωμάτων υπό ΕΕ δικαιοδοσία.",
-    d:["","",
-       "Απομόνωση μέσω ξεχωριστών νομικών οντοτήτων· περιορισμένη έκθεση σε μέτρα τύπου ελέγχου εξαγωγών.",
-       "Πλήρης θωράκιση που εγγυάται τη μη εφαρμογή μη-ΕΕ νομοθεσίας· καμία έκθεση Κρατών-Μελών σε ελέγχους εξαγωγών.",
-       "Λειτουργίες σχεδιασμένες και εκτελούμενες αποκλειστικά στην ΕΕ· διεθνείς οργανισμοί προστατευμένοι από μέτρα ελέγχου εξαγωγών."]},
-   {name:"Κυριαρχία Δεδομένων & ΤΝ",
-    desc:"Έλεγχος επί της κρυπτογραφικής πρόσβασης, εντοπιότητα και διαγραφή δεδομένων, και αυτονομία επί μοντέλων και pipelines ΤΝ.",
-    d:["","",
-       "Πλήρης έλεγχος δεδομένων, συμπ. ελέγχου κλειδιών κρυπτογράφησης, εντοπιότητας και εγγύησης διαγραφής· διαθέσιμα αρχεία καταγραφής.",
-       "ΤΝ σχεδιασμένη στην ΕΕ· αρχεία καταγραφής σε πραγματικό χρόνο εντός ΕΕ.",
-       "Αμετάβλητα αρχεία καταγραφής· έλεγχοι από ευρωπαϊκές ομάδες."]},
-   {name:"Λειτουργική Κυριαρχία",
-    desc:"Ικανότητα των ΕΕ φορέων να λειτουργούν, υποστηρίζουν και εξελίσσουν την τεχνολογία χωρίς εμπλοκή μη-ΕΕ προμηθευτή· ΕΕ ταλέντο και τεκμηρίωση.",
-    d:["","",
-       "Λειτουργίες εκτελούνται και τεκμηριώνονται τοπικά· ενδέχεται να χρειάζεται μη-ΕΕ τεχνογνωσία· υπάρχουν ανοιχτές, τεκμηριωμένες εναλλακτικές.",
-       "Τεχνογνωσία διαθέσιμη στην Ευρώπη, συμπ. υπεργολάβων· διαδικασίες σχεδιασμένες και τεκμηριωμένες τοπικά.",
-       "Πλήρης ευρωπαϊκή αυτονομία, συμπ. διαπιστεύσεων ασφαλείας και ενσωμάτωσης βασικών δεξιοτήτων υπεργολάβων."]},
-   {name:"Κυριαρχία Εφοδιαστικής Αλυσίδας",
-    desc:"Γεωγραφική προέλευση, διαφάνεια και δυνατότητα ελέγχου της εφοδιαστικής αλυσίδας υλικού/firmware/λογισμικού.",
-    d:["","",
-       "Πλειονότητα εφοδιαστικών αλυσίδων τεκμηριωμένη· αναπτύξεις τοπικές (οι διαδικασίες ενδέχεται εξωτερικές)· κρίσιμοι προμηθευτές και υπεργολάβοι ελέγξιμοι.",
-       "Πλειονότητα υπηρεσιών σχεδιασμένη στην ΕΕ, αναπτυσσόμενη και ενορχηστρωμένη τοπικά· κανένας υπεργολάβος σε κρίσιμες υπηρεσίες.",
-       "Πιστοποιημένη από ΕΕ προέλευση εξαρτημάτων· ΕΕ σχεδιασμός, κατασκευή και έλεγχος συμμόρφωσης· καμία εξάρτηση από μη-ΕΕ προμηθευτή· πλήρης δυνατότητα ελέγχου."]},
-   {name:"Τεχνολογική Κυριαρχία",
-    desc:"Ανοιχτότητα, ανοιχτά πρότυπα, πρόσβαση ανοιχτού κώδικα και ανεξαρτησία της τεχνολογικής στοίβας, συμπ. HPC.",
-    d:["","",
-       "Υπηρεσίες μερικώς διαλειτουργικές· HPC φιλοξενούμενο on-premises.",
-       "Ευρωπαϊκά/δημόσια πρότυπα για βασικές υπηρεσίες· πλειονότητα ανοιχτού κώδικα με κατά κύριο λόγο Ευρωπαίους συνεισφέροντες· ελέγξιμη αρχιτεκτονική.",
-       "Πλήρης συμμόρφωση: ΕΕ ανοιχτή ΤΝ, δημόσια πρότυπα, ανοιχτός κώδικας παντού."]},
-   {name:"Κυριαρχία Ασφάλειας & Συμμόρφωσης",
-    desc:"Λειτουργίες ασφαλείας υπό ΕΕ έλεγχο, πιστοποιήσεις (ISO, ENISA), συμμόρφωση με GDPR/NIS2/DORA και δικαιώματα ανεξάρτητου ελέγχου.",
-    d:["","",
-       "Ασφάλεια επιπέδου EAL2· τοπικές λειτουργίες· διαφανής, άμεση αναφορά· επιτρέπονται έλεγχοι.",
-       "Ασφάλεια επιπέδου EAL3.",
-       "EAL4–5, ένταξη σε σχήμα ENISA, αμετάβλητα αρχεία καταγραφής."]},
-   {name:"Περιβαλλοντική Βιωσιμότητα",
-    desc:"Ενεργειακή απόδοση, κυκλικότητα, διαφανής δημοσιοποίηση εκπομπών και προμήθεια ενέργειας χαμηλών εκπομπών άνθρακα.",
-    d:["","",
-       "Τεκμηριωμένη και διαφανής προσέγγιση βιωσιμότητας.",
-       "Μετρήσιμοι στόχοι βελτίωσης με δημοσιοποιημένους δείκτες.",
-       "Πιστοποιημένος από ΕΕ κύκλος ζωής· αναφορά βιωσιμότητας ελεγμένη από ΕΕ."]}
+   {name:"Στρατηγική Κυριαρχία",desc:"Σταθερότητα ιδιοκτησίας, επιρροή στη διακυβέρνηση και ευθυγράμμιση με τις στρατηγικές προτεραιότητες της ΕΕ — βρίσκεται η τελική λήψη αποφάσεων στην ΕΕ;",
+    d:["","","Οργανωτικά αυτόνομη οντότητα, αλλά όχι στις τεχνικές επιλογές· η υπηρεσία συνεχίζεται αλλά χάνει ενημερώσεις και διορθώσεις ασφαλείας αν διακοπεί η πρόσβαση στην υποκείμενη τεχνολογία.","Πρόσβαση στο roadmap του παρόχου· πλήρης εγγύηση συνέχειας λειτουργιών.","Κέντρα λήψης αποφάσεων αποκλειστικά στην ΕΕ· οι Ευρωπαίοι πελάτες έχουν προτεραιότητα στις αποφάσεις roadmap."]},
+   {name:"Νομική & Δικαιοδοτική Κυριαρχία",desc:"Έκθεση σε ξένο δίκαιο με εξωεδαφική εμβέλεια (π.χ. US CLOUD Act) και εκτελεστότητα δικαιωμάτων υπό ΕΕ δικαιοδοσία.",
+    d:["","","Απομόνωση μέσω ξεχωριστών νομικών οντοτήτων· περιορισμένη έκθεση σε μέτρα τύπου ελέγχου εξαγωγών.","Πλήρης θωράκιση που εγγυάται τη μη εφαρμογή μη-ΕΕ νομοθεσίας· καμία έκθεση Κρατών-Μελών σε ελέγχους εξαγωγών.","Λειτουργίες σχεδιασμένες και εκτελούμενες αποκλειστικά στην ΕΕ· διεθνείς οργανισμοί προστατευμένοι από μέτρα ελέγχου εξαγωγών."]},
+   {name:"Κυριαρχία Δεδομένων & ΤΝ",desc:"Έλεγχος επί της κρυπτογραφικής πρόσβασης, εντοπιότητα και διαγραφή δεδομένων, και αυτονομία επί μοντέλων και pipelines ΤΝ.",
+    d:["","","Πλήρης έλεγχος δεδομένων, συμπ. ελέγχου κλειδιών κρυπτογράφησης, εντοπιότητας και εγγύησης διαγραφής· διαθέσιμα αρχεία καταγραφής.","ΤΝ σχεδιασμένη στην ΕΕ· αρχεία καταγραφής σε πραγματικό χρόνο εντός ΕΕ.","Αμετάβλητα αρχεία καταγραφής· έλεγχοι από ευρωπαϊκές ομάδες."]},
+   {name:"Λειτουργική Κυριαρχία",desc:"Ικανότητα των ΕΕ φορέων να λειτουργούν, υποστηρίζουν και εξελίσσουν την τεχνολογία χωρίς εμπλοκή μη-ΕΕ προμηθευτή· ΕΕ ταλέντο και τεκμηρίωση.",
+    d:["","","Λειτουργίες εκτελούνται και τεκμηριώνονται τοπικά· ενδέχεται να χρειάζεται μη-ΕΕ τεχνογνωσία· υπάρχουν ανοιχτές, τεκμηριωμένες εναλλακτικές.","Τεχνογνωσία διαθέσιμη στην Ευρώπη, συμπ. υπεργολάβων· διαδικασίες σχεδιασμένες και τεκμηριωμένες τοπικά.","Πλήρης ευρωπαϊκή αυτονομία, συμπ. διαπιστεύσεων ασφαλείας και ενσωμάτωσης βασικών δεξιοτήτων υπεργολάβων."]},
+   {name:"Κυριαρχία Εφοδιαστικής Αλυσίδας",desc:"Γεωγραφική προέλευση, διαφάνεια και δυνατότητα ελέγχου της εφοδιαστικής αλυσίδας υλικού/firmware/λογισμικού.",
+    d:["","","Πλειονότητα εφοδιαστικών αλυσίδων τεκμηριωμένη· αναπτύξεις τοπικές (οι διαδικασίες ενδέχεται εξωτερικές)· κρίσιμοι προμηθευτές και υπεργολάβοι ελέγξιμοι.","Πλειονότητα υπηρεσιών σχεδιασμένη στην ΕΕ, αναπτυσσόμενη και ενορχηστρωμένη τοπικά· κανένας υπεργολάβος σε κρίσιμες υπηρεσίες.","Πιστοποιημένη από ΕΕ προέλευση εξαρτημάτων· ΕΕ σχεδιασμός, κατασκευή και έλεγχος συμμόρφωσης· καμία εξάρτηση από μη-ΕΕ προμηθευτή· πλήρης δυνατότητα ελέγχου."]},
+   {name:"Τεχνολογική Κυριαρχία",desc:"Ανοιχτότητα, ανοιχτά πρότυπα, πρόσβαση ανοιχτού κώδικα και ανεξαρτησία της τεχνολογικής στοίβας, συμπ. HPC.",
+    d:["","","Υπηρεσίες μερικώς διαλειτουργικές· HPC φιλοξενούμενο on-premises.","Ευρωπαϊκά/δημόσια πρότυπα για βασικές υπηρεσίες· πλειονότητα ανοιχτού κώδικα με κατά κύριο λόγο Ευρωπαίους συνεισφέροντες· ελέγξιμη αρχιτεκτονική.","Πλήρης συμμόρφωση: ΕΕ ανοιχτή ΤΝ, δημόσια πρότυπα, ανοιχτός κώδικας παντού."]},
+   {name:"Κυριαρχία Ασφάλειας & Συμμόρφωσης",desc:"Λειτουργίες ασφαλείας υπό ΕΕ έλεγχο, πιστοποιήσεις (ISO, ENISA), συμμόρφωση με GDPR/NIS2/DORA και δικαιώματα ανεξάρτητου ελέγχου.",
+    d:["","","Ασφάλεια επιπέδου EAL2· τοπικές λειτουργίες· διαφανής, άμεση αναφορά· επιτρέπονται έλεγχοι.","Ασφάλεια επιπέδου EAL3.","EAL4–5, ένταξη σε σχήμα ENISA, αμετάβλητα αρχεία καταγραφής."]},
+   {name:"Περιβαλλοντική Βιωσιμότητα",desc:"Ενεργειακή απόδοση, κυκλικότητα, διαφανής δημοσιοποίηση εκπομπών και προμήθεια ενέργειας χαμηλών εκπομπών άνθρακα.",
+    d:["","","Τεκμηριωμένη και διαφανής προσέγγιση βιωσιμότητας.","Μετρήσιμοι στόχοι βελτίωσης με δημοσιοποιημένους δείκτες.","Πιστοποιημένος από ΕΕ κύκλος ζωής· αναφορά βιωσιμότητας ελεγμένη από ΕΕ."]}
   ]
 };
 
 const FW_LINK = "https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en";
-
-// UI chrome strings. Tokens in {curly} are filled at render time.
 const UI = {
   en:{
     title:"Cloud Sovereignty Self-Assessment — SEAL & Sovereignty Score",
     eyebrow:"Cloud Sovereignty Framework · Self-Assessment",
     h1:"Measure a cloud provider's<br>SEAL and Sovereignty Score",
-    lede:`An indicative self-assessment built on the European Commission's published `+
-      `<a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a>. `+
-      `Rate the provider on each of the eight sovereignty objectives; the tool computes the overall `+
-      `SEAL (set by the weakest objective) and a weighted score out of 100.`,
+    lede:`An indicative self-assessment built on the European Commission's published <a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a>. The <b>Quick</b> tab rates each of the eight objectives at one SEAL level; the <b>Detailed</b> tab reproduces the Commission's calculator question by question.`,
     mProvider:"Provider assessed", phProvider:"e.g. Acme Cloud EU",
-    mAssessor:"Assessor", phAssessor:"Name / unit",
-    mDate:"Date",
+    mAssessor:"Assessor", phAssessor:"Name / unit", mDate:"Date",
+    tabQuick:"Quick assessment", tabDetailed:"Detailed calculation",
     sectObjectives:"Eight sovereignty objectives",
     scoreLabel:"Weighted Sovereignty Score",
+    sovScore:"Sovereignty Score",
     minSeal:"Minimum SEAL required",
     ladderCap:`The overall SEAL equals the <b>lowest</b> level reached across all objectives — the gold line is your ceiling.`,
     overallCap:"OVERALL SEAL",
@@ -445,33 +438,28 @@ const UI = {
     gapLine:"at SEAL-{cur}, needs SEAL-{tgt}.",
     bindLine:"is binding at SEAL-{ov}. For SEAL-{nx}:",
     sealDetail:"SEAL-{l} · {name}.",
+    detIntro:`This reproduces the Commission's calculator across its 48 specific objectives (the guidance narrative cites 43). Each answer carries a <b>value</b> (0→max per objective) and a <b>SEAL tag</b>. The <b>Sovereignty Score</b> is the weighted sum of each objective's values as a share of its maximum; the <b>overall SEAL</b> is the lowest-tagged answer you pick (answers where every option is SEAL-4 never bind). Weights are set on the Quick tab.`,
+    loadExample:"Load guidance example", expandAll:"Expand all", collapseAll:"Collapse all",
+    breakdown:"Per-objective breakdown",
+    bindCap:"Binding — caps your SEAL",
+    raise:"To raise: pick “{ans}” (SEAL-{s})",
+    deltaTxt:"Quick-tab estimate: <b>{q}</b> · difference <b>{d}</b>",
     tReset:"Assessment reset", tCopied:"Assessment data copied", tCopyFail:"Copy failed — select manually",
-    disc:`<b>Disclaimer.</b> This self-assessment is indicative and for informational purposes only. `+
-      `It does not constitute legal advice or a formal compliance determination, and has no binding `+
-      `effect in any procurement procedure. The objective definitions, SEAL levels and the `+
-      `"lowest-level-wins" rule follow the Commission's published Implementation Guidance. The `+
-      `category weights (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, `+
-      `SOV-8 5%) are the exact values from the Commission's official Sovereignty Assessment Calculator `+
-      `and remain adjustable. Because that calculator scores 43 individual questions while this tool `+
-      `rates each objective at a single SEAL level, the per-objective score is derived from the `+
-      `calculator's actual per-answer values (mean value per SEAL band), not reproduced question by `+
-      `question. The illustrative answer scores in the spreadsheet are noted by the Commission as fictitious.`,
-    source:`Source: European Commission — Cloud Sovereignty Framework, Implementation guidance (June 2026). `+
-      `Built as an independent assessment aid; not affiliated with or endorsed by the European Commission.`
+    tExample:"Loaded guidance example — Sovereignty Score ≈ 68%",
+    disc:`<b>Disclaimer.</b> This self-assessment is indicative and for informational purposes only. It does not constitute legal advice or a formal compliance determination, and has no binding effect in any procurement procedure. The objective definitions, SEAL levels and the "lowest-level-wins" rule follow the Commission's published Implementation Guidance. The category weights (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) and, in the Detailed tab, the per-answer values and SEAL tags are taken from the Commission's official Sovereignty Assessment Calculator; the Commission notes the example score figures in that spreadsheet are fictitious. The Quick tab's per-objective score curve is derived from those same per-answer values (mean value per SEAL band).`,
+    source:`Source: European Commission — Cloud Sovereignty Framework, Implementation guidance (June 2026). Built as an independent assessment aid; not affiliated with or endorsed by the European Commission.`
   },
   el:{
     title:"Αυτοαξιολόγηση Κυριαρχίας Cloud — SEAL & Σκορ Κυριαρχίας",
     eyebrow:"Πλαίσιο Κυριαρχίας Cloud · Αυτοαξιολόγηση",
     h1:"Μετρήστε το SEAL και το Σκορ<br>Κυριαρχίας ενός παρόχου cloud",
-    lede:`Μια ενδεικτική αυτοαξιολόγηση βασισμένη στο δημοσιευμένο `+
-      `<a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a> της Ευρωπαϊκής Επιτροπής. `+
-      `Βαθμολογήστε τον πάροχο σε καθέναν από τους οκτώ στόχους κυριαρχίας· το εργαλείο υπολογίζει το συνολικό `+
-      `SEAL (που ορίζεται από τον ασθενέστερο στόχο) και ένα σταθμισμένο σκορ στα 100.`,
+    lede:`Μια ενδεικτική αυτοαξιολόγηση βασισμένη στο δημοσιευμένο <a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a> της Ευρωπαϊκής Επιτροπής. Η καρτέλα <b>Γρήγορη</b> βαθμολογεί καθέναν από τους οκτώ στόχους σε ένα επίπεδο SEAL· η καρτέλα <b>Αναλυτικός</b> αναπαράγει τον calculator της Επιτροπής ερώτηση προς ερώτηση.`,
     mProvider:"Αξιολογούμενος πάροχος", phProvider:"π.χ. Acme Cloud EU",
-    mAssessor:"Αξιολογητής", phAssessor:"Όνομα / μονάδα",
-    mDate:"Ημερομηνία",
+    mAssessor:"Αξιολογητής", phAssessor:"Όνομα / μονάδα", mDate:"Ημερομηνία",
+    tabQuick:"Γρήγορη αξιολόγηση", tabDetailed:"Αναλυτικός υπολογισμός",
     sectObjectives:"Οκτώ στόχοι κυριαρχίας",
     scoreLabel:"Σταθμισμένο Σκορ Κυριαρχίας",
+    sovScore:"Σκορ Κυριαρχίας",
     minSeal:"Ελάχιστο απαιτούμενο SEAL",
     ladderCap:`Το συνολικό SEAL ισούται με το <b>χαμηλότερο</b> επίπεδο σε όλους τους στόχους — η χρυσή γραμμή είναι το ανώτατο όριό σας.`,
     overallCap:"ΣΥΝΟΛΙΚΟ SEAL",
@@ -484,230 +472,279 @@ const UI = {
     gapLine:"στο SEAL-{cur}, χρειάζεται SEAL-{tgt}.",
     bindLine:"είναι δεσμευτικό στο SEAL-{ov}. Για SEAL-{nx}:",
     sealDetail:"SEAL-{l} · {name}.",
+    detIntro:`Αναπαράγει τον calculator της Επιτροπής στους 48 ειδικούς στόχους του (η αφήγηση του οδηγού αναφέρει 43). Κάθε απάντηση φέρει μια <b>τιμή</b> (0→μέγιστο ανά στόχο) και ένα <b>SEAL tag</b>. Το <b>Σκορ Κυριαρχίας</b> είναι το σταθμισμένο άθροισμα των τιμών κάθε στόχου ως ποσοστό του μεγίστου του· το <b>συνολικό SEAL</b> είναι η απάντηση με το χαμηλότερο tag που επιλέγετε (απαντήσεις όπου κάθε επιλογή είναι SEAL-4 δεν περιορίζουν ποτέ). Τα βάρη ορίζονται στην καρτέλα Γρήγορη.`,
+    loadExample:"Φόρτωση παραδείγματος", expandAll:"Ανάπτυξη όλων", collapseAll:"Σύμπτυξη όλων",
+    breakdown:"Ανάλυση ανά στόχο",
+    bindCap:"Δεσμευτικό — περιορίζει το SEAL",
+    raise:"Για αύξηση: επιλέξτε «{ans}» (SEAL-{s})",
+    deltaTxt:"Εκτίμηση Γρήγορης καρτέλας: <b>{q}</b> · διαφορά <b>{d}</b>",
     tReset:"Η αξιολόγηση επαναφέρθηκε", tCopied:"Τα δεδομένα αντιγράφηκαν", tCopyFail:"Η αντιγραφή απέτυχε — επιλέξτε χειροκίνητα",
-    disc:`<b>Αποποίηση ευθύνης.</b> Η παρούσα αυτοαξιολόγηση είναι ενδεικτική και αποκλειστικά για ενημερωτικούς σκοπούς. `+
-      `Δεν συνιστά νομική συμβουλή ή επίσημη διαπίστωση συμμόρφωσης και δεν έχει δεσμευτική ισχύ σε καμία διαδικασία προμήθειας. `+
-      `Οι ορισμοί των στόχων, τα επίπεδα SEAL και ο κανόνας «υπερισχύει το χαμηλότερο επίπεδο» ακολουθούν το δημοσιευμένο `+
-      `Implementation Guidance της Επιτροπής. Τα βάρη των κατηγοριών (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, `+
-      `SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) είναι οι ακριβείς τιμές από τον επίσημο Sovereignty Assessment Calculator `+
-      `της Επιτροπής και παραμένουν προσαρμόσιμα. Επειδή ο calculator βαθμολογεί 43 επιμέρους ερωτήσεις ενώ το παρόν `+
-      `εργαλείο αξιολογεί κάθε στόχο σε ένα μόνο επίπεδο SEAL, το σκορ ανά στόχο προκύπτει από τις πραγματικές τιμές ανά `+
-      `απάντηση του calculator (μέση τιμή ανά ζώνη SEAL), και δεν αναπαράγεται ερώτηση προς ερώτηση. Τα ενδεικτικά σκορ `+
-      `απαντήσεων στο υπολογιστικό φύλλο επισημαίνονται από την Επιτροπή ως πλασματικά.`,
-    source:`Πηγή: Ευρωπαϊκή Επιτροπή — Cloud Sovereignty Framework, Implementation guidance (Ιούνιος 2026). `+
-      `Δημιουργήθηκε ως ανεξάρτητο βοήθημα αξιολόγησης· χωρίς σχέση ή έγκριση από την Ευρωπαϊκή Επιτροπή.`
+    tExample:"Φορτώθηκε το παράδειγμα — Σκορ Κυριαρχίας ≈ 68%",
+    disc:`<b>Αποποίηση ευθύνης.</b> Η παρούσα αυτοαξιολόγηση είναι ενδεικτική και αποκλειστικά για ενημερωτικούς σκοπούς. Δεν συνιστά νομική συμβουλή ή επίσημη διαπίστωση συμμόρφωσης και δεν έχει δεσμευτική ισχύ σε καμία διαδικασία προμήθειας. Οι ορισμοί των στόχων, τα επίπεδα SEAL και ο κανόνας «υπερισχύει το χαμηλότερο επίπεδο» ακολουθούν το δημοσιευμένο Implementation Guidance της Επιτροπής. Τα βάρη των κατηγοριών (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) και, στην καρτέλα Αναλυτικός, οι τιμές ανά απάντηση και τα SEAL tags προέρχονται από τον επίσημο Sovereignty Assessment Calculator της Επιτροπής· η Επιτροπή σημειώνει ότι τα παραδείγματα σκορ στο υπολογιστικό φύλλο είναι πλασματικά. Η καμπύλη σκορ ανά στόχο της Γρήγορης καρτέλας προκύπτει από τις ίδιες αυτές τιμές (μέση τιμή ανά ζώνη SEAL).`,
+    source:`Πηγή: Ευρωπαϊκή Επιτροπή — Cloud Sovereignty Framework, Implementation guidance (Ιούνιος 2026). Δημιουργήθηκε ως ανεξάρτητο βοήθημα αξιολόγησης· χωρίς σχέση ή έγκριση από την Ευρωπαϊκή Επιτροπή.`
   }
 };
 
 /* ====================== State ====================== */
-const STORE_KEY = "cloud-sov-assessment-v3";
-let state = {levels:Array(8).fill(0), weights:REAL_WEIGHTS.slice(),
-  target:2, provider:"", assessor:"", date:"", lang:"en"};
+const STORE_KEY = "cloud-sov-assessment-v4";
+function defaultAnswers(){ const a={}; DETAIL.forEach(o=>o.q.forEach(q=>{a[o.code+"|"+q.n]=0;})); return a; }
+let state = {levels:Array(8).fill(0), weights:REAL_WEIGHTS.slice(), answers:defaultAnswers(),
+  target:2, provider:"", assessor:"", date:"", lang:"en", tab:"quick"};
 
 function save(){ try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){} }
 function load(){
   try{const s=localStorage.getItem(STORE_KEY);if(s)state=Object.assign(state,JSON.parse(s));}catch(e){}
   if(state.lang!=="en"&&state.lang!=="el") state.lang="en";
+  if(!state.answers) state.answers=defaultAnswers();
+  // ensure every question has an answer key
+  const def=defaultAnswers(); for(const k in def){ if(!(k in state.answers)) state.answers[k]=0; }
 }
 
-/* helpers to read current-language data */
 function T(){ return UI[state.lang]; }
 function objs(){ return OBJ[state.lang]; }
 function sealNames(){ return SEAL_NAMES[state.lang]; }
 function sealShort(){ return SEAL_SHORT[state.lang]; }
 function sealGeneric(){ return SEAL_GENERIC[state.lang]; }
 function fmt(s,o){ return s.replace(/\{(\w+)\}/g,(m,k)=>o[k]); }
+const SEALCLS=["b-s0","b-s1","b-s2","b-s3","b-s4"];
 
 /* ====================== Static i18n ====================== */
 function applyI18n(){
   const u=T();
-  document.title=u.title;
-  document.documentElement.lang=state.lang;
+  document.title=u.title; document.documentElement.lang=state.lang;
   document.querySelectorAll("[data-i18n]").forEach(el=>{ el.textContent=u[el.dataset.i18n]; });
   document.querySelectorAll("[data-i18n-html]").forEach(el=>{ el.innerHTML=u[el.dataset.i18nHtml]; });
   document.querySelectorAll("[data-i18n-ph]").forEach(el=>{ el.placeholder=u[el.dataset.i18nPh]; });
   document.getElementById("lang-en").setAttribute("aria-pressed", state.lang==="en");
   document.getElementById("lang-el").setAttribute("aria-pressed", state.lang==="el");
 }
+function setLang(l){ if(l!==state.lang){ state.lang=l; save(); } applyI18n(); buildObjs(); buildDetail(); compute(); }
 
-function setLang(l){
-  if(l!==state.lang){ state.lang=l; save(); }
-  applyI18n(); buildObjs(); compute();
+function setTab(t){
+  state.tab=t; save();
+  document.getElementById("tab-quick").hidden = t!=="quick";
+  document.getElementById("tab-detailed").hidden = t!=="detailed";
+  document.getElementById("tab-btn-quick").setAttribute("aria-selected", t==="quick");
+  document.getElementById("tab-btn-detailed").setAttribute("aria-selected", t==="detailed");
 }
 
-/* ====================== Build objective cards ====================== */
+/* ====================== QUICK TAB ====================== */
 function buildObjs(){
-  const host=document.getElementById("objs");
-  const O=objs(), short=sealShort();
+  const host=document.getElementById("objs"); const O=objs(), short=sealShort();
   host.innerHTML="";
   O.forEach((o,i)=>{
-    const card=document.createElement("div");
-    card.className="obj"; card.id="obj-"+i;
+    const card=document.createElement("div"); card.className="obj"; card.id="obj-"+i;
     let btns="";
     for(let l=0;l<5;l++){
-      btns+=`<button class="seal-btn sel-${l}" data-i="${i}" data-l="${l}"
-        aria-pressed="${state.levels[i]===l}" onclick="setLevel(${i},${l})">
-        <span class="lv">${l}</span><span class="nm">${short[l]}</span></button>`;
+      btns+=`<button class="seal-btn sel-${l}" data-i="${i}" data-l="${l}" aria-pressed="${state.levels[i]===l}" onclick="setLevel(${i},${l})"><span class="lv">${l}</span><span class="nm">${short[l]}</span></button>`;
     }
-    card.innerHTML=`
-      <div class="obj-top">
-        <div>
-          <span class="obj-code mono">${SOV_CODES[i]}</span>
-          <div class="obj-name serif">${o.name}</div>
-        </div>
-        <span class="obj-flag" id="flag-${i}"></span>
-      </div>
-      <p class="obj-desc">${o.desc}</p>
-      <div class="seal-row">${btns}</div>
+    card.innerHTML=`<div class="obj-top"><div><span class="obj-code mono">${SOV_CODES[i]}</span>
+      <div class="obj-name serif">${o.name}</div></div><span class="obj-flag" id="flag-${i}"></span></div>
+      <p class="obj-desc">${o.desc}</p><div class="seal-row">${btns}</div>
       <div class="seal-detail" id="detail-${i}"></div>
-      <div class="weight-row">
-        <span>${T().weightInScore}</span>
-        <input type="number" min="0" max="100" step="0.5" id="w-${i}"
-          value="${state.weights[i]}" oninput="setWeight(${i},this.value)">
-        <span class="pct" id="wpct-${i}"></span>
-      </div>`;
-    host.appendChild(card);
-    renderDetail(i);
+      <div class="weight-row"><span>${T().weightInScore}</span>
+        <input type="number" min="0" max="100" step="0.5" id="w-${i}" value="${state.weights[i]}" oninput="setWeight(${i},this.value)">
+        <span class="pct" id="wpct-${i}"></span></div>`;
+    host.appendChild(card); renderDetail(i);
   });
 }
-
 function renderDetail(i){
-  const l=state.levels[i];
-  const spec=objs()[i].d[l];
-  const txt=spec?spec:sealGeneric()[l];
+  const l=state.levels[i]; const spec=objs()[i].d[l]; const txt=spec?spec:sealGeneric()[l];
   const head=fmt(T().sealDetail,{l:l,name:sealNames()[l]});
   document.getElementById("detail-"+i).innerHTML=`<b>${head}</b> ${txt}`;
 }
-
 function setLevel(i,l){
   state.levels[i]=l;
-  document.querySelectorAll(`#obj-${i} .seal-btn`).forEach(b=>
-    b.setAttribute("aria-pressed", b.dataset.l==l));
+  document.querySelectorAll(`#obj-${i} .seal-btn`).forEach(b=>b.setAttribute("aria-pressed", b.dataset.l==l));
   renderDetail(i); compute(); save();
 }
 function setWeight(i,v){ state.weights[i]=parseFloat(v)||0; compute(); save(); }
-function setTarget(v){ state.target=parseInt(v); compute(); save(); }
+function setTarget(v){ state.target=parseInt(v); document.getElementById("q-target").value=v; document.getElementById("d-target").value=v; compute(); save(); }
 
-/* ====================== Compute ====================== */
-function compute(){
+function computeQuick(){
   const lv=state.levels, w=state.weights, u=T();
   const wsum=w.reduce((a,b)=>a+b,0)||1;
-  // weighted score: objective score = calculator-derived SCORE[objective][SEAL]
-  let score=0;
-  lv.forEach((l,i)=>{ score += SCORE[i][l] * (w[i]/wsum); });
+  let score=0; lv.forEach((l,i)=>{ score += SCORE[i][l]*(w[i]/wsum); });
   score=Math.round(score);
-  const overall=Math.min(...lv);
-  const target=state.target;
-
-  document.getElementById("r-seal").textContent="SEAL-"+overall;
-  document.getElementById("r-sealname").textContent=sealNames()[overall];
-  document.getElementById("r-score").textContent=score;
-  document.getElementById("r-scorebar").style.width=score+"%";
-
-  const v=document.getElementById("r-verdict");
+  const overall=Math.min(...lv), target=state.target;
+  document.getElementById("q-seal").textContent="SEAL-"+overall;
+  document.getElementById("q-sealname").textContent=sealNames()[overall];
+  document.getElementById("q-score").textContent=score;
+  document.getElementById("q-scorebar").style.width=score+"%";
+  const v=document.getElementById("q-verdict");
   if(overall>=target){ v.className="verdict pass"; v.textContent=fmt(u.meets,{n:target}); }
   else { v.className="verdict fail"; v.textContent=fmt(u.below,{n:target}); }
-
-  // weight % readout + flags
   lv.forEach((l,i)=>{
     document.getElementById("wpct-"+i).textContent="("+(w[i]/wsum*100).toFixed(1)+"%)";
-    const card=document.getElementById("obj-"+i);
-    const flag=document.getElementById("flag-"+i);
+    const card=document.getElementById("obj-"+i), flag=document.getElementById("flag-"+i);
     card.classList.remove("binding","below"); flag.className="obj-flag"; flag.textContent="";
-    if(l<target){ card.classList.add("below");
-      flag.classList.add("flag-below"); flag.textContent=u.flagBelow; }
-    else if(l===overall){ card.classList.add("binding");
-      flag.classList.add("flag-binding"); flag.textContent=u.flagBinding; }
+    if(l<target){ card.classList.add("below"); flag.classList.add("flag-below"); flag.textContent=u.flagBelow; }
+    else if(l===overall){ card.classList.add("binding"); flag.classList.add("flag-binding"); flag.textContent=u.flagBinding; }
   });
-
-  buildBars(overall);
-  buildRecs(overall,target);
+  buildBars(overall); buildRecs(overall,target);
+  return score;
 }
-
 const SCOLORS=["var(--s0)","var(--s1)","var(--s2)","var(--s3)","var(--s4)"];
 function buildBars(overall){
-  const host=document.getElementById("bars");
+  const host=document.getElementById("q-bars");
   host.querySelectorAll(".bar-col,.ceiling").forEach(e=>e.remove());
   state.levels.forEach((l,i)=>{
     const col=document.createElement("div"); col.className="bar-col";
     const h=l===0?3:(l/4*100);
-    col.innerHTML=`<div class="bar" style="height:${h}%;background:${SCOLORS[l]}"></div>
-      <div class="bar-lbl">${i+1}</div>`;
+    col.innerHTML=`<div class="bar" style="height:${h}%;background:${SCOLORS[l]}"></div><div class="bar-lbl">${i+1}</div>`;
     host.appendChild(col);
   });
-  const ceil=document.createElement("div"); ceil.className="ceiling";
-  ceil.setAttribute("data-cap", T().overallCap);
-  const ch=overall===0?3:(overall/4*100);
-  ceil.style.bottom=(18 + ch/100*(150-18))+"px";
-  host.appendChild(ceil);
+  const ceil=document.createElement("div"); ceil.className="ceiling"; ceil.setAttribute("data-cap",T().overallCap);
+  const ch=overall===0?3:(overall/4*100); ceil.style.bottom=(18+ch/100*(150-18))+"px"; host.appendChild(ceil);
 }
-
 function buildRecs(overall,target){
-  const host=document.getElementById("recs");
-  const O=objs(), u=T();
+  const host=document.getElementById("q-recs"); const O=objs(), u=T();
   const below=[]; state.levels.forEach((l,i)=>{ if(l<target) below.push(i); });
   const binding=[]; state.levels.forEach((l,i)=>{ if(l===overall) binding.push(i); });
   let html="<h4>"+u.priorityGaps+"</h4>";
-  if(below.length){
-    html+="<ul>";
-    below.forEach(i=>{
+  if(below.length){ html+="<ul>"; below.forEach(i=>{
       const need=O[i].d[target]||sealGeneric()[target];
-      const line=fmt(u.gapLine,{cur:state.levels[i],tgt:target});
-      html+=`<li><b>${SOV_CODES[i]} ${O[i].name}</b> — ${line} ${need}</li>`;
-    });
-    html+="</ul>";
+      html+=`<li><b>${SOV_CODES[i]} ${O[i].name}</b> — ${fmt(u.gapLine,{cur:state.levels[i],tgt:target})} ${need}</li>`;
+    }); html+="</ul>";
   } else {
     html+=`<p class="clear">${fmt(u.allMeet,{n:target})}</p>`;
-    if(binding.length && overall<4){
-      html+="<h4>"+u.toRaise+"</h4><ul>";
-      binding.forEach(i=>{
-        const nxt=Math.min(overall+1,4);
-        const need=O[i].d[nxt]||sealGeneric()[nxt];
-        const line=fmt(u.bindLine,{ov:overall,nx:nxt});
-        html+=`<li><b>${SOV_CODES[i]} ${O[i].name}</b> ${line} ${need}</li>`;
-      });
-      html+="</ul>";
-    }
+    if(binding.length && overall<4){ html+="<h4>"+u.toRaise+"</h4><ul>"; binding.forEach(i=>{
+        const nxt=Math.min(overall+1,4); const need=O[i].d[nxt]||sealGeneric()[nxt];
+        html+=`<li><b>${SOV_CODES[i]} ${O[i].name}</b> ${fmt(u.bindLine,{ov:overall,nx:nxt})} ${need}</li>`;
+      }); html+="</ul>"; }
   }
   host.innerHTML=html;
 }
 
-/* ====================== Meta + persistence ====================== */
+/* ====================== DETAILED TAB ====================== */
+function buildDetail(){
+  const host=document.getElementById("detacc"); const lang=state.lang; host.innerHTML="";
+  DETAIL.forEach((o,oi)=>{
+    const det=document.createElement("details"); det.className="objd"; det.id="objd-"+oi;
+    if(oi===0) det.open=true;
+    const name=o.t[lang].replace(/^SOV-\d+\s+/,"");
+    let qhtml="";
+    o.q.forEach((q,qi)=>{
+      let opts="";
+      q.a.forEach((a,ai)=>{
+        const sel=state.answers[o.code+"|"+q.n]===ai;
+        opts+=`<label class="opt${sel?' sel':''}"><input type="radio" name="q_${oi}_${qi}" ${sel?'checked':''} onchange="setAnswer('${o.code}',${q.n},${ai})">
+          <span class="otxt">${a.t[lang]}</span><span class="otag">${Math.round(a.value)} · S${a.seal}</span></label>`;
+      });
+      qhtml+=`<div class="q" id="dq-${oi}-${qi}"><p class="q-cap">${T().bindCap}</p>
+        <p class="q-title">${q.t[lang]}</p>${opts}<div class="raise" id="raise-${oi}-${qi}"></div></div>`;
+    });
+    det.innerHTML=`<summary><span class="sum-l"><span class="c">${o.code}</span><span class="n">${name}</span></span>
+      <span class="sum-r"><span class="badge" id="dobj-score-${oi}"></span><span class="badge seal" id="dobj-seal-${oi}"></span></span></summary>
+      <div class="qwrap">${qhtml}</div>`;
+    host.appendChild(det);
+  });
+}
+function setAnswer(code,qnum,ai){
+  state.answers[code+"|"+qnum]=ai;
+  const oi=DETAIL.findIndex(o=>o.code===code), qi=DETAIL[oi].q.findIndex(q=>q.n===qnum);
+  document.querySelectorAll(`input[name="q_${oi}_${qi}"]`).forEach((r,idx)=>{
+    r.closest(".opt").classList.toggle("sel", idx===ai);
+  });
+  compute(); save();
+}
+function expandAll(open){ document.querySelectorAll("details.objd").forEach(d=>d.open=open); }
+
+function computeDetailed(quickScore){
+  const w=state.weights, u=T(), lang=state.lang;
+  const wsum=w.reduce((a,b)=>a+b,0)||1;
+  let weighted=0; const rows=[]; let overall=4;
+  DETAIL.forEach((o,oi)=>{
+    let objMax=0, got=0, objSeal=4; const qseals=[];
+    o.q.forEach(q=>{
+      const vmax=Math.max(...q.a.map(a=>a.value)); objMax+=vmax;
+      const ai=state.answers[o.code+"|"+q.n]||0; const a=q.a[ai];
+      got+=a.value; qseals.push(a.seal); if(a.seal<objSeal) objSeal=a.seal;
+    });
+    const pct=objMax?got/objMax:0;
+    weighted += pct*100*(w[oi]/wsum);
+    if(objSeal<overall) overall=objSeal;
+    rows.push({oi,code:o.code,pct,got,objMax,objSeal,qseals});
+  });
+  const score=Math.round(weighted), target=state.target;
+  document.getElementById("d-seal").textContent="SEAL-"+overall;
+  document.getElementById("d-sealname").textContent=sealNames()[overall];
+  document.getElementById("d-score").textContent=score;
+  document.getElementById("d-scorebar").style.width=score+"%";
+  const v=document.getElementById("d-verdict");
+  if(overall>=target){ v.className="verdict pass"; v.textContent=fmt(u.meets,{n:target}); }
+  else { v.className="verdict fail"; v.textContent=fmt(u.below,{n:target}); }
+  const dd=score-quickScore;
+  document.getElementById("d-delta").innerHTML=fmt(u.deltaTxt,{q:quickScore,d:(dd>=0?"+":"")+dd});
+
+  // per-objective breakdown + binding flags + raise hints
+  let tbl="";
+  rows.forEach(r=>{
+    const bind=r.objSeal===overall;
+    const det=document.getElementById("objd-"+r.oi); det.classList.toggle("binding",bind);
+    document.getElementById("dobj-score-"+r.oi).textContent=Math.round(r.pct*100)+"%";
+    const sb=document.getElementById("dobj-seal-"+r.oi); sb.textContent="SEAL-"+r.objSeal;
+    sb.className="badge seal "+SEALCLS[r.objSeal];
+    tbl+=`<tr class="${bind?'bind':''}"><td class="c">${r.code}</td><td class="sc">${Math.round(r.got)}/${Math.round(r.objMax)}</td>
+      <td class="sc">${Math.round(r.pct*100)}%</td><td class="sl"><span class="mini-seal ${SEALCLS[r.objSeal]}">S${r.objSeal}</span></td></tr>`;
+    // per-question binding + raise hint
+    DETAIL[r.oi].q.forEach((q,qi)=>{
+      const ai=state.answers[r.code+"|"+q.n]||0; const cur=q.a[ai];
+      const qbind = bind && cur.seal===overall;
+      const qel=document.getElementById(`dq-${r.oi}-${qi}`); qel.classList.toggle("bind",qbind);
+      const rel=document.getElementById(`raise-${r.oi}-${qi}`);
+      if(qbind){
+        // lowest-value answer with a strictly higher seal
+        const better=q.a.filter(a=>a.seal>cur.seal).sort((a,b)=>a.value-b.value)[0];
+        rel.innerHTML = better ? fmt(u.raise,{ans:better.t[lang],s:better.seal}) : "";
+      } else rel.innerHTML="";
+    });
+  });
+  document.getElementById("d-break").innerHTML=tbl;
+}
+
+function loadExample(){
+  DETAIL.forEach(o=>o.q.forEach(q=>{
+    let idx=q.a.findIndex(a=>a.example); if(idx<0) idx=0;
+    state.answers[o.code+"|"+q.n]=idx;
+  }));
+  save(); buildDetail(); setTab("detailed"); compute(); toast(T().tExample);
+}
+
+/* ====================== Shared compute + meta ====================== */
+function compute(){ const qs=computeQuick(); computeDetailed(qs); }
+
 function bindMeta(){
   ["provider","assessor","date"].forEach(k=>{
-    const el=document.getElementById("m-"+k);
-    el.value=state[k]||"";
+    const el=document.getElementById("m-"+k); el.value=state[k]||"";
     el.oninput=()=>{ state[k]=el.value; save(); };
   });
-  if(!state.date){ const t=new Date().toISOString().slice(0,10);
-    state.date=t; document.getElementById("m-date").value=t; save(); }
-  document.getElementById("r-target").value=state.target;
-  document.getElementById("r-target").onchange=function(){setTarget(this.value);};
+  if(!state.date){ const t=new Date().toISOString().slice(0,10); state.date=t; document.getElementById("m-date").value=t; save(); }
+  document.getElementById("q-target").value=state.target;
+  document.getElementById("d-target").value=state.target;
 }
-
 function resetAll(){
-  state={levels:Array(8).fill(0),weights:REAL_WEIGHTS.slice(),target:2,
-    provider:"",assessor:"",date:new Date().toISOString().slice(0,10),lang:state.lang};
-  save(); applyI18n(); buildObjs(); bindMeta(); compute(); toast(T().tReset);
+  state={levels:Array(8).fill(0),weights:REAL_WEIGHTS.slice(),answers:defaultAnswers(),target:2,
+    provider:"",assessor:"",date:new Date().toISOString().slice(0,10),lang:state.lang,tab:state.tab};
+  save(); applyI18n(); buildObjs(); buildDetail(); bindMeta(); compute(); toast(T().tReset);
 }
-
 function copyJSON(){
-  const O=objs();
-  const out={...state, overallSEAL:Math.min(...state.levels),
-    objectives:O.map((o,i)=>({code:SOV_CODES[i],name:o.name,seal:state.levels[i],weight:state.weights[i]}))};
-  const txt=JSON.stringify(out,null,2);
-  navigator.clipboard.writeText(txt).then(()=>toast(T().tCopied),
-    ()=>toast(T().tCopyFail));
+  const O=objs(), lang=state.lang;
+  const detailed=DETAIL.map(o=>({code:o.code, questions:o.q.map(q=>{
+    const ai=state.answers[o.code+"|"+q.n]||0;
+    return {q:q.t[lang], answer:q.a[ai].t[lang], value:q.a[ai].value, seal:q.a[ai].seal};
+  })}));
+  const out={provider:state.provider,assessor:state.assessor,date:state.date,target:state.target,
+    quick:{overallSEAL:Math.min(...state.levels),
+      objectives:O.map((o,i)=>({code:SOV_CODES[i],name:o.name,seal:state.levels[i],weight:state.weights[i]}))},
+    detailed};
+  navigator.clipboard.writeText(JSON.stringify(out,null,2)).then(()=>toast(T().tCopied),()=>toast(T().tCopyFail));
 }
 function printReport(){ window.print(); }
-
-function toast(msg){
-  const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2200);
-}
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2200); }
 
 /* init */
-load(); applyI18n(); buildObjs(); bindMeta(); compute();
+load(); applyI18n(); buildObjs(); buildDetail(); bindMeta(); setTab(state.tab); compute();
 </script>
 </body>
 </html>

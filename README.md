@@ -10,6 +10,21 @@ Everything runs in the browser. No server, no build step, no dependencies.
 Available in **English and Greek** — use the EN/EL toggle at the top right; the choice
 is remembered between visits.
 
+## Two tabs
+
+- **Quick assessment** — rate each of the eight objectives at a single SEAL level (0–4).
+  Fast, indicative; per-objective score comes from a calculator-derived SEAL→score curve.
+- **Detailed calculation** — the faithful reproduction of the Commission's calculator
+  across its **48 specific objectives** (the guidance narrative cites 43). Each answer
+  carries the official **value** (0→max per objective) and a **SEAL tag**; the
+  **Sovereignty Score** is the weighted sum of each objective's values as a share of its
+  maximum, and the **overall SEAL** is the lowest-tagged answer selected (answers where
+  every option is SEAL-4 never bind). A *Load guidance example* button reproduces the
+  guidance's worked **Sovereignty Score of 68%**. Binding objectives/questions are
+  highlighted with "what raises my SEAL" hints, plus a delta against the Quick estimate.
+
+Category weights are shared between tabs and editable on the Quick tab.
+
 ## Put it online (GitHub Pages)
 
 1. Create a new repository on GitHub, e.g. `cloud-sovereignty-assessment`.
