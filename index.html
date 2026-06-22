@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Sovereignty Self-Assessment — SEAL & Sovereignty Score</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#e9ecf1; --surface:#ffffff; --ink:#131820; --muted:#5b6573;
+    --line:#d4dae3; --deep:#0b1f3a; --blue:#2b5fb3; --gold:#b3892e;
+    --danger:#b3331f; --ok:#2f7d4f;
+    --s0:#c2cad6; --s1:#9db4d6; --s2:#5d83bd; --s3:#2f5aa0; --s4:#0b2f6b;
+    --r:10px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.55;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  .mono{font-family:"IBM Plex Mono",monospace}
+  .serif{font-family:"Fraunces",serif}
+
+  /* ---- header ---- */
+  header{background:var(--deep);color:#eaf0f8;padding:38px 0 30px;border-bottom:3px solid var(--gold)}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;
+    text-transform:uppercase;color:#9fb6d8;margin:0 0 12px}
+  h1{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(28px,4.2vw,44px);
+    line-height:1.05;margin:0 0 14px;letter-spacing:-.01em}
+  .lede{max-width:680px;color:#c4d2e6;font-size:15.5px;margin:0}
+  .lede a{color:#eaf0f8}
+
+  .meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
+  .meta label{display:flex;flex-direction:column;gap:5px;font-size:11.5px;
+    letter-spacing:.04em;text-transform:uppercase;color:#9fb6d8}
+  .meta input{font-family:"Inter",sans-serif;font-size:14px;background:#12305a;
+    border:1px solid #26477a;color:#fff;padding:8px 11px;border-radius:7px;min-width:190px}
+  .meta input::placeholder{color:#7f97bc}
+
+  /* ---- layout ---- */
+  main{padding:30px 0 80px}
+  .grid{display:grid;grid-template-columns:1fr 360px;gap:26px;align-items:start}
+  @media(max-width:920px){.grid{grid-template-columns:1fr}}
+
+  .sectlabel{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 14px;display:flex;
+    align-items:center;gap:10px}
+  .sectlabel::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* ---- objective cards ---- */
+  .obj{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px 20px;margin-bottom:14px;transition:border-color .2s}
+  .obj.binding{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+  .obj.below{border-color:var(--danger)}
+  .obj-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+  .obj-code{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--blue);
+    font-weight:600;letter-spacing:.04em}
+  .obj-name{font-family:"Fraunces",serif;font-size:19px;font-weight:500;margin:2px 0 0}
+  .obj-desc{color:var(--muted);font-size:13.5px;margin:7px 0 14px;max-width:62ch}
+  .obj-flag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;
+    text-transform:uppercase;padding:3px 8px;border-radius:20px;white-space:nowrap}
+  .flag-binding{background:#f6ecd4;color:#8a6712}
+  .flag-below{background:#f7dcd6;color:#8a261a}
+
+  /* seal segmented control */
+  .seal-row{display:flex;gap:6px}
+  .seal-btn{flex:1;border:1px solid var(--line);background:#f6f8fb;border-radius:7px;
+    padding:9px 4px 8px;cursor:pointer;text-align:center;transition:all .14s;font-family:inherit}
+  .seal-btn:hover{border-color:var(--blue)}
+  .seal-btn .lv{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:14px;display:block}
+  .seal-btn .nm{font-size:10px;color:var(--muted);display:block;margin-top:2px;line-height:1.2}
+  .seal-btn[aria-pressed="true"]{color:#fff;border-color:transparent}
+  .seal-btn[aria-pressed="true"] .nm{color:#dfe7f3}
+  .seal-btn.sel-0[aria-pressed="true"]{background:var(--s0);color:#1c2430}
+  .seal-btn.sel-0[aria-pressed="true"] .nm{color:#33414f}
+  .seal-btn.sel-1[aria-pressed="true"]{background:var(--s1);color:#10243f}
+  .seal-btn.sel-1[aria-pressed="true"] .nm{color:#2c466a}
+  .seal-btn.sel-2[aria-pressed="true"]{background:var(--s2)}
+  .seal-btn.sel-3[aria-pressed="true"]{background:var(--s3)}
+  .seal-btn.sel-4[aria-pressed="true"]{background:var(--s4)}
+  .seal-detail{margin-top:10px;font-size:12.5px;color:var(--ink);background:#f4f7fb;
+    border-left:3px solid var(--blue);padding:8px 12px;border-radius:0 6px 6px 0;min-height:0}
+  .seal-detail b{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--blue)}
+
+  .weight-row{display:flex;align-items:center;gap:9px;margin-top:13px;
+    font-size:12px;color:var(--muted)}
+  .weight-row input{width:62px;font-family:"IBM Plex Mono",monospace;text-align:right;
+    padding:5px 8px;border:1px solid var(--line);border-radius:6px;font-size:12.5px}
+  .weight-row .pct{font-family:"IBM Plex Mono",monospace;color:var(--ink)}
+
+  /* ---- result panel ---- */
+  .panel{position:sticky;top:18px;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--r);overflow:hidden}
+  .panel-head{background:var(--deep);color:#fff;padding:18px 20px}
+  .panel-head .seal-big{font-family:"IBM Plex Mono",monospace;font-size:40px;font-weight:600;
+    line-height:1;letter-spacing:-.02em}
+  .panel-head .seal-name{font-family:"Fraunces",serif;font-size:18px;margin-top:4px}
+  .verdict{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;margin-top:12px;padding:5px 10px;border-radius:20px;display:inline-block}
+  .verdict.pass{background:#1f5135;color:#a9e6c2}
+  .verdict.fail{background:#5c2018;color:#f2c0b6}
+
+  .panel-body{padding:18px 20px}
+  .score-line{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .score-line .lbl{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+  .score-val{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600}
+  .score-bar{height:8px;background:#e3e8ef;border-radius:6px;overflow:hidden;margin:4px 0 18px}
+  .score-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--deep))}
+
+  .target-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:12px 0;border-top:1px solid var(--line);font-size:13px}
+  .target-row select{font-family:"IBM Plex Mono",monospace;padding:6px 9px;border:1px solid var(--line);
+    border-radius:6px;font-size:13px;background:#fff}
+
+  .ladder{padding:16px 20px 6px;border-top:1px solid var(--line)}
+  .ladder-cap{font-size:11.5px;color:var(--muted);margin:0 0 12px;line-height:1.4}
+  .ladder-cap b{color:var(--gold)}
+  .bars{display:flex;gap:6px;align-items:flex-end;height:150px;position:relative;
+    padding-top:4px}
+  .bar-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;
+    align-items:center;height:100%;cursor:default}
+  .bar{width:100%;border-radius:4px 4px 0 0;transition:height .3s ease;min-height:3px}
+  .bar-lbl{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);margin-top:5px}
+  .ceiling{position:absolute;left:0;right:0;border-top:2px dashed var(--gold);z-index:3;
+    pointer-events:none;transition:bottom .3s ease}
+  .ceiling::after{content:"OVERALL SEAL";position:absolute;right:0;top:-15px;
+    font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.1em;color:var(--gold)}
+
+  .recs{padding:4px 20px 20px}
+  .recs h4{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+  .recs li{font-size:13px;margin-bottom:7px;color:var(--ink);list-style:none;
+    padding-left:16px;position:relative}
+  .recs li::before{content:"›";position:absolute;left:2px;color:var(--gold);font-weight:600}
+  .recs ul{margin:0;padding:0}
+  .recs .clear{color:var(--ok);font-size:13px}
+
+  .actions{display:flex;gap:9px;padding:16px 20px;border-top:1px solid var(--line);flex-wrap:wrap}
+  button.act{flex:1;min-width:120px;font-family:"Inter",sans-serif;font-size:13px;font-weight:500;
+    padding:10px;border-radius:7px;cursor:pointer;border:1px solid var(--deep);
+    background:var(--deep);color:#fff;transition:opacity .15s}
+  button.act.ghost{background:#fff;color:var(--deep)}
+  button.act:hover{opacity:.88}
+
+  footer{border-top:1px solid var(--line);padding:24px 0 50px;color:var(--muted);font-size:12px}
+  footer .disc{background:#f4f6f9;border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+    margin-bottom:16px;line-height:1.55}
+  footer a{color:var(--blue)}
+
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--deep);color:#fff;padding:11px 20px;border-radius:8px;font-size:13px;
+    opacity:0;transition:all .3s;z-index:50}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+  @media print{
+    body{background:#fff}
+    header{background:#fff;color:#000;border-bottom:2px solid #000}
+    .eyebrow,.lede,.panel-head{color:#000}
+    .meta input{border-color:#999;color:#000;background:#fff}
+    .panel{position:static}
+    .actions,.toast,.weight-row input{display:none}
+    .obj{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Cloud Sovereignty Framework · Self-Assessment</p>
+    <h1 class="serif">Measure a cloud provider's<br>SEAL and Sovereignty Score</h1>
+    <p class="lede">An indicative self-assessment built on the European Commission's published
+      <a href="https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en" target="_blank" rel="noopener">Cloud Sovereignty Framework</a>.
+      Rate the provider on each of the eight sovereignty objectives; the tool computes the overall
+      SEAL (set by the weakest objective) and a weighted score out of 100.</p>
+    <div class="meta">
+      <label>Provider assessed
+        <input id="m-provider" type="text" placeholder="e.g. Acme Cloud EU">
+      </label>
+      <label>Assessor
+        <input id="m-assessor" type="text" placeholder="Name / unit">
+      </label>
+      <label>Date
+        <input id="m-date" type="date">
+      </label>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+    <section>
+      <p class="sectlabel">Eight sovereignty objectives</p>
+      <div id="objs"></div>
+    </section>
+
+    <aside>
+      <div class="panel">
+        <div class="panel-head">
+          <div class="seal-big mono" id="r-seal">SEAL-0</div>
+          <div class="seal-name serif" id="r-sealname">No Sovereignty</div>
+          <div id="r-verdict"></div>
+        </div>
+        <div class="panel-body">
+          <div class="score-line">
+            <span class="lbl">Weighted Sovereignty Score</span>
+            <span class="score-val mono" id="r-score">0</span>
+          </div>
+          <div class="score-bar"><span id="r-scorebar" style="width:0%"></span></div>
+          <div class="target-row">
+            <span>Minimum SEAL required</span>
+            <select id="r-target">
+              <option value="0">SEAL-0</option>
+              <option value="1">SEAL-1</option>
+              <option value="2" selected>SEAL-2</option>
+              <option value="3">SEAL-3</option>
+              <option value="4">SEAL-4</option>
+            </select>
+          </div>
+        </div>
+        <div class="ladder">
+          <p class="ladder-cap">The overall SEAL equals the <b>lowest</b> level reached across all
+            objectives — the gold line is your ceiling.</p>
+          <div class="bars" id="bars"></div>
+        </div>
+        <div class="recs" id="recs"></div>
+        <div class="actions">
+          <button class="act" onclick="printReport()">Download report (PDF)</button>
+          <button class="act ghost" onclick="copyJSON()">Copy data</button>
+          <button class="act ghost" onclick="resetAll()">Reset</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="wrap">
+  <div class="disc">
+    <b>Disclaimer.</b> This self-assessment is indicative and for informational purposes only.
+    It does not constitute legal advice or a formal compliance determination, and has no binding
+    effect in any procurement procedure. The objective definitions, SEAL levels and the
+    "lowest-level-wins" rule follow the Commission's published Implementation Guidance. The
+    category weights (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%,
+    SOV-8 5%) are the exact values from the Commission's official Sovereignty Assessment Calculator
+    and remain adjustable. Because that calculator scores 43 individual questions while this tool
+    rates each objective at a single SEAL level, the per-objective score is derived from the
+    calculator's actual per-answer values (mean value per SEAL band), not reproduced question by
+    question. The illustrative answer scores in the spreadsheet are noted by the Commission as
+    fictitious.
+  </div>
+  Source: European Commission — Cloud Sovereignty Framework, Implementation guidance (June 2026).
+  Built as an independent assessment aid; not affiliated with or endorsed by the European Commission.
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SEAL_NAMES = ["No Sovereignty","Jurisdictional Sovereignty","Data Sovereignty",
+  "Technological Sovereignty","Full Digital Sovereignty"];
+
+// Generic SEAL meanings (per Implementation Guidance)
+const SEAL_GENERIC = [
+  "Under exclusive control of non-EU parties, governed entirely by non-EU jurisdictions.",
+  "EU law formally applies with limited enforceability; still under non-EU control.",
+  "EU jurisdiction applies; material non-EU dependencies remain (indirect control).",
+  "EU jurisdiction applies; EU actors hold meaningful but not full influence (marginal non-EU control).",
+  "Complete EU control, only EU jurisdiction, no critical non-EU dependencies."
+];
+
+// Objective-specific descriptions for SEAL 2/3/4 (from the Framework Matrix)
+const OBJ = [
+  {code:"SOV-1", name:"Strategic Sovereignty",
+   desc:"Ownership stability, governance influence and alignment with EU strategic priorities — does ultimate decision-making sit in the EU.",
+   d:["","",
+      "Autonomous entity organisationally, but not in technical choices; service continues yet loses updates and security patches if access to the underlying tech breaks.",
+      "Access to the provider roadmap; complete guarantee of operations continuity.",
+      "Decision-making centres exclusively in the EU; European customers prioritised in roadmap arbitrations."]},
+  {code:"SOV-2", name:"Legal & Jurisdictional Sovereignty",
+   desc:"Exposure to foreign law with extraterritorial reach (e.g. US CLOUD Act) and enforceability of rights under EU jurisdiction.",
+   d:["","",
+      "Isolation via separate legal entities; limited exposure to export-control-type measures.",
+      "Complete insulation guaranteeing inapplicability of non-EU legislation; no Member-State exposure to export controls.",
+      "Operations designed and carried out exclusively in the EU; international institutions protected against export-control measures."]},
+  {code:"SOV-3", name:"Data & AI Sovereignty",
+   desc:"Control over cryptographic access, data localisation and deletion, and autonomy over AI models and pipelines.",
+   d:["","",
+      "Full data control incl. encryption key control, data localisation and deletion guarantee; logs available.",
+      "EU-designed AI; logs recorded in real time within the EU.",
+      "Immutable logs; audits carried out by European teams."]},
+  {code:"SOV-4", name:"Operational Sovereignty",
+   desc:"Ability of EU actors to run, support and evolve the technology without non-EU vendor involvement; EU talent and documentation.",
+   d:["","",
+      "Operations run and documented locally; non-EU expertise may still be needed; open, documented alternatives exist.",
+      "Expertise available in Europe incl. subcontractors; processes designed and documented locally.",
+      "Complete European autonomy incl. security clearances and integration of subcontractors' key skills."]},
+  {code:"SOV-5", name:"Supply Chain Sovereignty",
+   desc:"Geographic origin, transparency and auditability of the hardware/firmware/software supply chain.",
+   d:["","",
+      "Majority of supply chains documented; deployments local (procedures may be external); critical suppliers and subcontractors auditable.",
+      "Majority of services designed in the EU, deployed and orchestrated locally; no subcontractors in critical services.",
+      "EU-certified component origin; EU design, build and compliance check; no non-EU supplier dependence; full auditability."]},
+  {code:"SOV-6", name:"Technology Sovereignty",
+   desc:"Openness, open standards, open-source access and independence of the technological stack, incl. HPC.",
+   d:["","",
+      "Services partially interoperable; HPC hosted on-premises.",
+      "European/public standards for core services; open-source majority with predominantly European contributors; architecture auditable.",
+      "Full compliance: EU open AI, public standards, open source throughout."]},
+  {code:"SOV-7", name:"Security & Compliance Sovereignty",
+   desc:"EU-controlled security operations, certifications (ISO, ENISA), GDPR/NIS2/DORA adherence and independent audit rights.",
+   d:["","",
+      "EAL2-level security; local operations; transparent, immediate reporting; audits allowed.",
+      "EAL3-level security.",
+      "EAL4–5, ENISA scheme integration, immutable logs."]},
+  {code:"SOV-8", name:"Environmental Sustainability",
+   desc:"Energy efficiency, circularity, transparent emissions disclosure and low-carbon energy sourcing.",
+   d:["","",
+      "Documented and transparent sustainability approach.",
+      "Measured improvement targets with disclosed indicators.",
+      "EU-certified lifecycle; EU-audited sustainability reporting."]}
+];
+
+// Real category weights from the Commission's Sovereignty Assessment Calculator
+// (Annex spreadsheet, col D of each objective header; confirmed against Implementation
+// guidance p.7). Order matches OBJ[] / SOV-1…SOV-8. Sum = 100.
+const REAL_WEIGHTS = [20, 10, 10, 15, 10, 15, 15, 5];
+
+// Per-objective SEAL→score curve (0–100), derived from the calculator's actual
+// per-answer Values. The calculator scores 43 questions (each answer carries a Value
+// on an even 0→max scale, normalised so each objective's max ≈ 1000) and tags each
+// answer with a SEAL independently. Since this tool collapses each objective to a
+// single SEAL, each cell is the mean of that objective's answer Values (normalised
+// 0–100) grouped by the SEAL each answer is tagged with, made monotonic. This replaces
+// the old flat level/4*100 with the calculator's real value scale.
+//          SEAL: 0   1   2   3    4
+const SCORE = [
+  [0, 17, 40, 67, 67],  // SOV-1 Strategic
+  [0, 30, 62, 62, 75],  // SOV-2 Legal & Jurisdictional
+  [0, 42, 42, 75, 100], // SOV-3 Data & AI
+  [0, 11, 25, 62, 85],  // SOV-4 Operational
+  [0, 12, 42, 65, 77],  // SOV-5 Supply Chain
+  [0, 25, 25, 59, 96],  // SOV-6 Technology
+  [0, 27, 50, 75, 75],  // SOV-7 Security & Compliance
+  [0, 12, 50, 62, 68]   // SOV-8 Environmental
+];
+
+const STORE_KEY = "cloud-sov-assessment-v2";
+let state = {levels:Array(8).fill(0), weights:REAL_WEIGHTS.slice(),
+  target:2, provider:"", assessor:"", date:""};
+
+function save(){ try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){} }
+function load(){
+  try{const s=localStorage.getItem(STORE_KEY);if(s)state=Object.assign(state,JSON.parse(s));}catch(e){}
+}
+
+function buildObjs(){
+  const host=document.getElementById("objs");
+  host.innerHTML="";
+  OBJ.forEach((o,i)=>{
+    const card=document.createElement("div");
+    card.className="obj"; card.id="obj-"+i;
+    let btns="";
+    for(let l=0;l<5;l++){
+      btns+=`<button class="seal-btn sel-${l}" data-i="${i}" data-l="${l}"
+        aria-pressed="${state.levels[i]===l}" onclick="setLevel(${i},${l})">
+        <span class="lv">${l}</span><span class="nm">${SEAL_NAMES[l].split(" ")[0]}</span></button>`;
+    }
+    card.innerHTML=`
+      <div class="obj-top">
+        <div>
+          <span class="obj-code mono">${o.code}</span>
+          <div class="obj-name serif">${o.name}</div>
+        </div>
+        <span class="obj-flag" id="flag-${i}"></span>
+      </div>
+      <p class="obj-desc">${o.desc}</p>
+      <div class="seal-row">${btns}</div>
+      <div class="seal-detail" id="detail-${i}"></div>
+      <div class="weight-row">
+        <span>Weight in score</span>
+        <input type="number" min="0" max="100" step="0.5" id="w-${i}"
+          value="${state.weights[i]}" oninput="setWeight(${i},this.value)">
+        <span class="pct" id="wpct-${i}"></span>
+      </div>`;
+    host.appendChild(card);
+    renderDetail(i);
+  });
+}
+
+function renderDetail(i){
+  const l=state.levels[i];
+  const spec=OBJ[i].d[l];
+  const txt=spec?spec:SEAL_GENERIC[l];
+  document.getElementById("detail-"+i).innerHTML=
+    `<b>SEAL-${l} · ${SEAL_NAMES[l]}.</b> ${txt}`;
+}
+
+function setLevel(i,l){
+  state.levels[i]=l;
+  document.querySelectorAll(`#obj-${i} .seal-btn`).forEach(b=>
+    b.setAttribute("aria-pressed", b.dataset.l==l));
+  renderDetail(i); compute(); save();
+}
+function setWeight(i,v){ state.weights[i]=parseFloat(v)||0; compute(); save(); }
+function setTarget(v){ state.target=parseInt(v); compute(); save(); }
+
+function compute(){
+  const lv=state.levels, w=state.weights;
+  const wsum=w.reduce((a,b)=>a+b,0)||1;
+  // weighted score: objective score = calculator-derived SCORE[objective][SEAL]
+  let score=0;
+  lv.forEach((l,i)=>{ score += SCORE[i][l] * (w[i]/wsum); });
+  score=Math.round(score);
+  const overall=Math.min(...lv);
+  const target=state.target;
+
+  document.getElementById("r-seal").textContent="SEAL-"+overall;
+  document.getElementById("r-sealname").textContent=SEAL_NAMES[overall];
+  document.getElementById("r-score").textContent=score;
+  document.getElementById("r-scorebar").style.width=score+"%";
+
+  const v=document.getElementById("r-verdict");
+  if(overall>=target){ v.className="verdict pass"; v.textContent="Meets minimum SEAL-"+target; }
+  else { v.className="verdict fail"; v.textContent="Below minimum SEAL-"+target; }
+
+  // weight % readout + flags
+  lv.forEach((l,i)=>{
+    document.getElementById("wpct-"+i).textContent="("+(w[i]/wsum*100).toFixed(1)+"%)";
+    const card=document.getElementById("obj-"+i);
+    const flag=document.getElementById("flag-"+i);
+    card.classList.remove("binding","below"); flag.className="obj-flag"; flag.textContent="";
+    if(l<target){ card.classList.add("below");
+      flag.classList.add("flag-below"); flag.textContent="Below target"; }
+    else if(l===overall){ card.classList.add("binding");
+      flag.classList.add("flag-binding"); flag.textContent="Binding"; }
+  });
+
+  buildBars(overall);
+  buildRecs(overall,target);
+}
+
+const SCOLORS=["var(--s0)","var(--s1)","var(--s2)","var(--s3)","var(--s4)"];
+function buildBars(overall){
+  const host=document.getElementById("bars");
+  host.querySelectorAll(".bar-col,.ceiling").forEach(e=>e.remove());
+  state.levels.forEach((l,i)=>{
+    const col=document.createElement("div"); col.className="bar-col";
+    const h=l===0?3:(l/4*100);
+    col.innerHTML=`<div class="bar" style="height:${h}%;background:${SCOLORS[l]}"></div>
+      <div class="bar-lbl">${i+1}</div>`;
+    host.appendChild(col);
+  });
+  const ceil=document.createElement("div"); ceil.className="ceiling";
+  const ch=overall===0?3:(overall/4*100);
+  ceil.style.bottom="calc(18px + "+ch+"% * (150 - 18) / 150)";
+  ceil.style.bottom=(18 + ch/100*(150-18))+"px";
+  host.appendChild(ceil);
+}
+
+function buildRecs(overall,target){
+  const host=document.getElementById("recs");
+  const below=[]; state.levels.forEach((l,i)=>{ if(l<target) below.push(i); });
+  const binding=[]; state.levels.forEach((l,i)=>{ if(l===overall) binding.push(i); });
+  let html="<h4>Priority gaps</h4>";
+  if(below.length){
+    html+="<ul>";
+    below.forEach(i=>{
+      const need=OBJ[i].d[target]||SEAL_GENERIC[target];
+      html+=`<li><b>${OBJ[i].code} ${OBJ[i].name}</b> — at SEAL-${state.levels[i]}, needs SEAL-${target}. ${need}</li>`;
+    });
+    html+="</ul>";
+  } else {
+    html+=`<p class="clear">All objectives meet the SEAL-${target} minimum.</p>`;
+    if(binding.length && overall<4){
+      html+="<h4>To raise the overall level</h4><ul>";
+      binding.forEach(i=>{
+        const nxt=Math.min(overall+1,4);
+        const need=OBJ[i].d[nxt]||SEAL_GENERIC[nxt];
+        html+=`<li><b>${OBJ[i].code} ${OBJ[i].name}</b> is binding at SEAL-${overall}. For SEAL-${nxt}: ${need}</li>`;
+      });
+      html+="</ul>";
+    }
+  }
+  host.innerHTML=html;
+}
+
+/* ---- meta + persistence ---- */
+function bindMeta(){
+  ["provider","assessor","date"].forEach(k=>{
+    const el=document.getElementById("m-"+k);
+    el.value=state[k]||"";
+    el.oninput=()=>{ state[k]=el.value; save(); };
+  });
+  if(!state.date){ const t=new Date().toISOString().slice(0,10);
+    state.date=t; document.getElementById("m-date").value=t; save(); }
+  document.getElementById("r-target").value=state.target;
+  document.getElementById("r-target").onchange=function(){setTarget(this.value);};
+}
+
+function resetAll(){
+  state={levels:Array(8).fill(0),weights:REAL_WEIGHTS.slice(),target:2,
+    provider:"",assessor:"",date:new Date().toISOString().slice(0,10)};
+  save(); buildObjs(); bindMeta(); compute(); toast("Assessment reset");
+}
+
+function copyJSON(){
+  const out={...state, overallSEAL:Math.min(...state.levels),
+    objectives:OBJ.map((o,i)=>({code:o.code,name:o.name,seal:state.levels[i],weight:state.weights[i]}))};
+  const txt=JSON.stringify(out,null,2);
+  navigator.clipboard.writeText(txt).then(()=>toast("Assessment data copied"),
+    ()=>toast("Copy failed — select manually"));
+}
+function printReport(){ window.print(); }
+
+function toast(msg){
+  const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2200);
+}
+
+/* init */
+load(); buildObjs(); bindMeta(); compute();
+</script>
+</body>
+</html>
