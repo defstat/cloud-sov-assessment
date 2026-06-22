@@ -358,58 +358,60 @@ const SEAL_SHORT = {
   en:["None","Jurisdictional","Data","Technological","Full"],
   el:["Καμία","Δικαιοδοτική","Δεδομένων","Τεχνολογική","Πλήρης"]
 };
+// Verbatim generic SEAL definitions (Implementation guidance pp. 2–3), description
+// portion only — the level name is already shown in the seal-detail heading.
 const SEAL_GENERIC = {
   en:[
-    "Under exclusive control of non-EU parties, governed entirely by non-EU jurisdictions.",
-    "EU law formally applies with limited enforceability; still under non-EU control.",
-    "EU jurisdiction applies; material non-EU dependencies remain (indirect control).",
-    "EU jurisdiction applies; EU actors hold meaningful but not full influence (marginal non-EU control).",
-    "Complete EU control, only EU jurisdiction, no critical non-EU dependencies."
+    "Service, technology or operations under exclusive control of non-EU third parties, governed entirely by non-EU jurisdictions.",
+    "EU law formally applies with limited practical enforceability; service, technology or operations under exclusive control of non-EU third parties.",
+    "EU jurisdictions apply, with material dependencies remain; service, technology or operations under indirect control of non-EU third parties.",
+    "EU jurisdictions apply, EU actors exercising meaningful but not full influence; service, technology or operations under marginal control of non-EU third parties.",
+    "Technology and operations under complete EU control, subject only to EU jurisdiction, with no critical non-EU dependencies."
   ],
   el:[
-    "Υπό αποκλειστικό έλεγχο μη-ΕΕ μερών, διέπεται εξ ολοκλήρου από μη-ΕΕ δικαιοδοσίες.",
-    "Το δίκαιο της ΕΕ εφαρμόζεται τυπικά με περιορισμένη εκτελεστότητα· παραμένει υπό μη-ΕΕ έλεγχο.",
-    "Εφαρμόζεται ΕΕ δικαιοδοσία· παραμένουν ουσιώδεις μη-ΕΕ εξαρτήσεις (έμμεσος έλεγχος).",
-    "Εφαρμόζεται ΕΕ δικαιοδοσία· οι ΕΕ φορείς έχουν ουσιαστική αλλά όχι πλήρη επιρροή (οριακός μη-ΕΕ έλεγχος).",
-    "Πλήρης ΕΕ έλεγχος, μόνο ΕΕ δικαιοδοσία, καμία κρίσιμη μη-ΕΕ εξάρτηση."
+    "Υπηρεσία, τεχνολογία ή λειτουργίες υπό αποκλειστικό έλεγχο μη-ΕΕ τρίτων μερών, διεπόμενες εξ ολοκλήρου από μη-ΕΕ δικαιοδοσίες.",
+    "Το δίκαιο της ΕΕ εφαρμόζεται τυπικά με περιορισμένη πρακτική εκτελεστότητα· υπηρεσία, τεχνολογία ή λειτουργίες υπό αποκλειστικό έλεγχο μη-ΕΕ τρίτων μερών.",
+    "Εφαρμόζονται δικαιοδοσίες της ΕΕ, με ουσιώδεις εξαρτήσεις να παραμένουν· υπηρεσία, τεχνολογία ή λειτουργίες υπό έμμεσο έλεγχο μη-ΕΕ τρίτων μερών.",
+    "Εφαρμόζονται δικαιοδοσίες της ΕΕ, με τους ΕΕ φορείς να ασκούν ουσιαστική αλλά όχι πλήρη επιρροή· υπηρεσία, τεχνολογία ή λειτουργίες υπό οριακό έλεγχο μη-ΕΕ τρίτων μερών.",
+    "Τεχνολογία και λειτουργίες υπό πλήρη έλεγχο της ΕΕ, υποκείμενες μόνο στη δικαιοδοσία της ΕΕ, χωρίς κρίσιμες μη-ΕΕ εξαρτήσεις."
   ]
 };
 const OBJ = {
   en:[
    {name:"Strategic Sovereignty",desc:"Ownership stability, governance influence and alignment with EU strategic priorities — does ultimate decision-making sit in the EU.",
-    d:["","","Autonomous entity organisationally, but not in technical choices; service continues yet loses updates and security patches if access to the underlying tech breaks.","Access to the provider roadmap; complete guarantee of operations continuity.","Decision-making centres exclusively in the EU; European customers prioritised in roadmap arbitrations."]},
+    d:["","","An autonomous entity in its organization, but not in its technical choices. The service continues but no longer has access to updates and security patches in the event of a break in access to the underlying technology.","Access to the roadmap. Complete guarantee of operations continuity.","Decision-making centres exclusively in the EU. Priority European customers in roadmap arbitrations."]},
    {name:"Legal & Jurisdictional Sovereignty",desc:"Exposure to foreign law with extraterritorial reach (e.g. US CLOUD Act) and enforceability of rights under EU jurisdiction.",
-    d:["","","Isolation via separate legal entities; limited exposure to export-control-type measures.","Complete insulation guaranteeing inapplicability of non-EU legislation; no Member-State exposure to export controls.","Operations designed and carried out exclusively in the EU; international institutions protected against export-control measures."]},
+    d:["","","Isolation by creating separate entities. Limited exposure to export control-type measures.","Complete insulation guaranteeing the inapplicability of non-EU legislation. No exposure of Member States to export control measures.","Operations are designed and carried out exclusively in the EU. Protection of international institutions against export control measures."]},
    {name:"Data & AI Sovereignty",desc:"Control over cryptographic access, data localisation and deletion, and autonomy over AI models and pipelines.",
-    d:["","","Full data control incl. encryption key control, data localisation and deletion guarantee; logs available.","EU-designed AI; logs recorded in real time within the EU.","Immutable logs; audits carried out by European teams."]},
+    d:["","","Full control of the data, including encryption control, data localization and deletion guarantee. Logs available.","EU design AI. Logs recorded in real time in the EU.","Immutability of logs, audits carried out by European teams."]},
    {name:"Operational Sovereignty",desc:"Ability of EU actors to run, support and evolve the technology without non-EU vendor involvement; EU talent and documentation.",
-    d:["","","Operations run and documented locally; non-EU expertise may still be needed; open, documented alternatives exist.","Expertise available in Europe incl. subcontractors; processes designed and documented locally.","Complete European autonomy incl. security clearances and integration of subcontractors' key skills."]},
+    d:["","","Operations carried out and documented locally. Expertise from outside the EU may be necessary. Open and documented alternatives exist.","Availability of expertise in Europe, including subcontractors. Processes are designed and documented locally.","Complete European autonomy, including security clearances and the integration of key skills of subcontractors."]},
    {name:"Supply Chain Sovereignty",desc:"Geographic origin, transparency and auditability of the hardware/firmware/software supply chain.",
-    d:["","","Majority of supply chains documented; deployments local (procedures may be external); critical suppliers and subcontractors auditable.","Majority of services designed in the EU, deployed and orchestrated locally; no subcontractors in critical services.","EU-certified component origin; EU design, build and compliance check; no non-EU supplier dependence; full auditability."]},
+    d:["","","Majority of the supply chains are documented. Deployments are carried out locally, according to procedures that can be external. Critical suppliers and subcontractors can be audited.","The majority of services are designed in the EU. They are deployed and orchestrated locally. No subcontractors involved in critical services.","EU-certified components origin. EU design, build and compliance check. No dependence on non-EU suppliers. Complete auditability of suppliers and subcontractors."]},
    {name:"Technology Sovereignty",desc:"Openness, open standards, open-source access and independence of the technological stack, incl. HPC.",
-    d:["","","Services partially interoperable; HPC hosted on-premises.","European/public standards for core services; open-source majority with predominantly European contributors; architecture auditable.","Full compliance: EU open AI, public standards, open source throughout."]},
+    d:["","","The services are partially interoperable. HPC is hosted on-premises.","European and public standards for core services. Open-source majority and predominance of European contributors. Auditability of the architecture.","Full compliance: EU Open AI, public standard, open source."]},
    {name:"Security & Compliance Sovereignty",desc:"EU-controlled security operations, certifications (ISO, ENISA), GDPR/NIS2/DORA adherence and independent audit rights.",
-    d:["","","EAL2-level security; local operations; transparent, immediate reporting; audits allowed.","EAL3-level security.","EAL4–5, ENISA scheme integration, immutable logs."]},
+    d:["","","EAL2 level security. Local operations, transparent and immediate feedback of information, audits allowed.","ELA 3.","EAL 4-5, ENISA integration, immutable logs"]},
    {name:"Environmental Sustainability",desc:"Energy efficiency, circularity, transparent emissions disclosure and low-carbon energy sourcing.",
-    d:["","","Documented and transparent sustainability approach.","Measured improvement targets with disclosed indicators.","EU-certified lifecycle; EU-audited sustainability reporting."]}
+    d:["","","Documented and transparent approach.","","EU-certified lifecycle, EU-audited reporting."]}
   ],
   el:[
    {name:"Στρατηγική Κυριαρχία",desc:"Σταθερότητα ιδιοκτησίας, επιρροή στη διακυβέρνηση και ευθυγράμμιση με τις στρατηγικές προτεραιότητες της ΕΕ — βρίσκεται η τελική λήψη αποφάσεων στην ΕΕ;",
-    d:["","","Οργανωτικά αυτόνομη οντότητα, αλλά όχι στις τεχνικές επιλογές· η υπηρεσία συνεχίζεται αλλά χάνει ενημερώσεις και διορθώσεις ασφαλείας αν διακοπεί η πρόσβαση στην υποκείμενη τεχνολογία.","Πρόσβαση στο roadmap του παρόχου· πλήρης εγγύηση συνέχειας λειτουργιών.","Κέντρα λήψης αποφάσεων αποκλειστικά στην ΕΕ· οι Ευρωπαίοι πελάτες έχουν προτεραιότητα στις αποφάσεις roadmap."]},
+    d:["","","Οργανωτικά αυτόνομη οντότητα, αλλά όχι στις τεχνικές της επιλογές. Η υπηρεσία συνεχίζεται αλλά δεν έχει πλέον πρόσβαση σε ενημερώσεις και διορθώσεις ασφαλείας σε περίπτωση διακοπής της πρόσβασης στην υποκείμενη τεχνολογία.","Πρόσβαση στο roadmap. Πλήρης εγγύηση συνέχειας των λειτουργιών.","Κέντρα λήψης αποφάσεων αποκλειστικά στην ΕΕ. Προτεραιότητα στους Ευρωπαίους πελάτες στις διαιτησίες του roadmap."]},
    {name:"Νομική & Δικαιοδοτική Κυριαρχία",desc:"Έκθεση σε ξένο δίκαιο με εξωεδαφική εμβέλεια (π.χ. US CLOUD Act) και εκτελεστότητα δικαιωμάτων υπό ΕΕ δικαιοδοσία.",
-    d:["","","Απομόνωση μέσω ξεχωριστών νομικών οντοτήτων· περιορισμένη έκθεση σε μέτρα τύπου ελέγχου εξαγωγών.","Πλήρης θωράκιση που εγγυάται τη μη εφαρμογή μη-ΕΕ νομοθεσίας· καμία έκθεση Κρατών-Μελών σε ελέγχους εξαγωγών.","Λειτουργίες σχεδιασμένες και εκτελούμενες αποκλειστικά στην ΕΕ· διεθνείς οργανισμοί προστατευμένοι από μέτρα ελέγχου εξαγωγών."]},
+    d:["","","Απομόνωση μέσω δημιουργίας ξεχωριστών οντοτήτων. Περιορισμένη έκθεση σε μέτρα τύπου ελέγχου εξαγωγών.","Πλήρης θωράκιση που εγγυάται τη μη εφαρμοσιμότητα της μη-ΕΕ νομοθεσίας. Καμία έκθεση των Κρατών-Μελών σε μέτρα ελέγχου εξαγωγών.","Οι λειτουργίες σχεδιάζονται και εκτελούνται αποκλειστικά στην ΕΕ. Προστασία των διεθνών οργανισμών έναντι μέτρων ελέγχου εξαγωγών."]},
    {name:"Κυριαρχία Δεδομένων & ΤΝ",desc:"Έλεγχος επί της κρυπτογραφικής πρόσβασης, εντοπιότητα και διαγραφή δεδομένων, και αυτονομία επί μοντέλων και pipelines ΤΝ.",
-    d:["","","Πλήρης έλεγχος δεδομένων, συμπ. ελέγχου κλειδιών κρυπτογράφησης, εντοπιότητας και εγγύησης διαγραφής· διαθέσιμα αρχεία καταγραφής.","ΤΝ σχεδιασμένη στην ΕΕ· αρχεία καταγραφής σε πραγματικό χρόνο εντός ΕΕ.","Αμετάβλητα αρχεία καταγραφής· έλεγχοι από ευρωπαϊκές ομάδες."]},
+    d:["","","Πλήρης έλεγχος των δεδομένων, συμπεριλαμβανομένου του ελέγχου κρυπτογράφησης, εντοπιότητας δεδομένων και εγγύησης διαγραφής. Διαθέσιμα αρχεία καταγραφής.","ΤΝ σχεδιασμένη στην ΕΕ. Αρχεία καταγραφής που καταγράφονται σε πραγματικό χρόνο στην ΕΕ.","Αμεταβλητότητα των αρχείων καταγραφής, έλεγχοι που διενεργούνται από ευρωπαϊκές ομάδες."]},
    {name:"Λειτουργική Κυριαρχία",desc:"Ικανότητα των ΕΕ φορέων να λειτουργούν, υποστηρίζουν και εξελίσσουν την τεχνολογία χωρίς εμπλοκή μη-ΕΕ προμηθευτή· ΕΕ ταλέντο και τεκμηρίωση.",
-    d:["","","Λειτουργίες εκτελούνται και τεκμηριώνονται τοπικά· ενδέχεται να χρειάζεται μη-ΕΕ τεχνογνωσία· υπάρχουν ανοιχτές, τεκμηριωμένες εναλλακτικές.","Τεχνογνωσία διαθέσιμη στην Ευρώπη, συμπ. υπεργολάβων· διαδικασίες σχεδιασμένες και τεκμηριωμένες τοπικά.","Πλήρης ευρωπαϊκή αυτονομία, συμπ. διαπιστεύσεων ασφαλείας και ενσωμάτωσης βασικών δεξιοτήτων υπεργολάβων."]},
+    d:["","","Λειτουργίες που εκτελούνται και τεκμηριώνονται τοπικά. Ενδέχεται να είναι απαραίτητη τεχνογνωσία εκτός ΕΕ. Υπάρχουν ανοιχτές και τεκμηριωμένες εναλλακτικές.","Διαθεσιμότητα τεχνογνωσίας στην Ευρώπη, συμπεριλαμβανομένων των υπεργολάβων. Οι διαδικασίες σχεδιάζονται και τεκμηριώνονται τοπικά.","Πλήρης ευρωπαϊκή αυτονομία, συμπεριλαμβανομένων διαπιστεύσεων ασφαλείας και της ενσωμάτωσης βασικών δεξιοτήτων των υπεργολάβων."]},
    {name:"Κυριαρχία Εφοδιαστικής Αλυσίδας",desc:"Γεωγραφική προέλευση, διαφάνεια και δυνατότητα ελέγχου της εφοδιαστικής αλυσίδας υλικού/firmware/λογισμικού.",
-    d:["","","Πλειονότητα εφοδιαστικών αλυσίδων τεκμηριωμένη· αναπτύξεις τοπικές (οι διαδικασίες ενδέχεται εξωτερικές)· κρίσιμοι προμηθευτές και υπεργολάβοι ελέγξιμοι.","Πλειονότητα υπηρεσιών σχεδιασμένη στην ΕΕ, αναπτυσσόμενη και ενορχηστρωμένη τοπικά· κανένας υπεργολάβος σε κρίσιμες υπηρεσίες.","Πιστοποιημένη από ΕΕ προέλευση εξαρτημάτων· ΕΕ σχεδιασμός, κατασκευή και έλεγχος συμμόρφωσης· καμία εξάρτηση από μη-ΕΕ προμηθευτή· πλήρης δυνατότητα ελέγχου."]},
+    d:["","","Η πλειονότητα των εφοδιαστικών αλυσίδων είναι τεκμηριωμένη. Οι αναπτύξεις πραγματοποιούνται τοπικά, σύμφωνα με διαδικασίες που μπορεί να είναι εξωτερικές. Οι κρίσιμοι προμηθευτές και υπεργολάβοι μπορούν να ελεγχθούν.","Η πλειονότητα των υπηρεσιών σχεδιάζεται στην ΕΕ. Αναπτύσσονται και ενορχηστρώνονται τοπικά. Κανένας υπεργολάβος δεν εμπλέκεται σε κρίσιμες υπηρεσίες.","Προέλευση εξαρτημάτων πιστοποιημένη από την ΕΕ. Σχεδιασμός, κατασκευή και έλεγχος συμμόρφωσης στην ΕΕ. Καμία εξάρτηση από μη-ΕΕ προμηθευτές. Πλήρης δυνατότητα ελέγχου προμηθευτών και υπεργολάβων."]},
    {name:"Τεχνολογική Κυριαρχία",desc:"Ανοιχτότητα, ανοιχτά πρότυπα, πρόσβαση ανοιχτού κώδικα και ανεξαρτησία της τεχνολογικής στοίβας, συμπ. HPC.",
-    d:["","","Υπηρεσίες μερικώς διαλειτουργικές· HPC φιλοξενούμενο on-premises.","Ευρωπαϊκά/δημόσια πρότυπα για βασικές υπηρεσίες· πλειονότητα ανοιχτού κώδικα με κατά κύριο λόγο Ευρωπαίους συνεισφέροντες· ελέγξιμη αρχιτεκτονική.","Πλήρης συμμόρφωση: ΕΕ ανοιχτή ΤΝ, δημόσια πρότυπα, ανοιχτός κώδικας παντού."]},
+    d:["","","Οι υπηρεσίες είναι μερικώς διαλειτουργικές. Το HPC φιλοξενείται on-premises.","Ευρωπαϊκά και δημόσια πρότυπα για τις βασικές υπηρεσίες. Πλειονότητα ανοιχτού κώδικα και υπεροχή Ευρωπαίων συνεισφερόντων. Δυνατότητα ελέγχου της αρχιτεκτονικής.","Πλήρης συμμόρφωση: EU Open AI, δημόσιο πρότυπο, ανοιχτός κώδικας."]},
    {name:"Κυριαρχία Ασφάλειας & Συμμόρφωσης",desc:"Λειτουργίες ασφαλείας υπό ΕΕ έλεγχο, πιστοποιήσεις (ISO, ENISA), συμμόρφωση με GDPR/NIS2/DORA και δικαιώματα ανεξάρτητου ελέγχου.",
-    d:["","","Ασφάλεια επιπέδου EAL2· τοπικές λειτουργίες· διαφανής, άμεση αναφορά· επιτρέπονται έλεγχοι.","Ασφάλεια επιπέδου EAL3.","EAL4–5, ένταξη σε σχήμα ENISA, αμετάβλητα αρχεία καταγραφής."]},
+    d:["","","Ασφάλεια επιπέδου EAL2. Τοπικές λειτουργίες, διαφανής και άμεση ανατροφοδότηση πληροφοριών, επιτρέπονται έλεγχοι.","ELA 3.","EAL 4-5, ένταξη ENISA, αμετάβλητα αρχεία καταγραφής"]},
    {name:"Περιβαλλοντική Βιωσιμότητα",desc:"Ενεργειακή απόδοση, κυκλικότητα, διαφανής δημοσιοποίηση εκπομπών και προμήθεια ενέργειας χαμηλών εκπομπών άνθρακα.",
-    d:["","","Τεκμηριωμένη και διαφανής προσέγγιση βιωσιμότητας.","Μετρήσιμοι στόχοι βελτίωσης με δημοσιοποιημένους δείκτες.","Πιστοποιημένος από ΕΕ κύκλος ζωής· αναφορά βιωσιμότητας ελεγμένη από ΕΕ."]}
+    d:["","","Τεκμηριωμένη και διαφανής προσέγγιση.","","Πιστοποιημένος από την ΕΕ κύκλος ζωής, αναφορά ελεγμένη από την ΕΕ."]}
   ]
 };
 
