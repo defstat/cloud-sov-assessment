@@ -54,8 +54,14 @@ To run it locally instead, just double-click `index.html`.
   answer values grouped by the SEAL the framework tags them with.
 - Set a **minimum required SEAL** (default SEAL-2, the tender threshold) to flag any
   objective below target and generate priority-gap notes.
-- **Download report (PDF)** prints a clean summary; **Copy data** exports the
-  assessment as JSON.
+- **Download report (PDF)** renders a purpose-built A4 report (not a screenshot of
+  the UI): a titled cover with provider/assessor/date/method, a result block (overall
+  SEAL + its verbatim definition, weighted score, pass/fail vs the minimum), a
+  per-objective results table with the binding objective highlighted, priority gaps,
+  and — for the Detailed tab — a full appendix listing every specific objective, the
+  chosen answer, its value and SEAL. Bilingual, generated via the browser's
+  print-to-PDF (no libraries, works offline). **Copy data** exports the assessment
+  (both tabs) as JSON.
 
 ## Note on accuracy
 

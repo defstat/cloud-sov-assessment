@@ -203,16 +203,52 @@
 
   [hidden]{display:none !important}
 
+  /* ---- printable report template ---- */
+  .report{display:none;color:#131820;font-family:"Inter",sans-serif}
+  .report .r-band{border-bottom:3px solid var(--gold);padding-bottom:14px;margin-bottom:6px}
+  .report .r-eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin:0 0 6px}
+  .report h1{font-family:"Fraunces",serif;font-weight:500;font-size:25px;margin:0;color:var(--deep)}
+  .report .r-meta{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+  .report .r-meta td{padding:3px 10px 3px 0;vertical-align:top}
+  .report .r-meta td.k{color:var(--muted);width:128px;text-transform:uppercase;font-size:9.5px;letter-spacing:.05em;white-space:nowrap}
+  .report h2{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px;border-bottom:1px solid var(--line);padding-bottom:5px}
+  .report .r-summary{display:flex;gap:16px;align-items:stretch;margin-top:6px}
+  .report .r-seal{background:var(--deep);color:#fff;border-radius:10px;padding:16px 20px;min-width:210px}
+  .report .r-seal .big{font-family:"IBM Plex Mono",monospace;font-size:33px;font-weight:600;line-height:1}
+  .report .r-seal .nm{font-family:"Fraunces",serif;font-size:15px;margin-top:3px}
+  .report .r-seal .vr{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;margin-top:11px;padding:3px 8px;border-radius:12px;display:inline-block}
+  .report .r-seal .vr.pass{background:#1f5135;color:#a9e6c2}
+  .report .r-seal .vr.fail{background:#5c2018;color:#f2c0b6}
+  .report .r-side{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px}
+  .report .r-scorebox .n{font-family:"IBM Plex Mono",monospace;font-size:30px;font-weight:600;line-height:1}
+  .report .r-scorebox .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .report .r-def{font-size:11.5px;color:#333;line-height:1.5;background:#f4f7fb;border-left:3px solid var(--blue);padding:8px 12px;border-radius:0 6px 6px 0}
+  .report table.r-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+  .report table.r-tbl th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding:6px 8px}
+  .report table.r-tbl th.num,.report table.r-tbl td.num{text-align:right}
+  .report table.r-tbl td{padding:5px 8px;border-bottom:1px solid #eef1f5;vertical-align:top}
+  .report table.r-tbl td.c{font-family:"IBM Plex Mono",monospace;color:var(--blue);font-weight:600;white-space:nowrap}
+  .report table.r-tbl td.num{font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+  .report table.r-tbl tr.bind td{background:#fbf4e3}
+  .report .r-mini{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:2px 7px;border-radius:10px;color:#fff;display:inline-block}
+  .report .r-gaps{margin:0;padding:0;list-style:none}
+  .report .r-gaps li{font-size:11.5px;margin-bottom:6px;padding-left:14px;position:relative}
+  .report .r-gaps li::before{content:"›";position:absolute;left:0;color:var(--gold);font-weight:600}
+  .report .r-gaps .ok{color:var(--ok)}
+  .report .r-appx .r-objblock{margin-bottom:12px}
+  .report .r-appx h3{font-family:"Fraunces",serif;font-size:14px;margin:14px 0 6px;color:var(--deep)}
+  .report .r-disc{font-size:9.5px;color:var(--muted);line-height:1.5;margin-top:20px;border-top:1px solid var(--line);padding-top:10px}
+  .report .r-disc b{color:var(--ink)}
+
   @media print{
-    body{background:#fff}
-    header{background:#fff;color:#000;border-bottom:2px solid #000}
-    .eyebrow,.lede,.panel-head{color:#000}
-    .meta input{border-color:#999;color:#000;background:#fff}
-    .langtoggle,.tabbar,.det-tools{display:none}
-    .panel{position:static}
-    .actions,.toast,.weight-row input{display:none}
-    .obj,.objd,.q{break-inside:avoid}
-    details.objd[open] .qwrap{display:block}
+    @page{size:A4;margin:15mm}
+    html,body{background:#fff}
+    header,main,footer.wrap,.toast{display:none !important}
+    .report{display:block !important}
+    .report .r-summary,.report .r-seal{break-inside:avoid}
+    .report table.r-tbl tr{break-inside:avoid}
+    .report h2,.report .r-appx h3{break-after:avoid}
+    .report .r-appx .r-objblock{break-inside:avoid}
   }
 </style>
 </head>
@@ -338,6 +374,8 @@
   <div data-i18n-html="source"></div>
 </footer>
 
+<div id="report" class="report wrap" aria-hidden="true"></div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -451,6 +489,11 @@ const UI = {
     deltaTxt:"Quick-tab estimate: <b>{q}</b> · difference <b>{d}</b>",
     tReset:"Assessment reset", tCopied:"Assessment data copied", tCopyFail:"Copy failed — select manually",
     tExample:"Loaded guidance example — Sovereignty Score ≈ 68%",
+    repEyebrow:"Cloud Sovereignty Framework · Assessment Report", repTitle:"Sovereignty Assessment Report",
+    repProviderL:"Provider", repAssessorL:"Assessor", repDateL:"Assessment date", repMethodL:"Method", repGenL:"Generated",
+    repResult:"Result", repObjResults:"Per-objective results", repAppendix:"Detailed responses",
+    cObjective:"Objective", cSeal:"SEAL", cScore:"Score", cWeight:"Weight", cQuestion:"Specific objective", cResponse:"Response", cValue:"Value",
+    repNotProvided:"—",
     disc:`<b>Disclaimer.</b> This self-assessment is indicative and for informational purposes only. It does not constitute legal advice or a formal compliance determination, and has no binding effect in any procurement procedure. The objective definitions, SEAL levels and the "lowest-level-wins" rule follow the Commission's published Implementation Guidance. The category weights (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) and, in the Detailed tab, the per-answer values and SEAL tags are taken from the Commission's official Sovereignty Assessment Calculator; the Commission notes the example score figures in that spreadsheet are fictitious. The Quick tab's per-objective score curve is derived from those same per-answer values (mean value per SEAL band).`,
     source:`Source: European Commission — Cloud Sovereignty Framework, Implementation guidance (June 2026). Built as an independent assessment aid; not affiliated with or endorsed by the European Commission.`
   },
@@ -485,6 +528,11 @@ const UI = {
     deltaTxt:"Εκτίμηση Γρήγορης καρτέλας: <b>{q}</b> · διαφορά <b>{d}</b>",
     tReset:"Η αξιολόγηση επαναφέρθηκε", tCopied:"Τα δεδομένα αντιγράφηκαν", tCopyFail:"Η αντιγραφή απέτυχε — επιλέξτε χειροκίνητα",
     tExample:"Φορτώθηκε το παράδειγμα — Σκορ Κυριαρχίας ≈ 68%",
+    repEyebrow:"Πλαίσιο Κυριαρχίας Cloud · Αναφορά Αξιολόγησης", repTitle:"Αναφορά Αξιολόγησης Κυριαρχίας",
+    repProviderL:"Πάροχος", repAssessorL:"Αξιολογητής", repDateL:"Ημερομηνία αξιολόγησης", repMethodL:"Μέθοδος", repGenL:"Δημιουργήθηκε",
+    repResult:"Αποτέλεσμα", repObjResults:"Αποτελέσματα ανά στόχο", repAppendix:"Αναλυτικές απαντήσεις",
+    cObjective:"Στόχος", cSeal:"SEAL", cScore:"Σκορ", cWeight:"Βάρος", cQuestion:"Ειδικός στόχος", cResponse:"Απάντηση", cValue:"Τιμή",
+    repNotProvided:"—",
     disc:`<b>Αποποίηση ευθύνης.</b> Η παρούσα αυτοαξιολόγηση είναι ενδεικτική και αποκλειστικά για ενημερωτικούς σκοπούς. Δεν συνιστά νομική συμβουλή ή επίσημη διαπίστωση συμμόρφωσης και δεν έχει δεσμευτική ισχύ σε καμία διαδικασία προμήθειας. Οι ορισμοί των στόχων, τα επίπεδα SEAL και ο κανόνας «υπερισχύει το χαμηλότερο επίπεδο» ακολουθούν το δημοσιευμένο Implementation Guidance της Επιτροπής. Τα βάρη των κατηγοριών (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) και, στην καρτέλα Αναλυτικός, οι τιμές ανά απάντηση και τα SEAL tags προέρχονται από τον επίσημο Sovereignty Assessment Calculator της Επιτροπής· η Επιτροπή σημειώνει ότι τα παραδείγματα σκορ στο υπολογιστικό φύλλο είναι πλασματικά. Η καμπύλη σκορ ανά στόχο της Γρήγορης καρτέλας προκύπτει από τις ίδιες αυτές τιμές (μέση τιμή ανά ζώνη SEAL).`,
     source:`Πηγή: Ευρωπαϊκή Επιτροπή — Cloud Sovereignty Framework, Implementation guidance (Ιούνιος 2026). Δημιουργήθηκε ως ανεξάρτητο βοήθημα αξιολόγησης· χωρίς σχέση ή έγκριση από την Ευρωπαϊκή Επιτροπή.`
   }
@@ -747,7 +795,82 @@ function copyJSON(){
     detailed};
   navigator.clipboard.writeText(JSON.stringify(out,null,2)).then(()=>toast(T().tCopied),()=>toast(T().tCopyFail));
 }
-function printReport(){ window.print(); }
+function esc(s){ return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function buildReport(){
+  const u=T(), lang=state.lang, isDet=state.tab==="detailed";
+  const w=state.weights, wsum=w.reduce((a,b)=>a+b,0)||1, O=objs(), np=u.repNotProvided;
+  // quick result
+  const qOverall=Math.min(...state.levels);
+  let qScore=0; state.levels.forEach((l,i)=>qScore+=SCORE[i][l]*(w[i]/wsum)); qScore=Math.round(qScore);
+  // detailed result
+  let dW=0, dOverall=4; const drows=[];
+  DETAIL.forEach((o,oi)=>{ let objMax=0,got=0,objSeal=4; const qd=[];
+    o.q.forEach(q=>{ const vmax=Math.max(...q.a.map(a=>a.value)); objMax+=vmax;
+      const ai=state.answers[o.code+"|"+q.n]||0, a=q.a[ai]; got+=a.value; if(a.seal<objSeal)objSeal=a.seal;
+      qd.push({q:q.t[lang],ans:a.t[lang],value:Math.round(a.value),seal:a.seal}); });
+    const pct=objMax?got/objMax:0; dW+=pct*100*(w[oi]/wsum); if(objSeal<dOverall)dOverall=objSeal;
+    drows.push({oi,code:o.code,name:o.t[lang],pct,got:Math.round(got),objMax:Math.round(objMax),objSeal,qd}); });
+  const dScore=Math.round(dW);
+  const overall=isDet?dOverall:qOverall, score=isDet?dScore:qScore, target=state.target, pass=overall>=target;
+  let gen=state.date||""; try{ gen=new Date().toLocaleString(lang==="el"?"el-GR":"en-GB"); }catch(e){}
+
+  let h=`<div class="r-band"><p class="r-eyebrow">${esc(u.repEyebrow)}</p><h1>${esc(u.repTitle)}</h1></div>
+   <table class="r-meta">
+     <tr><td class="k">${esc(u.repProviderL)}</td><td>${esc(state.provider)||np}</td>
+         <td class="k">${esc(u.repMethodL)}</td><td>${isDet?esc(u.tabDetailed):esc(u.tabQuick)}</td></tr>
+     <tr><td class="k">${esc(u.repAssessorL)}</td><td>${esc(state.assessor)||np}</td>
+         <td class="k">${esc(u.repDateL)}</td><td>${esc(state.date)||np}</td></tr>
+     <tr><td class="k">${esc(u.repGenL)}</td><td colspan="3">${esc(gen)}</td></tr>
+   </table>
+   <h2>${esc(u.repResult)}</h2>
+   <div class="r-summary">
+     <div class="r-seal"><div class="big">SEAL-${overall}</div><div class="nm">${esc(sealNames()[overall])}</div>
+       <div class="vr ${pass?'pass':'fail'}">${esc(fmt(pass?u.meets:u.below,{n:target}))}</div></div>
+     <div class="r-side">
+       <div class="r-scorebox"><div class="n">${score}<span style="font-size:16px;color:#5b6573"> / 100</span></div>
+         <div class="l">${esc(isDet?u.sovScore:u.scoreLabel)}</div></div>
+       <div class="r-def">${esc(sealGeneric()[overall])}</div></div>
+   </div>
+   <h2>${esc(u.repObjResults)}</h2>
+   <table class="r-tbl"><thead><tr><th>${esc(u.cObjective)}</th><th>${esc(u.cSeal)}</th>`;
+  if(isDet) h+=`<th class="num">${esc(u.cScore)}</th><th class="num">%</th>`;
+  h+=`<th class="num">${esc(u.cWeight)}</th></tr></thead><tbody>`;
+  if(isDet){
+    drows.forEach(r=>{ const bind=r.objSeal===overall;
+      h+=`<tr class="${bind?'bind':''}"><td><span class="c">${r.code}</span> ${esc(r.name)}</td>
+        <td><span class="r-mini ${SEALCLS[r.objSeal]}">SEAL-${r.objSeal}</span></td>
+        <td class="num">${r.got}/${r.objMax}</td><td class="num">${Math.round(r.pct*100)}%</td>
+        <td class="num">${(w[r.oi]/wsum*100).toFixed(1)}%</td></tr>`; });
+  } else {
+    O.forEach((o,i)=>{ const l=state.levels[i], bind=l===qOverall;
+      h+=`<tr class="${bind?'bind':''}"><td><span class="c">${SOV_CODES[i]}</span> ${esc(o.name)}</td>
+        <td><span class="r-mini ${SEALCLS[l]}">SEAL-${l}</span></td>
+        <td class="num">${(w[i]/wsum*100).toFixed(1)}%</td></tr>`; });
+  }
+  h+=`</tbody></table><h2>${esc(u.priorityGaps)}</h2><ul class="r-gaps">`;
+  let any=false;
+  if(isDet){ drows.forEach(r=>{ if(r.objSeal<target){ any=true;
+      h+=`<li><b>${r.code} ${esc(r.name)}</b> — ${esc(fmt(u.gapLine,{cur:r.objSeal,tgt:target}))}</li>`; } });
+  } else { state.levels.forEach((l,i)=>{ if(l<target){ any=true; const need=O[i].d[target]||sealGeneric()[target];
+      h+=`<li><b>${SOV_CODES[i]} ${esc(O[i].name)}</b> — ${esc(fmt(u.gapLine,{cur:l,tgt:target}))} ${esc(need)}</li>`; } }); }
+  if(!any) h+=`<li class="ok">${esc(fmt(u.allMeet,{n:target}))}</li>`;
+  h+=`</ul>`;
+  if(isDet){
+    h+=`<h2>${esc(u.repAppendix)}</h2><div class="r-appx">`;
+    drows.forEach(r=>{
+      h+=`<div class="r-objblock"><h3>${r.code} · ${esc(r.name)}</h3>
+        <table class="r-tbl"><thead><tr><th>${esc(u.cQuestion)}</th><th>${esc(u.cResponse)}</th>
+          <th class="num">${esc(u.cValue)}</th><th class="num">SEAL</th></tr></thead><tbody>`;
+      r.qd.forEach(x=>{ h+=`<tr><td>${esc(x.q)}</td><td>${esc(x.ans)}</td><td class="num">${x.value}</td><td class="num">${x.seal}</td></tr>`; });
+      h+=`</tbody></table></div>`;
+    });
+    h+=`</div>`;
+  }
+  h+=`<div class="r-disc">${u.disc}<br><br>${u.source}</div>`;
+  document.getElementById("report").innerHTML=h;
+}
+function printReport(){ buildReport(); window.print(); }
 function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2200); }
 
 /* init */
