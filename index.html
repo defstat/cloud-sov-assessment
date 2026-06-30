@@ -391,6 +391,8 @@ const SCORE = [
   [0,12,42,65,77],[0,25,25,59,96],[0,27,50,75,75],[0,12,50,62,68]
 ];
 const SOV_CODES = ["SOV-1","SOV-2","SOV-3","SOV-4","SOV-5","SOV-6","SOV-7","SOV-8"];
+// Quick tab hidden for now — Detailed is the faithful method. Flip to true to restore.
+const SHOW_QUICK = false;
 
 /* ====================== Translations ====================== */
 const SEAL_NAMES = {
@@ -464,7 +466,7 @@ const UI = {
     title:"Cloud Sovereignty Self-Assessment — SEAL & Sovereignty Score",
     eyebrow:"Cloud Sovereignty Framework · Self-Assessment",
     h1:"Measure a cloud provider's<br>SEAL and Sovereignty Score",
-    lede:`An indicative self-assessment built on the European Commission's published <a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a>. The <b>Quick</b> tab rates each of the eight objectives at one SEAL level; the <b>Detailed</b> tab reproduces the Commission's calculator question by question.`,
+    lede:`A self-assessment built on the European Commission's published <a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a> — a faithful reproduction of the Commission's calculator across its specific objectives, computing the overall SEAL and a weighted Sovereignty Score.`,
     mProvider:"Provider assessed", phProvider:"e.g. Acme Cloud EU",
     mAssessor:"Assessor", phAssessor:"Name / unit", mDate:"Date",
     tabQuick:"Quick assessment", tabDetailed:"Detailed calculation",
@@ -504,7 +506,7 @@ const UI = {
     title:"Αυτοαξιολόγηση Κυριαρχίας Cloud — SEAL & Σκορ Κυριαρχίας",
     eyebrow:"Πλαίσιο Κυριαρχίας Cloud · Αυτοαξιολόγηση",
     h1:"Μετρήστε το SEAL και το Σκορ<br>Κυριαρχίας ενός παρόχου cloud",
-    lede:`Μια ενδεικτική αυτοαξιολόγηση βασισμένη στο δημοσιευμένο <a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a> της Ευρωπαϊκής Επιτροπής. Η καρτέλα <b>Γρήγορη</b> βαθμολογεί καθέναν από τους οκτώ στόχους σε ένα επίπεδο SEAL· η καρτέλα <b>Αναλυτικός</b> αναπαράγει τον calculator της Επιτροπής ερώτηση προς ερώτηση.`,
+    lede:`Μια αυτοαξιολόγηση βασισμένη στο δημοσιευμένο <a href="${FW_LINK}" target="_blank" rel="noopener">Cloud Sovereignty Framework</a> της Ευρωπαϊκής Επιτροπής — πιστή αναπαραγωγή του calculator της Επιτροπής στους ειδικούς στόχους του, με υπολογισμό του συνολικού SEAL και σταθμισμένου Σκορ Κυριαρχίας.`,
     mProvider:"Αξιολογούμενος πάροχος", phProvider:"π.χ. Acme Cloud EU",
     mAssessor:"Αξιολογητής", phAssessor:"Όνομα / μονάδα", mDate:"Ημερομηνία",
     tabQuick:"Γρήγορη αξιολόγηση", tabDetailed:"Αναλυτικός υπολογισμός",
@@ -579,6 +581,7 @@ function applyI18n(){
 function setLang(l){ if(l!==state.lang){ state.lang=l; save(); } applyI18n(); buildObjs(); buildDetail(); compute(); }
 
 function setTab(t){
+  if(t==="quick" && !SHOW_QUICK) t="detailed";
   state.tab=t; save();
   document.getElementById("tab-quick").hidden = t!=="quick";
   document.getElementById("tab-detailed").hidden = t!=="detailed";
@@ -896,7 +899,9 @@ function printReport(){ buildReport(); window.print(); }
 function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2200); }
 
 /* init */
-load(); applyI18n(); buildObjs(); buildDetail(); bindMeta(); setTab(state.tab); compute();
+load(); applyI18n(); buildObjs(); buildDetail(); bindMeta();
+if(!SHOW_QUICK){ document.getElementById("tab-btn-quick").hidden=true; if(state.tab!=="detailed") state.tab="detailed"; }
+setTab(state.tab); compute();
 </script>
 </body>
 </html>
