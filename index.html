@@ -134,6 +134,8 @@
   .opt .otxt{flex:1}
   .opt .otag{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);white-space:nowrap;margin-top:2px}
   .opt.sel{background:#eef2f8}
+  .opt.na .otxt{color:var(--muted);font-style:italic}
+  .opt.na.sel{background:#eef0f3}
   .raise{font-size:12px;color:#8a6712;margin-top:8px;padding-left:8px}
 
   .panel{position:sticky;top:18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
@@ -345,6 +347,7 @@
             <span class="score-val mono" id="d-score">0</span>
           </div>
           <div class="score-bar"><span id="d-scorebar" style="width:0%"></span></div>
+          <div class="delta" id="d-coverage"></div>
           <div class="target-row">
             <span data-i18n="minSeal">Minimum SEAL required</span>
             <select id="d-target" onchange="setTarget(this.value)">
@@ -492,7 +495,8 @@ const UI = {
     repProviderL:"Provider", repAssessorL:"Assessor", repDateL:"Assessment date", repMethodL:"Method", repGenL:"Generated",
     repResult:"Result", repObjResults:"Per-objective results", repAppendix:"Detailed responses",
     cObjective:"Objective", cSeal:"SEAL", cScore:"Score", cWeight:"Weight", cQuestion:"Specific objective", cResponse:"Response", cValue:"Value",
-    repNotProvided:"—",
+    repNotProvided:"—", repCoverageL:"Coverage",
+    noAnswer:"— No answer —", na:"—", sealBigNA:"SEAL —", coverage:"Assessed: <b>{a}/{t}</b>",
     disc:`<b>Disclaimer.</b> This self-assessment is indicative and for informational purposes only. It does not constitute legal advice or a formal compliance determination, and has no binding effect in any procurement procedure. The objective definitions, SEAL levels and the "lowest-level-wins" rule follow the Commission's published Implementation Guidance. The category weights (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) and, in the Detailed tab, the per-answer values and SEAL tags are taken from the Commission's official Sovereignty Assessment Calculator; the Commission notes the example score figures in that spreadsheet are fictitious. The Quick tab's per-objective score curve is derived from those same per-answer values (mean value per SEAL band).`,
     source:`Source: European Commission — Cloud Sovereignty Framework, Implementation guidance (June 2026). Built as an independent assessment aid; not affiliated with or endorsed by the European Commission.`
   },
@@ -531,15 +535,17 @@ const UI = {
     repProviderL:"Πάροχος", repAssessorL:"Αξιολογητής", repDateL:"Ημερομηνία αξιολόγησης", repMethodL:"Μέθοδος", repGenL:"Δημιουργήθηκε",
     repResult:"Αποτέλεσμα", repObjResults:"Αποτελέσματα ανά στόχο", repAppendix:"Αναλυτικές απαντήσεις",
     cObjective:"Στόχος", cSeal:"SEAL", cScore:"Σκορ", cWeight:"Βάρος", cQuestion:"Ειδικός στόχος", cResponse:"Απάντηση", cValue:"Τιμή",
-    repNotProvided:"—",
+    repNotProvided:"—", repCoverageL:"Κάλυψη",
+    noAnswer:"— Δεν αξιολογήθηκε —", na:"—", sealBigNA:"SEAL —", coverage:"Αξιολογημένα: <b>{a}/{t}</b>",
     disc:`<b>Αποποίηση ευθύνης.</b> Η παρούσα αυτοαξιολόγηση είναι ενδεικτική και αποκλειστικά για ενημερωτικούς σκοπούς. Δεν συνιστά νομική συμβουλή ή επίσημη διαπίστωση συμμόρφωσης και δεν έχει δεσμευτική ισχύ σε καμία διαδικασία προμήθειας. Οι ορισμοί των στόχων, τα επίπεδα SEAL και ο κανόνας «υπερισχύει το χαμηλότερο επίπεδο» ακολουθούν το δημοσιευμένο Implementation Guidance της Επιτροπής. Τα βάρη των κατηγοριών (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) και, στην καρτέλα Αναλυτικός, οι τιμές ανά απάντηση και τα SEAL tags προέρχονται από τον επίσημο Sovereignty Assessment Calculator της Επιτροπής· η Επιτροπή σημειώνει ότι τα παραδείγματα σκορ στο υπολογιστικό φύλλο είναι πλασματικά. Η καμπύλη σκορ ανά στόχο της Γρήγορης καρτέλας προκύπτει από τις ίδιες αυτές τιμές (μέση τιμή ανά ζώνη SEAL).`,
     source:`Πηγή: Ευρωπαϊκή Επιτροπή — Cloud Sovereignty Framework, Implementation guidance (Ιούνιος 2026). Δημιουργήθηκε ως ανεξάρτητο βοήθημα αξιολόγησης· χωρίς σχέση ή έγκριση από την Ευρωπαϊκή Επιτροπή.`
   }
 };
 
 /* ====================== State ====================== */
-const STORE_KEY = "cloud-sov-assessment-v4";
-function defaultAnswers(){ const a={}; DETAIL.forEach(o=>o.q.forEach(q=>{a[o.code+"|"+q.n]=0;})); return a; }
+const STORE_KEY = "cloud-sov-assessment-v5";
+// null = "No Answer" (not assessed): excluded from the SEAL min, counts 0 toward the score.
+function defaultAnswers(){ const a={}; DETAIL.forEach(o=>o.q.forEach(q=>{a[o.code+"|"+q.n]=null;})); return a; }
 let state = {levels:Array(8).fill(0), weights:REAL_WEIGHTS.slice(), answers:defaultAnswers(),
   target:2, provider:"", assessor:"", date:"", lang:"en", tab:"quick"};
 
@@ -678,9 +684,12 @@ function buildDetail(){
     const name=o.t[lang].replace(/^SOV-\d+\s+/,"");
     let qhtml="";
     o.q.forEach((q,qi)=>{
-      let opts="";
+      const cur=state.answers[o.code+"|"+q.n];
+      const naSel=(cur===null||cur===undefined);
+      let opts=`<label class="opt na${naSel?' sel':''}"><input type="radio" name="q_${oi}_${qi}" ${naSel?'checked':''} onchange="setAnswer('${o.code}',${q.n},null)">
+          <span class="otxt">${T().noAnswer}</span></label>`;
       q.a.forEach((a,ai)=>{
-        const sel=state.answers[o.code+"|"+q.n]===ai;
+        const sel=cur===ai;
         opts+=`<label class="opt${sel?' sel':''}"><input type="radio" name="q_${oi}_${qi}" ${sel?'checked':''} onchange="setAnswer('${o.code}',${q.n},${ai})">
           <span class="otxt">${a.t[lang]}</span><span class="otag">${Math.round(a.value)} · S${a.seal}</span></label>`;
       });
@@ -694,10 +703,10 @@ function buildDetail(){
   });
 }
 function setAnswer(code,qnum,ai){
-  state.answers[code+"|"+qnum]=ai;
+  state.answers[code+"|"+qnum]=ai;   // ai may be null = No Answer
   const oi=DETAIL.findIndex(o=>o.code===code), qi=DETAIL[oi].q.findIndex(q=>q.n===qnum);
-  document.querySelectorAll(`input[name="q_${oi}_${qi}"]`).forEach((r,idx)=>{
-    r.closest(".opt").classList.toggle("sel", idx===ai);
+  document.querySelectorAll(`input[name="q_${oi}_${qi}"]`).forEach(r=>{
+    r.closest(".opt").classList.toggle("sel", r.checked);
   });
   compute(); save();
 }
@@ -706,50 +715,56 @@ function expandAll(open){ document.querySelectorAll("details.objd").forEach(d=>d
 function computeDetailed(quickScore){
   const w=state.weights, u=T(), lang=state.lang;
   const wsum=w.reduce((a,b)=>a+b,0)||1;
-  let weighted=0; const rows=[]; let overall=4;
+  let weighted=0; const rows=[]; let overall=null, answered=0, total=0;
   DETAIL.forEach((o,oi)=>{
-    let objMax=0, got=0, objSeal=4; const qseals=[];
+    let objMax=0, got=0, objSeal=null;
     o.q.forEach(q=>{
-      const vmax=Math.max(...q.a.map(a=>a.value)); objMax+=vmax;
-      const ai=state.answers[o.code+"|"+q.n]||0; const a=q.a[ai];
-      got+=a.value; qseals.push(a.seal); if(a.seal<objSeal) objSeal=a.seal;
+      const vmax=Math.max(...q.a.map(a=>a.value)); objMax+=vmax; total++;
+      const idx=state.answers[o.code+"|"+q.n];
+      if(idx===null||idx===undefined) return;      // No Answer: 0 to score, excluded from SEAL
+      const a=q.a[idx]; got+=a.value; answered++;
+      if(objSeal===null||a.seal<objSeal) objSeal=a.seal;
     });
     const pct=objMax?got/objMax:0;
     weighted += pct*100*(w[oi]/wsum);
-    if(objSeal<overall) overall=objSeal;
-    rows.push({oi,code:o.code,pct,got,objMax,objSeal,qseals});
+    if(objSeal!==null && (overall===null||objSeal<overall)) overall=objSeal;
+    rows.push({oi,code:o.code,pct,got,objMax,objSeal});
   });
-  const score=Math.round(weighted), target=state.target;
-  document.getElementById("d-seal").textContent="SEAL-"+overall;
-  document.getElementById("d-sealname").textContent=sealNames()[overall];
-  document.getElementById("d-sealdesc").textContent=sealGeneric()[overall];
+  const score=Math.round(weighted), target=state.target, hasSeal=overall!==null;
+  document.getElementById("d-seal").textContent = hasSeal ? "SEAL-"+overall : u.sealBigNA;
+  document.getElementById("d-sealname").textContent = hasSeal ? sealNames()[overall] : "";
+  document.getElementById("d-sealdesc").textContent = hasSeal ? sealGeneric()[overall] : "";
   document.getElementById("d-score").textContent=score;
   document.getElementById("d-scorebar").style.width=score+"%";
+  document.getElementById("d-coverage").innerHTML=fmt(u.coverage,{a:answered,t:total});
   const v=document.getElementById("d-verdict");
-  if(overall>=target){ v.className="verdict pass"; v.textContent=fmt(u.meets,{n:target}); }
+  if(!hasSeal){ v.className="verdict"; v.textContent=""; }
+  else if(overall>=target){ v.className="verdict pass"; v.textContent=fmt(u.meets,{n:target}); }
   else { v.className="verdict fail"; v.textContent=fmt(u.below,{n:target}); }
 
   // per-objective breakdown + binding flags + raise hints
   let tbl="";
   rows.forEach(r=>{
-    const bind=r.objSeal===overall;
-    const det=document.getElementById("objd-"+r.oi); det.classList.toggle("binding",bind);
+    const bind = hasSeal && r.objSeal===overall;
+    document.getElementById("objd-"+r.oi).classList.toggle("binding",bind);
     document.getElementById("dobj-score-"+r.oi).textContent=Math.round(r.pct*100)+"%";
-    const sb=document.getElementById("dobj-seal-"+r.oi); sb.textContent="SEAL-"+r.objSeal;
-    sb.className="badge seal "+SEALCLS[r.objSeal];
+    const sb=document.getElementById("dobj-seal-"+r.oi);
+    if(r.objSeal===null){ sb.textContent=u.na; sb.className="badge"; }
+    else { sb.textContent="SEAL-"+r.objSeal; sb.className="badge seal "+SEALCLS[r.objSeal]; }
+    const sealCell = r.objSeal===null ? `<span class="mini-seal" style="background:var(--s0);color:#1c2430">${u.na}</span>`
+                                      : `<span class="mini-seal ${SEALCLS[r.objSeal]}">S${r.objSeal}</span>`;
     tbl+=`<tr class="${bind?'bind':''}"><td class="c">${r.code}</td><td class="sc">${Math.round(r.got)}/${Math.round(r.objMax)}</td>
-      <td class="sc">${Math.round(r.pct*100)}%</td><td class="sl"><span class="mini-seal ${SEALCLS[r.objSeal]}">S${r.objSeal}</span></td></tr>`;
+      <td class="sc">${Math.round(r.pct*100)}%</td><td class="sl">${sealCell}</td></tr>`;
     // per-question binding + raise hint
     DETAIL[r.oi].q.forEach((q,qi)=>{
-      const ai=state.answers[r.code+"|"+q.n]||0; const cur=q.a[ai];
-      const qbind = bind && cur.seal===overall;
-      const qel=document.getElementById(`dq-${r.oi}-${qi}`); qel.classList.toggle("bind",qbind);
-      const rel=document.getElementById(`raise-${r.oi}-${qi}`);
-      if(qbind){
-        // lowest-value answer with a strictly higher seal
-        const better=q.a.filter(a=>a.seal>cur.seal).sort((a,b)=>a.value-b.value)[0];
-        rel.innerHTML = better ? fmt(u.raise,{ans:better.t[lang],s:better.seal}) : "";
-      } else rel.innerHTML="";
+      const idx=state.answers[r.code+"|"+q.n];
+      const qel=document.getElementById(`dq-${r.oi}-${qi}`), rel=document.getElementById(`raise-${r.oi}-${qi}`);
+      if(idx===null||idx===undefined){ qel.classList.toggle("bind",false); rel.innerHTML=""; return; }
+      const cur=q.a[idx], qbind = bind && cur.seal===overall;
+      qel.classList.toggle("bind",qbind);
+      if(qbind){ const better=q.a.filter(a=>a.seal>cur.seal).sort((a,b)=>a.value-b.value)[0];
+        rel.innerHTML = better ? fmt(u.raise,{ans:better.t[lang],s:better.seal}) : ""; }
+      else rel.innerHTML="";
     });
   });
   document.getElementById("d-break").innerHTML=tbl;
@@ -781,12 +796,14 @@ function resetAll(){
   save(); applyI18n(); buildObjs(); buildDetail(); bindMeta(); compute(); toast(T().tReset);
 }
 function copyJSON(){
-  const O=objs(), lang=state.lang;
+  const O=objs(), lang=state.lang; let answered=0, total=0;
   const detailed=DETAIL.map(o=>({code:o.code, questions:o.q.map(q=>{
-    const ai=state.answers[o.code+"|"+q.n]||0;
-    return {q:q.t[lang], answer:q.a[ai].t[lang], value:q.a[ai].value, seal:q.a[ai].seal};
+    total++; const idx=state.answers[o.code+"|"+q.n];
+    if(idx===null||idx===undefined) return {q:q.t[lang], answer:null, value:null, seal:null};
+    answered++; return {q:q.t[lang], answer:q.a[idx].t[lang], value:q.a[idx].value, seal:q.a[idx].seal};
   })}));
   const out={provider:state.provider,assessor:state.assessor,date:state.date,target:state.target,
+    detailedCoverage:answered+"/"+total,
     quick:{overallSEAL:Math.min(...state.levels),
       objectives:O.map((o,i)=>({code:SOV_CODES[i],name:o.name,seal:state.levels[i],weight:state.weights[i]}))},
     detailed};
@@ -801,15 +818,20 @@ function buildReport(){
   const qOverall=Math.min(...state.levels);
   let qScore=0; state.levels.forEach((l,i)=>qScore+=SCORE[i][l]*(w[i]/wsum)); qScore=Math.round(qScore);
   // detailed result
-  let dW=0, dOverall=4; const drows=[];
-  DETAIL.forEach((o,oi)=>{ let objMax=0,got=0,objSeal=4; const qd=[];
-    o.q.forEach(q=>{ const vmax=Math.max(...q.a.map(a=>a.value)); objMax+=vmax;
-      const ai=state.answers[o.code+"|"+q.n]||0, a=q.a[ai]; got+=a.value; if(a.seal<objSeal)objSeal=a.seal;
+  let dW=0, dOverall=null, dAns=0, dTot=0; const drows=[];
+  DETAIL.forEach((o,oi)=>{ let objMax=0,got=0,objSeal=null; const qd=[];
+    o.q.forEach(q=>{ const vmax=Math.max(...q.a.map(a=>a.value)); objMax+=vmax; dTot++;
+      const idx=state.answers[o.code+"|"+q.n];
+      if(idx===null||idx===undefined){ qd.push({q:q.t[lang],ans:u.noAnswer,value:u.na,seal:u.na}); return; }
+      const a=q.a[idx]; got+=a.value; dAns++; if(objSeal===null||a.seal<objSeal)objSeal=a.seal;
       qd.push({q:q.t[lang],ans:a.t[lang],value:Math.round(a.value),seal:a.seal}); });
-    const pct=objMax?got/objMax:0; dW+=pct*100*(w[oi]/wsum); if(objSeal<dOverall)dOverall=objSeal;
+    const pct=objMax?got/objMax:0; dW+=pct*100*(w[oi]/wsum);
+    if(objSeal!==null && (dOverall===null||objSeal<dOverall))dOverall=objSeal;
     drows.push({oi,code:o.code,name:o.t[lang],pct,got:Math.round(got),objMax:Math.round(objMax),objSeal,qd}); });
   const dScore=Math.round(dW);
-  const overall=isDet?dOverall:qOverall, score=isDet?dScore:qScore, target=state.target, pass=overall>=target;
+  const overall=isDet?dOverall:qOverall, score=isDet?dScore:qScore, target=state.target;
+  const hasSeal=overall!==null&&overall!==undefined, pass=hasSeal&&overall>=target;
+  const sealLabel=hasSeal?("SEAL-"+overall):u.sealBigNA, sealNm=hasSeal?sealNames()[overall]:"", sealDef=hasSeal?sealGeneric()[overall]:"";
   let gen=state.date||""; try{ gen=new Date().toLocaleString(lang==="el"?"el-GR":"en-GB"); }catch(e){}
 
   let h=`<div class="r-band"><p class="r-eyebrow">${esc(u.repEyebrow)}</p><h1>${esc(u.repTitle)}</h1></div>
@@ -818,25 +840,28 @@ function buildReport(){
          <td class="k">${esc(u.repMethodL)}</td><td>${isDet?esc(u.tabDetailed):esc(u.tabQuick)}</td></tr>
      <tr><td class="k">${esc(u.repAssessorL)}</td><td>${esc(state.assessor)||np}</td>
          <td class="k">${esc(u.repDateL)}</td><td>${esc(state.date)||np}</td></tr>
-     <tr><td class="k">${esc(u.repGenL)}</td><td colspan="3">${esc(gen)}</td></tr>
+     <tr><td class="k">${esc(u.repGenL)}</td><td>${esc(gen)}</td>
+         ${isDet?`<td class="k">${esc(u.repCoverageL)}</td><td>${dAns}/${dTot}</td>`:`<td colspan="2"></td>`}</tr>
    </table>
    <h2>${esc(u.repResult)}</h2>
    <div class="r-summary">
-     <div class="r-seal"><div class="big">SEAL-${overall}</div><div class="nm">${esc(sealNames()[overall])}</div>
-       <div class="vr ${pass?'pass':'fail'}">${esc(fmt(pass?u.meets:u.below,{n:target}))}</div></div>
+     <div class="r-seal"><div class="big">${esc(sealLabel)}</div><div class="nm">${esc(sealNm)}</div>
+       ${hasSeal?`<div class="vr ${pass?'pass':'fail'}">${esc(fmt(pass?u.meets:u.below,{n:target}))}</div>`:``}</div>
      <div class="r-side">
        <div class="r-scorebox"><div class="n">${score}<span style="font-size:16px;color:#5b6573"> / 100</span></div>
          <div class="l">${esc(isDet?u.sovScore:u.scoreLabel)}</div></div>
-       <div class="r-def">${esc(sealGeneric()[overall])}</div></div>
+       <div class="r-def">${esc(sealDef)}</div></div>
    </div>
    <h2>${esc(u.repObjResults)}</h2>
    <table class="r-tbl"><thead><tr><th>${esc(u.cObjective)}</th><th>${esc(u.cSeal)}</th>`;
   if(isDet) h+=`<th class="num">${esc(u.cScore)}</th><th class="num">%</th>`;
   h+=`<th class="num">${esc(u.cWeight)}</th></tr></thead><tbody>`;
   if(isDet){
-    drows.forEach(r=>{ const bind=r.objSeal===overall;
+    drows.forEach(r=>{ const bind=hasSeal&&r.objSeal===overall;
+      const sealCell = r.objSeal===null ? `<span class="r-mini" style="background:var(--s0);color:#1c2430">${esc(u.na)}</span>`
+                                        : `<span class="r-mini ${SEALCLS[r.objSeal]}">SEAL-${r.objSeal}</span>`;
       h+=`<tr class="${bind?'bind':''}"><td><span class="c">${r.code}</span> ${esc(r.name)}</td>
-        <td><span class="r-mini ${SEALCLS[r.objSeal]}">SEAL-${r.objSeal}</span></td>
+        <td>${sealCell}</td>
         <td class="num">${r.got}/${r.objMax}</td><td class="num">${Math.round(r.pct*100)}%</td>
         <td class="num">${(w[r.oi]/wsum*100).toFixed(1)}%</td></tr>`; });
   } else {
@@ -847,7 +872,7 @@ function buildReport(){
   }
   h+=`</tbody></table><h2>${esc(u.priorityGaps)}</h2><ul class="r-gaps">`;
   let any=false;
-  if(isDet){ drows.forEach(r=>{ if(r.objSeal<target){ any=true;
+  if(isDet){ drows.forEach(r=>{ if(r.objSeal!==null && r.objSeal<target){ any=true;
       h+=`<li><b>${r.code} ${esc(r.name)}</b> — ${esc(fmt(u.gapLine,{cur:r.objSeal,tgt:target}))}</li>`; } });
   } else { state.levels.forEach((l,i)=>{ if(l<target){ any=true; const need=O[i].d[target]||sealGeneric()[target];
       h+=`<li><b>${SOV_CODES[i]} ${esc(O[i].name)}</b> — ${esc(fmt(u.gapLine,{cur:l,tgt:target}))} ${esc(need)}</li>`; } }); }
