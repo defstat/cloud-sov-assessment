@@ -107,6 +107,14 @@
   .det-tools button{font-family:"Inter",sans-serif;font-size:12px;background:#fff;border:1px solid var(--line);
     border-radius:7px;padding:7px 12px;cursor:pointer;color:var(--deep)}
   .det-tools button:hover{border-color:var(--blue)}
+  .wbar{background:#eef2f8;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:14px}
+  .wbar-label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:9px}
+  .wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  @media(max-width:560px){.wgrid{grid-template-columns:repeat(2,1fr)}}
+  .wcell{display:flex;align-items:center;gap:6px;font-size:11px}
+  .wcell .wc-code{font-family:"IBM Plex Mono",monospace;color:var(--blue);font-weight:600;font-size:10.5px;width:44px}
+  .wcell input{width:50px;font-family:"IBM Plex Mono",monospace;text-align:right;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:11.5px}
+  .wcell .wc-pct{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:10px;white-space:nowrap}
   details.objd{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
   details.objd[open]{border-color:#c4cedd}
   details.objd.binding{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
@@ -331,6 +339,10 @@
         <button onclick="expandAll(true)" data-i18n="expandAll">Expand all</button>
         <button onclick="expandAll(false)" data-i18n="collapseAll">Collapse all</button>
       </div>
+      <div class="wbar">
+        <span class="wbar-label" data-i18n="weightsTitle">Category weights</span>
+        <div class="wgrid" id="wgrid"></div>
+      </div>
       <div id="detacc"></div>
     </section>
     <aside>
@@ -499,6 +511,7 @@ const UI = {
     cObjective:"Objective", cSeal:"SEAL", cScore:"Score", cWeight:"Weight", cQuestion:"Specific objective", cResponse:"Response", cValue:"Value",
     repNotProvided:"—", repCoverageL:"Coverage",
     noAnswer:"— No answer —", na:"—", sealBigNA:"SEAL —", coverage:"Assessed: <b>{a}/{t}</b>",
+    weightsTitle:"Category weights (editable)",
     disc:`<b>Disclaimer.</b> This self-assessment is indicative and for informational purposes only. It does not constitute legal advice or a formal compliance determination, and has no binding effect in any procurement procedure. The objective definitions, SEAL levels and the "lowest-level-wins" rule follow the Commission's published Implementation Guidance. The category weights (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) and, in the Detailed tab, the per-answer values and SEAL tags are taken from the Commission's official Sovereignty Assessment Calculator; the Commission notes the example score figures in that spreadsheet are fictitious. The Quick tab's per-objective score curve is derived from those same per-answer values (mean value per SEAL band).`,
     source:`Source: European Commission — Cloud Sovereignty Framework, Implementation guidance (June 2026). Built as an independent assessment aid; not affiliated with or endorsed by the European Commission.`
   },
@@ -539,6 +552,7 @@ const UI = {
     cObjective:"Στόχος", cSeal:"SEAL", cScore:"Σκορ", cWeight:"Βάρος", cQuestion:"Ειδικός στόχος", cResponse:"Απάντηση", cValue:"Τιμή",
     repNotProvided:"—", repCoverageL:"Κάλυψη",
     noAnswer:"— Δεν αξιολογήθηκε —", na:"—", sealBigNA:"SEAL —", coverage:"Αξιολογημένα: <b>{a}/{t}</b>",
+    weightsTitle:"Βάρη κατηγοριών (επεξεργάσιμα)",
     disc:`<b>Αποποίηση ευθύνης.</b> Η παρούσα αυτοαξιολόγηση είναι ενδεικτική και αποκλειστικά για ενημερωτικούς σκοπούς. Δεν συνιστά νομική συμβουλή ή επίσημη διαπίστωση συμμόρφωσης και δεν έχει δεσμευτική ισχύ σε καμία διαδικασία προμήθειας. Οι ορισμοί των στόχων, τα επίπεδα SEAL και ο κανόνας «υπερισχύει το χαμηλότερο επίπεδο» ακολουθούν το δημοσιευμένο Implementation Guidance της Επιτροπής. Τα βάρη των κατηγοριών (SOV-1 20%, SOV-2 10%, SOV-3 10%, SOV-4 15%, SOV-5 10%, SOV-6 15%, SOV-7 15%, SOV-8 5%) και, στην καρτέλα Αναλυτικός, οι τιμές ανά απάντηση και τα SEAL tags προέρχονται από τον επίσημο Sovereignty Assessment Calculator της Επιτροπής· η Επιτροπή σημειώνει ότι τα παραδείγματα σκορ στο υπολογιστικό φύλλο είναι πλασματικά. Η καμπύλη σκορ ανά στόχο της Γρήγορης καρτέλας προκύπτει από τις ίδιες αυτές τιμές (μέση τιμή ανά ζώνη SEAL).`,
     source:`Πηγή: Ευρωπαϊκή Επιτροπή — Cloud Sovereignty Framework, Implementation guidance (Ιούνιος 2026). Δημιουργήθηκε ως ανεξάρτητο βοήθημα αξιολόγησης· χωρίς σχέση ή έγκριση από την Ευρωπαϊκή Επιτροπή.`
   }
@@ -704,6 +718,16 @@ function buildDetail(){
       <div class="qwrap">${qhtml}</div>`;
     host.appendChild(det);
   });
+  buildWeights();
+}
+function buildWeights(){
+  const host=document.getElementById("wgrid"); if(!host) return; let h="";
+  SOV_CODES.forEach((code,i)=>{
+    h+=`<label class="wcell"><span class="wc-code">${code}</span>
+      <input type="number" min="0" max="100" step="0.5" id="dw-${i}" value="${state.weights[i]}" oninput="setWeight(${i},this.value)">
+      <span class="wc-pct" id="dwpct-${i}"></span></label>`;
+  });
+  host.innerHTML=h;
 }
 function setAnswer(code,qnum,ai){
   state.answers[code+"|"+qnum]=ai;   // ai may be null = No Answer
@@ -730,6 +754,7 @@ function computeDetailed(quickScore){
     });
     const pct=objMax?got/objMax:0;
     weighted += pct*100*(w[oi]/wsum);
+    const dwp=document.getElementById("dwpct-"+oi); if(dwp) dwp.textContent="("+(w[oi]/wsum*100).toFixed(1)+"%)";
     if(objSeal!==null && (overall===null||objSeal<overall)) overall=objSeal;
     rows.push({oi,code:o.code,pct,got,objMax,objSeal});
   });
